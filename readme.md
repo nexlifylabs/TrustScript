@@ -1,14 +1,18 @@
-# TrustScript — Automate WooCommerce Review Collection Plugin
+# TrustScript — WooCommerce Review Collection Plugin
 
-TrustScript is a complete review collection platform for WooCommerce.It makes it easy for your customers to leave honest, detailed feedback — with photo and video support, a built-in AI writing assistant, verified purchase badges, and smart analytics. Every review is transparent and provably real. And the entire process runs on autopilot, with zero personally identifiable information ever stored.
+TrustScript is a WooCommerce review plugin with two modes: **Simple Mode** for free on-site review collection with no account required, and **API Mode** for fully automated review requests, reminders, and publishing via [trustscript.io](https://trustscript.io). Both modes support photo reviews, verified purchase badges, smart void handling, and a full analytics dashboard. Zero personally identifiable information is ever stored.
 
-> 🎉 **Early Access Open — First 100 Annual Subscribers**  
->  Get unlimited review collection permanently as long as you stay subscribed.  
-> [Claim your spot →](https://nexlifylabs.com/early-access)  
+## Two Ways to Collect Reviews
 
-## Importance of Our Review Collection Platform
+**Simple Mode — Free, No Account Required**
 
-In today's digital world, customer reviews are one of the most powerful ways businesses build trust, improve products, and grow. TrustScript makes gathering honest, meaningful feedback effortless and valuable. Customers can easily share photos and videos alongside their reviews, making feedback more authentic and visually compelling. Every review is verifiable, so businesses know it comes from a real experience. Built-in AI helps reviewers write clearer, more helpful feedback - without changing their own words. Smart analytics turn raw reviews into actionable insights, spotting trends, strengths, and areas to improve. The entire process runs on full automation, saving businesses hours every week. Best of all, TrustScript collects zero personally identifiable information (PII), keeping everything private and compliant by design. Whether you run a small shop or a large brand, TrustScript helps you turn real customer stories into your most powerful growth tool - faster, safer, and more visual than ever before.
+Collect reviews directly on your site without any external service. Send review request emails manually from the Analytics page, let customers submit through an on-site form powered by the `[trustscript_review_form]` shortcode, and publish reviews automatically or with admin approval. Supports up to 3 photo attachments per review, customizable email templates, opt-out links, and smart void handling. No API key, no signup, no usage limits.
+
+**API Mode — Fully Automated**
+
+Connect TrustScript to [trustscript.io](https://trustscript.io) to automate the entire review lifecycle. Review requests go out automatically when an order reaches the configured trigger status. Completed reviews are pushed back to your product pages via webhook. Includes video reviews, up to 5 media files with auto-compression, an optional AI writing assistant, automated follow-up reminders, and custom review form branding. A free plan is available with 25 review requests per month.
+
+Both modes share the same analytics dashboard, Trust Strip, helpful voting, Google Rich Snippets, Elementor widget, and CSV export.
 
 ## 📸 Photo & Video Reviews — See It to Believe It
 
@@ -48,7 +52,7 @@ Product name and order date are completely optional. We recommend enabling them 
 **The Result:**
 Your customers remain completely anonymous. You get rich, verified, meaningful feedback. And your store stays fully compliant with **GDPR, CCPA**, and global privacy standards - by design, not by checkbox.
 
-For complete details, see our [Privacy Policy](https://nexlifylabs.com/privacy).
+For complete details, see our [Privacy Policy](https://trustscript.io/privacy).
 
 ## ✅ Verifiable Reviews — Every Review is Provably Real
 
@@ -64,7 +68,7 @@ Once a review passes verification, a green **✔ Verified Purchase** badge appea
 
 **The Verification Token — See Exactly What Happened**
 
-Clicking the badge opens a small pop-up showing the review's unique **Verification Token** — a one-of-a-kind code that is permanently tied to that specific review. Think of it like a receipt for the review itself. From there, the visitor can copy the token and click **Verify on TrustScript**, which opens the public verification page at [nexlifylabs.com/verify-review](https://nexlifylabs.com/verify-review).
+Clicking the badge opens a small pop-up showing the review's unique **Verification Token** — a one-of-a-kind code that is permanently tied to that specific review. Think of it like a receipt for the review itself. From there, the visitor can copy the token and click **Verify on TrustScript**, which opens the public verification page at [trustscript.io/verify-review](https://trustscript.io/verify-review).
 
 Paste the token, hit verify, and the full review record appears in seconds — showing:
 
@@ -211,27 +215,39 @@ The showcase stays fresh on its own. Every time a new review is approved, it joi
 
 ***
 
-*A free plan is available. On paid plans, the AI writing assistant is capped monthly — but annual subscribers can collect unlimited standard reviews beyond their AI quota. View all plans at https://nexlifylabs.com/pricing*
+*A free plan is available. On paid plans, the AI writing assistant is capped monthly — but annual subscribers can collect unlimited standard reviews beyond their AI quota. View all plans at https://trustscript.io/pricing*
 
 **Key Features:**
 
-* **Photo & Video Reviews** — Customers can attach photos and videos directly to their review in one click
-* **Verified Purchase Badges** — Every review is tied to a real order, with a publicly verifiable verification token
-* **AI Writing Assistant** — Optional AI helps customers write clearer reviews; always their words, always their choice
+* **Simple On-Site Reviews** — Free, no account required; send emails manually and collect reviews directly on your site via `[trustscript_review_form]`
+* **API Review Collection** — Fully automated review requests, publishing, and follow-ups via trustscript.io
+* **Photo & Video Reviews** — Up to 3 photos (Simple) or 5 photos and videos with auto-compression (API)
+* **Verified Purchase Badges** — Every review is tied to a real order, with a publicly verifiable token at trustscript.io/verify-review
+* **AI Writing Assistant** — Optional, customer-initiated; offers 3 rewrite suggestions while preserving original words (API mode only)
 * **Zero PII Collection** — No names, emails, or personal identifiers ever stored on TrustScript servers
 * **Smart Analytics** — Full dashboard tracking requests, views, conversions, AI usage, and per-order timelines
+* **Trust Strip** — Store rating summary bar on all product pages (overall rating, total reviews, verified buyer %, recommendation %)
 * **Auto-Saving Drafts** — Customer progress is saved instantly; they can return days later and pick up where they left off
 * **Google Rich Snippets** — JSON-LD structured data added automatically for star ratings in search results
 * **Helpful Voting** — Optional thumbs up/down voting on reviews (logged-in users only)
 * **Review Count on Product Cards** — Star ratings and review counts shown on shop, category, and search pages
 * **Elementor Widget** — Drag-and-drop review showcase with slider, grid, and masonry layouts
-* **Smart Refund Handling** — Review links auto-expire when orders are refunded or cancelled in WooCommerce
-* **Full Automation** — Review requests, reminders, verification, and publishing all run on autopilot
+* **Smart Void System** — Review links auto-expire on cancellation, refund, or partial cancellation in both modes
+* **Auto or Manual Publish** — Choose whether submitted reviews go live immediately or require admin approval
+* **CSV Export** — Download all review data at any time
+* **Custom "Delivered" Order Status** — Ensures requests go out only after delivery
 
 ***
 
 **How It Works:**
 
+*Simple Mode:*
+1. Customer places an order
+2. Go to the Analytics page and send a review request email manually
+3. Customer clicks the link and submits their review via the on-site form
+4. Review is published automatically or held for admin approval
+
+*API Mode:*
 1. Customer places an order and it's marked as "Delivered"
 2. TrustScript automatically sends a branded review request email from your own domain
 3. Customer rates their purchase and writes their review in their own words
@@ -274,7 +290,7 @@ directly by TrustScript's review form and returned to your site via webhook afte
 - ✅ API key authentication via Bearer token with timing-safe comparison
 - ✅ Domain validation ensures API key only works for the registered WordPress site
 - ✅ Duplicate prevention: reviews cannot be published twice with the same token
-- ✅ Verification tokens allow public review authenticity checks at nexlifylabs.com/verify-review
+- ✅ Verification tokens allow public review authenticity checks at trustscript.io/verify-review
 - ✅ All data transmitted securely over HTTPS only
 - ✅ Reviews stored in WordPress comment system with full audit trail metadata
 - ✅ Zero PII: no names, emails, or personal identifiers stored on TrustScript servers
@@ -294,35 +310,30 @@ TrustScript works seamlessly with Elementor. Create beautiful social proof secti
 * Full design control with your page builder's styling tools
 * Mobile responsive out of the box
 
-For complete setup guides, visit: https://nexlifylabs.com/docs/wordpress
+For complete setup guides, visit: https://trustscript.io/docs
 
 == Installation ==
 
 1. Upload the plugin files to `/wp-content/plugins/trustscript/`
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Sign up for a free TrustScript account at https://nexlifylabs.com
-4. Get your API key from https://nexlifylabs.com/dashboard/api-keys
-5. Navigate to TrustScript → Settings in your WordPress admin
-6. Enter your API key and test the connection
-7. Configure your review settings in TrustScript → Review Settings
-8. Start collecting reviews automatically
+3. Go to TrustScript → Review Settings and choose your collection method:
+   - **Simple On-Site Reviews** — no account required; add the `[trustscript_review_form]` shortcode to a page and start collecting
+   - **API Review Collection** — sign up at https://trustscript.io, get your API key, enter it under TrustScript → Settings, and configure your review settings
+4. Configure your review settings in TrustScript → Review Settings
+5. Start collecting reviews
 
 == Frequently Asked Questions ==
 
 = Do I need a TrustScript account? =
-Yes, this plugin connects your WooCommerce store to the TrustScript 
-service. You can sign up for free at https://nexlifylabs.com and get 
-25 review requests per month at no cost.
+No — not for Simple Mode. Simple Mode is fully free with no account, no API key, and no usage limits. You collect reviews directly on your site.
+
+API Mode connects your store to the TrustScript service at trustscript.io. A free plan is available with 25 review requests per month. Sign up at https://trustscript.io.
 
 = Is the plugin free? =
-Yes, the plugin itself is free and open source (GPL-licensed). 
-TrustScript offers a free plan with 25 review requests per month, 
-with paid plans for higher volume.
+Yes. Simple Mode is fully free with no usage limits and no account required. API Mode includes a free plan with 25 review requests per month, with paid plans for higher volume. View all plans at https://trustscript.io/pricing
 
 = Does this work without WooCommerce? =
-No, TrustScript requires WooCommerce to be installed and active. It 
-connects to WooCommerce orders to trigger review requests 
-automatically.
+TrustScript works with WooCommerce and MemberPress. At least one supported platform must be installed and active.
 
 = Can customers write their own reviews? =
 Absolutely. Customers always write their own review first. The AI 
@@ -357,35 +368,17 @@ applies — but once you reach it, you can continue collecting unlimited
 standard reviews (without AI assistance) for the rest of that month. 
 Your AI quota resets the following month.
 
-View all plans at https://nexlifylabs.com/pricing
+View all plans at https://trustscript.io/pricing
 
 = Can I customize the review request email? =
-Yes. Email templates are managed from your NexlifyLabs dashboard at 
-nexlifylabs.com — not from inside WordPress. You can customize the 
-following fields for each email:
+Yes. In Simple Mode, the email template is configured directly from TrustScript → Review Form using the available placeholder tags. In API Mode, email templates are managed from your dashboard at trustscript.io with additional branding and customization options.
 
-- Email subject line
-- Header label (small text above the title)
-- Email title
-- Greeting message
-- Thank you message body
-- Review request call-to-action text
+Available placeholder tags (Simple Mode):
+`{customer_name}`, `{customer_email}`, `{product_name}`, `{order_number}`, `{order_date}`, `{order_total}`, `{store_name}`, `{store_url}`, `{review_link}`, `{opt_out_link}`
 
-Available variables:
-{customer_name}, {store_name}, {product_name}, {product_image},
-{order_number}, {order_date}, {order_total}
+In API Mode, `{opt_out_link}` and `{store_name}` are inserted automatically. Product image, product name, order number, order date, and order total are all pulled automatically from WooCommerce at send time. This works for both single-product and multi-product orders.
 
-{opt_out_link} and {store_name} are inserted automatically — you do 
-not need to add them manually.
-
-Product image, product name, order number, order date, and order total 
-are all pulled automatically from WooCommerce at send time. This works 
-for both single-product and multi-product orders.
-
-At the scheduled send time, TrustScript delivers the template to your 
-WordPress site, which then fills in the placeholders with real order 
-data and sends the email from your own domain using your own SMTP or 
-transactional email service.
+At the scheduled send time, TrustScript delivers the template to your WordPress site, which fills in the placeholders with real order data and sends the email from your own domain using your own SMTP or transactional email service.
 
 
 = Does TrustScript place any restrictions on what I can put in review 
@@ -429,9 +422,9 @@ product orders, only the refunded products are removed from the review
 form — the rest of the link stays active.
 
 = Can customers verify that a review is real? =
-Yes. Every published review includes a Verified Purchase badge. 
+Yes. Every API-collected review includes a Verified Purchase badge. 
 Clicking it shows the review's unique verification token, which can 
-be checked at https://nexlifylabs.com/verify-review to confirm the 
+be checked at https://trustscript.io/verify-review to confirm the 
 review is authentic and see a full transparency log including whether 
 AI assistance was used.
 
@@ -461,39 +454,47 @@ Email & Review Request Flow:
 
 Review Verification:
 - Each review receives a unique verification token on submission
-- Public verification available at nexlifylabs.com/verify-review
+- Public verification available at trustscript.io/verify-review
 - Reviews protected from editing via `wp_update_comment_data` filter
 - All changes logged with timestamps
 
 == Screenshots ==
 
-1. Analytics Dashboard — Track requests, views, conversions, and 
-   per-order timelines
-2. Review Settings — Configure when and how reviews are collected
-3. Customer Review Form — Write, attach media, and optionally enhance 
-   with AI
-4. AI Writing Assistant — Choose from 3 variants or keep the original
-5. Verified Purchase Badge & Verification Token modal
-6. Public Review Verification page at nexlifylabs.com/verify-review
-7. Elementor Review Showcase widget
+1. Trust Strip — store rating summary bar on product pages
+2. Analytics Dashboard — track requests, views, conversions, and per-order timelines
+3. Review Settings — configure collection method, trigger status, and Trust Strip
+4. Simple Mode — on-site review form powered by the [trustscript_review_form] shortcode
+5. API Mode — customer review form with photo and video upload
+6. AI Writing Assistant — choose from 3 suggestions or keep the original (API mode)
+7. Verified Purchase Badge and Verification Token modal (API mode)
+8. Public Review Verification page at trustscript.io/verify-review
+9. Elementor Review Showcase widget
 
 == Changelog ==
 
 = 1.0.0 =
-* Initial public release
-* Full WooCommerce integration with automated review requests
-* Photo and video review support (up to 5 files per review)
+* Added Simple On-Site Reviews — collect unlimited reviews with no API key or external account required
+* New [trustscript_review_form] shortcode for embedding the review form on any page
+* Photo uploads in Simple mode — customers can attach up to 3 photos per review
+* Customizable email template in Simple mode with full placeholder tag support
+* Auto-publish or admin-approval setting for submitted reviews
+* Smart void system extended to Simple mode — review links auto-expire on cancellation, refund, or partial cancellation; ineligible products are hidden from the review form
+* Opt-out link support in Simple mode email templates
+* Added Trust Strip — store rating summary bar (overall rating, total reviews, verified buyer %, recommendation %) displayed on product pages; toggle in Review Settings
+* Review Collection Method setting — choose Simple On-Site Reviews or API Review Collection from TrustScript → Review Settings
+* Review request delay setting — configurable delay with optional separate delay for international orders
+* Full WooCommerce integration with automated review requests (API mode)
+* Photo and video review support — up to 5 files per review with auto-compression (API mode)
 * Verified Purchase badges with public verification tokens
-* Optional AI writing assistant with 3 variants per submission
+* Optional AI writing assistant with 3 variants per submission (API mode)
 * Zero PII collection — no names, emails, or identifiers stored
 * Auto-saving drafts — customers can return and continue anytime
-* Smart refund/cancellation handling — review links auto-expire
+* Smart refund and cancellation handling — review links auto-expire
 * Google Rich Snippets (JSON-LD) for star ratings in search results
 * Helpful voting system (logged-in users only)
 * Star ratings and review counts on all product cards
 * Full analytics dashboard with per-order Review Insights
-* Elementor widget (marquee infinite slider, grid)
-* Support for WPBakery, Beaver Builder, Bricks, Oxygen, SiteOrigin
+* Elementor widget — slider, grid, and masonry layouts
 * Custom "Delivered" WooCommerce order status
 * CSV export for all review data
 
@@ -505,7 +506,7 @@ Initial public release of TrustScript for WooCommerce.
 == Privacy Policy & Data Security ==
 
 This plugin connects to the TrustScript service 
-(https://nexlifylabs.com) to collect and manage product reviews.
+(https://trustscript.io) to collect and manage product reviews.
 
 **Data Sent TO TrustScript Service:**
 - Order number (used solely for purchase verification and analytics)
@@ -538,13 +539,13 @@ This plugin connects to the TrustScript service
 - ✅ One-way hashed email address used only for opt-out tracking — cannot be reversed or decoded
 - ✅ No third-party data sharing — not possible by design, since no personal data is ever received by TrustScript
 - ✅ No consent checkbox required — because no personal data is collected, GDPR consent popups and checkout opt-ins are not necessary
-- ✅ Review deletion requests can be submitted via the store owner or by contacting support at support@nexlifylabs.com
+- ✅ Review deletion requests can be submitted via the store owner or by contacting support at support@trustscript.io
 
 By using this plugin, you agree to TrustScript's Privacy Policy:
-https://nexlifylabs.com/privacy
+https://trustscript.io/privacy
 
 == Support ==
 
-- Documentation: https://nexlifylabs.com/docs
-- Support Portal: https://nexlifylabs.com/contact
-- Email: support@nexlifylabs.com
+- Documentation: https://trustscript.io/docs
+- Support Portal: https://trustscript.io/contact
+- Email: support@trustscript.io
