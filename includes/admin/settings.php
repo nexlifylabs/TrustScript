@@ -9,20 +9,20 @@ class TrustScript_Settings_Page {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'trustscript' ) );
 		}
-		
+
 		$pricing_tiers = trustscript_get_pricing_tiers();
-		$api_keys_url = trustscript_get_api_keys_url();
-		$app_url = trustscript_get_app_url();
-		
-		$is_first_time = isset( $_GET['first-time'] ) && $_GET['first-time'] == '1'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display logic only, no data processing.
-		$has_api_key = ! empty( get_option( 'trustscript_api_key', '' ) );
-		
+		$api_keys_url  = trustscript_get_api_keys_url();
+		$app_url       = trustscript_get_app_url();
+
+		$is_first_time = isset( $_GET['first-time'] ) && '1' === $_GET['first-time']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display logic only, no data processing.
+		$has_api_key   = ! empty( get_option( 'trustscript_api_key', '' ) );
+
 		?>
 		<div class="wrap">
 			<h1 class="screen-reader-text"><?php esc_html_e( 'TrustScript Settings', 'trustscript' ); ?></h1>
 			<div class="trustscript-settings-wrap">
 
-			<?php if ( $is_first_time || ! $has_api_key ): ?>
+			<?php if ( $is_first_time || ! $has_api_key ) : ?>
 			<div class="trustscript-ob-header">
 				<div class="trustscript-ob-brand">
 					<div class="trustscript-ob-logo-mark">TS</div>
@@ -94,16 +94,16 @@ class TrustScript_Settings_Page {
 			</div>
 
 			<div class="trustscript-ob-card">
-				<h2 class="trustscript-ob-section-title">💎 <?php esc_html_e( 'Choose Your Plan', 'trustscript' ); ?></h2>
+				<h2 class="trustscript-ob-section-title">💎 <?php esc_html_e( 'Go Pro', 'trustscript' ); ?></h2>
 				<p class="trustscript-ob-section-sub"><?php esc_html_e( 'Start free. Upgrade anytime. No lock-in.', 'trustscript' ); ?></p>
 				<div class="trustscript-pricing-grid">
-					<?php foreach ( $pricing_tiers as $tier_key => $tier ): ?>
+					<?php foreach ( $pricing_tiers as $tier_key => $tier ) : ?>
 					<div class="trustscript-pricing-card <?php echo $tier_key === 'pro' ? 'trustscript-pricing-featured' : ''; ?>">
-						<?php if ( ! empty( $tier['badge'] ) ): ?>
+						<?php if ( ! empty( $tier['badge'] ) ) : ?>
 							<div class="trustscript-pricing-badge"><?php echo esc_html( $tier['badge'] ); ?></div>
-						<?php elseif ( $tier_key === 'pro' ): ?>
+						<?php elseif ( $tier_key === 'pro' ) : ?>
 							<div class="trustscript-pricing-badge trustscript-badge-popular"><?php esc_html_e( 'Most Popular', 'trustscript' ); ?></div>
-						<?php else: ?>
+						<?php else : ?>
 							<div class="trustscript-pricing-badge trustscript-pricing-badge-spacer"></div>
 						<?php endif; ?>
 						<div class="trustscript-pricing-name"><?php echo esc_html( $tier['name'] ); ?></div>
@@ -116,16 +116,16 @@ class TrustScript_Settings_Page {
 							<span><?php esc_html_e( 'reviews / month', 'trustscript' ); ?></span>
 						</div>
 						<ul class="trustscript-pricing-features">
-							<?php foreach ( array_slice( $tier['features'], 0, 5 ) as $feature ): ?>
+							<?php foreach ( array_slice( $tier['features'], 0, 5 ) as $feature ) : ?>
 								<li><?php echo esc_html( $feature ); ?></li>
 							<?php endforeach; ?>
 						</ul>
-						<?php if ( ! empty( $tier['button_url'] ) ): ?>
+						<?php if ( ! empty( $tier['button_url'] ) ) : ?>
 							<a href="<?php echo esc_url( $tier['button_url'] ); ?>" target="_blank"
-							   class="button <?php echo $tier_key === 'pro' ? 'button-primary' : ''; ?> trustscript-pricing-cta">
+								class="button <?php echo $tier_key === 'pro' ? 'button-primary' : ''; ?> trustscript-pricing-cta">
 								<?php echo esc_html( $tier['button_text'] ); ?>
 							</a>
-						<?php else: ?>
+						<?php else : ?>
 							<span class="trustscript-pricing-cta-free"><?php esc_html_e( 'Free Forever', 'trustscript' ); ?></span>
 						<?php endif; ?>
 					</div>
@@ -140,7 +140,7 @@ class TrustScript_Settings_Page {
 				<span>⚙️ <?php esc_html_e( 'Step 3 — Paste Your API Key to Connect', 'trustscript' ); ?></span>
 			</div>
 
-			<?php else: ?>
+			<?php else : ?>
 
 			<div class="trustscript-connected-banner">
 				<div class="trustscript-connected-left">
@@ -166,14 +166,14 @@ class TrustScript_Settings_Page {
 
 				<div class="trustscript-api-card-header">
 				<h2 class="trustscript-ob-section-title">
-						<?php if ( $has_api_key ): ?>
+						<?php if ( $has_api_key ) : ?>
 							<span class="dashicons dashicons-yes-alt trustscript-icon-connected"></span>
 							<?php esc_html_e( 'API Configuration', 'trustscript' ); ?>
-						<?php else: ?>
+						<?php else : ?>
 							🔑 <?php esc_html_e( 'Connect Your API Key', 'trustscript' ); ?>
 						<?php endif; ?>
 					</h2>
-					<?php if ( ! $has_api_key ): ?>
+					<?php if ( ! $has_api_key ) : ?>
 					<a href="<?php echo esc_url( $api_keys_url ); ?>" target="_blank" class="trustscript-get-key-link">
 						<?php esc_html_e( "Don't have a key? Get one free →", 'trustscript' ); ?>
 					</a>
@@ -185,15 +185,16 @@ class TrustScript_Settings_Page {
 					settings_fields( 'trustscript_options' );
 					do_settings_sections( 'trustscript_options' );
 					?>
+					<input type="hidden" name="trustscript_api_key_form_intent" value="1" />
 
-					<?php if ( ! $has_api_key ): ?>
+					<?php if ( ! $has_api_key ) : ?>
 					<div id="trustscript-api-key-inline-error" class="trustscript-api-key-inline-error"></div>
 
-					<?php
-					$settings_errors = get_settings_errors( 'trustscript_api_key' );
-					foreach ( $settings_errors as $error ) {
-						if ( $error['type'] === 'error' ) {
-							?>
+						<?php
+						$settings_errors = get_settings_errors( 'trustscript_api_key' );
+						foreach ( $settings_errors as $error ) {
+							if ( $error['type'] === 'error' ) {
+								?>
 							<div class="trustscript-api-key-error">
 								<span class="trustscript-api-key-error-icon">⚠️</span>
 								<div class="trustscript-api-key-error-body">
@@ -202,9 +203,9 @@ class TrustScript_Settings_Page {
 								</div>
 								<button type="button" class="trustscript-api-key-error-dismiss" aria-label="Dismiss">×</button>
 							</div>
-							<?php
-						} elseif ( $error['type'] === 'success' ) {
-							?>
+								<?php
+							} elseif ( $error['type'] === 'success' ) {
+								?>
 							<div class="trustscript-api-key-success">
 								<span class="trustscript-api-key-success-icon">✅</span>
 								<div class="trustscript-api-key-success-body">
@@ -212,9 +213,9 @@ class TrustScript_Settings_Page {
 									<p><?php echo wp_kses_post( $error['message'] ); ?></p>
 								</div>
 							</div>
-							<?php
-						} elseif ( $error['type'] === 'warning' ) {
-							?>
+								<?php
+							} elseif ( $error['type'] === 'warning' ) {
+								?>
 							<div class="trustscript-api-key-warning">
 								<span class="trustscript-api-key-warning-icon">⚠️</span>
 								<div class="trustscript-api-key-warning-body">
@@ -222,10 +223,10 @@ class TrustScript_Settings_Page {
 									<p><?php echo wp_kses_post( $error['message'] ); ?></p>
 								</div>
 							</div>
-							<?php
+								<?php
+							}
 						}
-					}
-					?>
+						?>
 
 					<div class="trustscript-api-key-input-row">
 						<div class="trustscript-api-key-input-group">
@@ -265,22 +266,14 @@ class TrustScript_Settings_Page {
 						);
 						?>
 					</p>
-					<div class="trustscript-info-box trustscript-info-box-spaced">
-						<strong>🔐 <?php esc_html_e( 'Security Note:', 'trustscript' ); ?></strong>
-						<p><?php esc_html_e( 'Your API key and webhook secret are masked as you type for security. They will never be displayed in plain text or source code.', 'trustscript' ); ?></p>
-					</div>
-					<div class="trustscript-info-box trustscript-info-box-spaced">
-						<strong>⚠️ 🔐 <?php esc_html_e( 'Important:', 'trustscript' ); ?></strong>
-						<p><?php esc_html_e( 'Both your API Key and Webhook Secret are required to use TrustScript securely. The form submission will be blocked until you paste both credentials.', 'trustscript' ); ?></p>
-					</div>
 
-					<?php else: ?>
+					<?php else : ?>
 					<div id="trustscript-api-key-inline-error" class="trustscript-api-key-inline-error"></div>
-					<?php
-					$settings_errors = get_settings_errors( 'trustscript_api_key' );
-					foreach ( $settings_errors as $error ) {
-						if ( $error['type'] === 'error' ) {
-							?>
+						<?php
+						$settings_errors = get_settings_errors( 'trustscript_api_key' );
+						foreach ( $settings_errors as $error ) {
+							if ( $error['type'] === 'error' ) {
+								?>
 							<div class="trustscript-api-key-error">
 								<span class="trustscript-api-key-error-icon">⚠️</span>
 								<div class="trustscript-api-key-error-body">
@@ -289,9 +282,9 @@ class TrustScript_Settings_Page {
 								</div>
 								<button type="button" class="trustscript-api-key-error-dismiss" aria-label="Dismiss">×</button>
 							</div>
-							<?php
-						} elseif ( $error['type'] === 'success' ) {
-							?>
+								<?php
+							} elseif ( $error['type'] === 'success' ) {
+								?>
 							<div class="trustscript-api-key-success">
 								<span class="trustscript-api-key-success-icon">✅</span>
 								<div class="trustscript-api-key-success-body">
@@ -299,9 +292,9 @@ class TrustScript_Settings_Page {
 									<p><?php echo wp_kses_post( $error['message'] ); ?></p>
 								</div>
 							</div>
-							<?php
-						} elseif ( $error['type'] === 'warning' ) {
-							?>
+								<?php
+							} elseif ( $error['type'] === 'warning' ) {
+								?>
 							<div class="trustscript-api-key-warning">
 								<span class="trustscript-api-key-warning-icon">⚠️</span>
 								<div class="trustscript-api-key-warning-body">
@@ -309,10 +302,10 @@ class TrustScript_Settings_Page {
 									<p><?php echo wp_kses_post( $error['message'] ); ?></p>
 								</div>
 							</div>
-							<?php
+								<?php
+							}
 						}
-					}
-					?>
+						?>
 
 					<table class="form-table trustscript-form-table">
 						<tr>
@@ -340,8 +333,8 @@ class TrustScript_Settings_Page {
 							<td>
 								<?php
 									$has_webhook_secret = ! empty( get_option( 'trustscript_webhook_secret', '' ) );
-									if ( $has_webhook_secret ) {
-										?>
+								if ( $has_webhook_secret ) {
+									?>
 										<div id="trustscript-webhook-secret-display">
 											<span class="trustscript-key-masked">
 												<span class="dashicons dashicons-lock trustscript-lock-icon"></span>
@@ -349,16 +342,16 @@ class TrustScript_Settings_Page {
 											</span>
 										</div>
 										<p class="description">
-											<?php esc_html_e( 'Used to verify webhook signatures from TrustScript. Update this by generating a new API key in your dashboard and replacing your API key above.', 'trustscript' ); ?>
+										<?php esc_html_e( 'Used to verify webhook signatures from TrustScript. Update this by generating a new API key in your dashboard and replacing your API key above.', 'trustscript' ); ?>
 										</p>
 										<?php
-									} else {
-										?>
+								} else {
+									?>
 										<div class="trustscript-info-box">
 											<p><?php esc_html_e( 'No webhook secret configured. Update your API key in the form above to enable webhook signature verification.', 'trustscript' ); ?></p>
 										</div>
 										<?php
-									}
+								}
 								?>
 							</td>
 						</tr>
@@ -385,12 +378,98 @@ class TrustScript_Settings_Page {
 							</td>
 						</tr>
 					</table>
-					<?php submit_button( __( 'Save Changes', 'trustscript' ) ); ?>
+						<?php submit_button( __( 'Save Changes', 'trustscript' ) ); ?>
 					<?php endif; ?>
 
-					<?php include plugin_dir_path( __FILE__ ) . '../consent-form-template.php'; ?>
+					<?php
+					$consent_template = TRUSTSCRIPT_PLUGIN_PATH . 'includes/consent-form-template.php';
+					if ( file_exists( $consent_template ) ) {
+						require $consent_template;
+					}
+					?>
 				</form>
 			</div>
+
+			<div class="trustscript-ob-card">
+				<h2 class="trustscript-ob-section-title">🔒 <?php esc_html_e( 'Verification Modal Settings', 'trustscript' ); ?></h2>
+				<p><?php esc_html_e( 'Control how review verification information is displayed to customers.', 'trustscript' ); ?></p>
+				
+				<form id="trustscript-verification-modal-form" class="trustscript-verification-modal-form">
+					<table class="form-table trustscript-form-table">
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Enable Verification Modal', 'trustscript' ); ?></th>
+							<td>
+								<div class="trustscript-checkbox-wrapper">
+									<label for="trustscript_enable_verification_modal">
+										<input 
+											type="checkbox" 
+											id="trustscript_enable_verification_modal" 
+											name="enable_verification_modal" 
+											value="1"
+											<?php checked( get_option( 'trustscript_enable_verification_modal', true ), true ); ?>
+										/>
+										<span><?php esc_html_e( 'Show verification hash modal when customers click the verification badge', 'trustscript' ); ?></span>
+									</label>
+								</div>
+								<p class="description">
+									<?php esc_html_e( 'When enabled, clicking the verification badge opens a modal showing the unique verification hash. Disable this if you prefer not to display verification details to customers.', 'trustscript' ); ?>
+								</p>
+							</td>
+						</tr>
+					</table>
+
+					<div class="trustscript-alert trustscript-alert-info">
+						<strong>ℹ️ <?php esc_html_e( 'What does this do?', 'trustscript' ); ?></strong>
+						<p class="trustscript-alert-content">
+							<?php esc_html_e( 'The verification modal shows a cryptographic hash that ties the review to its original submission on TrustScript. This allows customers to verify that the review is genuine and hasn\'t been tampered with.', 'trustscript' ); ?>
+						</p>
+					</div>
+
+					<button type="submit" class="button button-secondary" id="trustscript-verification-modal-save-btn">
+						<?php esc_html_e( 'Save Verification Settings', 'trustscript' ); ?>
+					</button>
+					<span class="spinner" style="float: none; margin: 0 0 0 10px;"></span>
+					<span class="trustscript-verification-modal-message" style="margin-left: 10px;"></span>
+				</form>
+			</div>
+
+			<!-- Trust Strip Settings Card -->
+			<div class="trustscript-ob-card">
+				<h2 class="trustscript-ob-section-title">🛒 <?php esc_html_e( 'Store Trust Strip', 'trustscript' ); ?></h2>
+				<p><?php esc_html_e( 'Display a store-wide trust strip showing average rating, total reviews, verified buyers, and recommendation percentage.', 'trustscript' ); ?></p>
+
+				<form id="trustscript-trust-strip-form" class="trustscript-trust-strip-form">
+					<table class="form-table trustscript-form-table">
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Enable Trust Strip', 'trustscript' ); ?></th>
+							<td>
+								<div class="trustscript-checkbox-wrapper">
+									<label for="trustscript_enable_trust_strip">
+										<input 
+											type="checkbox" 
+											id="trustscript_enable_trust_strip" 
+											name="enable_trust_strip" 
+											value="1"
+											<?php checked( get_option( 'trustscript_enable_trust_strip', true ), true ); ?>
+										/>
+										<span><?php esc_html_e( 'Show the trust strip on the storefront', 'trustscript' ); ?></span>
+									</label>
+								</div>
+								<p class="description">
+									<?php esc_html_e( 'When enabled, the trust strip appears on product pages or wherever the shortcode/widget is placed.', 'trustscript' ); ?>
+								</p>
+							</td>
+						</tr>
+					</table>
+
+					<button type="submit" class="button button-secondary" id="trustscript-trust-strip-save-btn">
+						<?php esc_html_e( 'Save Trust Strip Settings', 'trustscript' ); ?>
+					</button>
+					<span class="spinner" style="float: none; margin: 0 0 0 10px;"></span>
+					<span class="trustscript-trust-strip-message" style="margin-left: 10px;"></span>
+				</form>
+			</div>
+
 			<div class="trustscript-ob-card">
 				<h2 class="trustscript-ob-section-title">🗑️ <?php esc_html_e( 'Plugin Uninstall & Data', 'trustscript' ); ?></h2>
 				<p><?php esc_html_e( 'Choose how TrustScript should handle your data if you decide to uninstall the plugin.', 'trustscript' ); ?></p>
@@ -438,24 +517,6 @@ class TrustScript_Settings_Page {
 					</button>
 				</form>
 			</div>
-
-			<details class="trustscript-ob-card trustscript-privacy-accordion">
-				<summary class="trustscript-privacy-summary">
-					<span>🔒 <?php esc_html_e( 'Privacy-First Architecture (GDPR Compliant)', 'trustscript' ); ?></span>
-					<span class="trustscript-accordion-chevron">▼</span>
-				</summary>
-				<div class="trustscript-privacy-body">
-					<p class="trustscript-privacy-lead">
-						<?php esc_html_e( 'TrustScript follows privacy-by-design principles. We do NOT store customer names or email addresses — only Order IDs for merchant analytics.', 'trustscript' ); ?>
-					</p>
-					<ul class="trustscript-privacy-list">
-						<li><?php esc_html_e( '✓ Customer emails are hashed (SHA-256) for opt-out checking only, then immediately discarded', 'trustscript' ); ?></li>
-						<li><?php esc_html_e( '✓ No customer PII (personally identifiable information) is stored in our database', 'trustscript' ); ?></li>
-						<li><?php esc_html_e( '✓ Reviews are published as "Verified Buyer" — no customer names displayed', 'trustscript' ); ?></li>
-						<li><?php esc_html_e( '✓ Full compliance with GDPR Article 5 (data minimization) and Article 25 (privacy by design)', 'trustscript' ); ?></li>
-					</ul>
-				</div>
-			</details>
 
 			<div class="trustscript-support-footer">
 				<a href="<?php echo esc_url( $app_url . '/docs/wordpress' ); ?>" target="_blank" class="trustscript-support-link">

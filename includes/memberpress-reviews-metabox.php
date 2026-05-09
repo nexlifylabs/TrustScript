@@ -3,7 +3,7 @@
  * TrustScript MemberPress Reviews Meta Box
  *
  * @package TrustScript
- * @since   1.1.0
+ * @since   1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Reviews_Base {
 
 	/**
-	 * Constructor: Initialize hooks and functionality.
+	 * Constructor: Hooks into WordPress to register meta box, save meta data, and render reviews on the frontend.
 	 */
 	public function __construct() {
 		if ( ! class_exists( 'MeprOptions' ) ) {
@@ -95,12 +95,12 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 	}
 
 	public function render_meta_box_content( $post ) {
-		$enabled = get_post_meta( $post->ID, '_trustscript_reviews_enabled', true );
-		$mode    = get_post_meta( $post->ID, '_trustscript_reviews_mode', true ) ?: 'dropdown';
+		$enabled       = get_post_meta( $post->ID, '_trustscript_reviews_enabled', true );
+		$mode          = get_post_meta( $post->ID, '_trustscript_reviews_mode', true ) ?: 'dropdown';
 		$membership_id = get_post_meta( $post->ID, '_trustscript_reviews_membership_id', true );
-		$shortcode = get_post_meta( $post->ID, '_trustscript_reviews_shortcode', true );
-		$count   = get_post_meta( $post->ID, '_trustscript_reviews_count', true ) ?: '10';
-		$rating  = get_post_meta( $post->ID, '_trustscript_reviews_rating', true ) ?: '0';
+		$shortcode     = get_post_meta( $post->ID, '_trustscript_reviews_shortcode', true );
+		$count         = get_post_meta( $post->ID, '_trustscript_reviews_count', true ) ?: '10';
+		$rating        = get_post_meta( $post->ID, '_trustscript_reviews_rating', true ) ?: '0';
 
 		wp_nonce_field( 'trustscript_reviews_nonce', 'trustscript_reviews_nonce_field' );
 		$this->maybe_enqueue_assets_inline();
@@ -118,7 +118,7 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 				</tr>
 			</table>
 
-			<div id="trustscript-reviews-options" class="<?php echo $enabled ? '' : 'trustscript-reviews-options-hidden'; ?>">
+			<div id="trustscript-reviews-options" class="<?php echo $enabled ? '' : esc_attr( 'trustscript-reviews-options-hidden' ); ?>">
 				<h3><?php esc_html_e( 'Review Display Options', 'trustscript' ); ?></h3>
 				<table class="form-table">
 					<tr>
@@ -141,7 +141,7 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 						</td>
 					</tr>
 
-					<tr id="trustscript-membership-dropdown" class="<?php echo $mode === 'dropdown' ? '' : 'trustscript-hidden'; ?>">
+					<tr id="trustscript-membership-dropdown" class="<?php echo $mode === 'dropdown' ? '' : esc_attr( 'trustscript-hidden' ); ?>">
 						<th scope="row">
 							<label for="trustscript_reviews_membership_id"><?php esc_html_e( 'Membership', 'trustscript' ); ?></label>
 						</th>
@@ -154,7 +154,7 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 						</td>
 					</tr>
 
-					<tr id="trustscript-shortcode-field" class="<?php echo $mode === 'shortcode' ? '' : 'trustscript-hidden'; ?>">
+					<tr id="trustscript-shortcode-field" class="<?php echo $mode === 'shortcode' ? '' : esc_attr( 'trustscript-hidden' ); ?>">
 						<th scope="row">
 							<label for="trustscript_reviews_shortcode"><?php esc_html_e( 'Shortcode', 'trustscript' ); ?></label>
 						</th>
@@ -196,7 +196,7 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 				</table>
 
 				<div class="trustscript-memberpress-reviews-tip">
-					<strong><?php esc_html_e( '💡 Tip:', 'trustscript' ); ?></strong>
+					<strong><?php esc_html_e( 'Tip:', 'trustscript' ); ?></strong>
 					<?php esc_html_e( 'These reviews will display below the page content, outside of MemberPress access restrictions. This allows public visibility for SEO and social proof.', 'trustscript' ); ?>
 				</div>
 			</div>
@@ -209,15 +209,17 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 			return;
 		}
 
-		$products = get_posts( array(
-			'post_type'   => 'memberpressproduct',
-			'posts_per_page' => -1,
-			'orderby'     => 'title',
-			'order'       => 'ASC',
-		) );
+		$products = get_posts(
+			array(
+				'post_type'      => 'memberpressproduct',
+				'posts_per_page' => -1,
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			)
+		);
 
 		foreach ( $products as $product ) {
-			echo sprintf(
+			printf(
 				'<option value="%d" %s>%s</option>',
 				absint( $product->ID ),
 				selected( $selected_id, $product->ID, false ),
@@ -227,10 +229,7 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 	}
 
 	public function save_meta_box( $post_id ) {
-		// Nonces must NOT be sanitized as sanitization would corrupt the hash verification.
-		// Security is enforced via wp_verify_nonce() which validates the nonce integrity.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$nonce = isset( $_POST['trustscript_reviews_nonce_field'] ) ? wp_unslash( $_POST['trustscript_reviews_nonce_field'] ) : '';
+		$nonce = isset( $_POST['trustscript_reviews_nonce_field'] ) ? sanitize_text_field( wp_unslash( $_POST['trustscript_reviews_nonce_field'] ) ) : '';
 		if ( ! $nonce || ! wp_verify_nonce( $nonce, 'trustscript_reviews_nonce' ) ) {
 			return;
 		}
@@ -254,23 +253,17 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 			update_post_meta( $post_id, '_trustscript_reviews_mode', $mode );
 		}
 
-		// Initialize raw membership ID from POST. Immediately stored in variable to avoid repeated
-		// unsanitized access. Value is validated with intval() before database storage.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$membership_id_raw = isset( $_POST['trustscript_reviews_membership_id'] ) ? wp_unslash( $_POST['trustscript_reviews_membership_id'] ) : '';
-		if ( ! empty( $membership_id_raw ) ) {
-			$membership_id = intval( $membership_id_raw );
+		// Sanitize membership ID as a positive integer immediately upon retrieval.
+		$membership_id = isset( $_POST['trustscript_reviews_membership_id'] ) ? absint( $_POST['trustscript_reviews_membership_id'] ) : 0;
+		if ( $membership_id > 0 ) {
 			update_post_meta( $post_id, '_trustscript_reviews_membership_id', $membership_id );
 		} else {
 			delete_post_meta( $post_id, '_trustscript_reviews_membership_id' );
 		}
 
-		// Initialize raw shortcode from POST. Immediately stored in variable to avoid repeated
-		// unsanitized access. Value is sanitized via sanitize_text_field() before database storage.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$shortcode_raw = isset( $_POST['trustscript_reviews_shortcode'] ) ? wp_unslash( $_POST['trustscript_reviews_shortcode'] ) : '';
-		if ( ! empty( $shortcode_raw ) ) {
-			$shortcode = sanitize_text_field( $shortcode_raw );
+		// Unslash and sanitize shortcode immediately upon retrieval.
+		$shortcode = isset( $_POST['trustscript_reviews_shortcode'] ) ? sanitize_text_field( wp_unslash( $_POST['trustscript_reviews_shortcode'] ) ) : '';
+		if ( ! empty( $shortcode ) ) {
 			update_post_meta( $post_id, '_trustscript_reviews_shortcode', $shortcode );
 		} else {
 			delete_post_meta( $post_id, '_trustscript_reviews_shortcode' );
@@ -278,13 +271,13 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 
 		if ( isset( $_POST['trustscript_reviews_count'] ) ) {
 			$count = intval( $_POST['trustscript_reviews_count'] );
-			$count = max( 1, min( 50, $count ) ); // Clamp between 1-50
+			$count = max( 1, min( 50, $count ) );
 			update_post_meta( $post_id, '_trustscript_reviews_count', $count );
 		}
 
 		if ( isset( $_POST['trustscript_reviews_rating'] ) ) {
 			$rating = intval( $_POST['trustscript_reviews_rating'] );
-			$rating = max( 0, min( 5, $rating ) ); // Clamp between 0-5
+			$rating = max( 0, min( 5, $rating ) );
 			update_post_meta( $post_id, '_trustscript_reviews_rating', $rating );
 		}
 	}
@@ -339,8 +332,11 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 
 		$this->maybe_enqueue_assets_inline();
 
+		// wp_kses_post() is used here because the_content filter callbacks must
+		// return properly escaped HTML. do_shortcode() output is treated as trusted
+		// post content — the same escaping context WordPress applies to the_content.
 		$reviews_html  = '<div class="trustscript-reviews-content-wrapper" style="margin-top: 40px; padding-top: 40px; border-top: 1px solid #e5e5e5;">';
-		$reviews_html .= do_shortcode( $shortcode );
+		$reviews_html .= wp_kses_post( do_shortcode( $shortcode ) );
 		$reviews_html .= '</div>';
 
 		return $content . $reviews_html;
@@ -348,7 +344,7 @@ class TrustScript_MemberPress_Reviews_MetaBox extends TrustScript_Frontend_Revie
 
 	/**
 	 * Determine if the current user can view the reviews based on settings and membership status.
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function can_view_reviews() {

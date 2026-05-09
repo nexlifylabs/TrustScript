@@ -130,6 +130,10 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 			'mobile_default' => '1',
 			'options'        => array( '1' => '1', '2' => '2', '3' => '3', '4' => '4' ),
 			'condition'      => array( 'layout' => array( 'grid', 'image-first' ) ),
+			'selectors'      => array(
+				'{{WRAPPER}} .trustscript-reviews-grid'        => 'display:grid; grid-template-columns: repeat({{VALUE}}, 1fr);',
+				'{{WRAPPER}} .trustscript-reviews-image-first' => 'display:grid; grid-template-columns: repeat({{VALUE}}, 1fr);',
+			),
 		) );
 
 		$this->add_responsive_control( 'grid_gap', array(
@@ -274,6 +278,9 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 			'return_value' => 'yes',
 			'default'      => 'yes',
 			'separator'    => 'before',
+			'selectors'    => array(
+				'{{WRAPPER}} .trustscript-image-first-card:hover .trustscript-image-first-card-overlay' => 'opacity: 1;',
+			),
 		) );
 
 		$this->end_controls_section();
@@ -321,7 +328,7 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 			'step'    => 10,
 			'default' => 320,
 			'selectors' => array(
-				'{{WRAPPER}} .trustscript-marquee-slider' => '--ts-marquee-card-width: {{VALUE}}px;',
+				'{{WRAPPER}} .trustscript-marquee-slider' => '--trustscript-marquee-card-width: {{VALUE}}px;',
 			),
 		) );
 
@@ -333,7 +340,7 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 			'step'    => 4,
 			'default' => 24,
 			'selectors' => array(
-				'{{WRAPPER}} .trustscript-marquee-slider' => '--ts-marquee-gap: {{VALUE}}px;',
+				'{{WRAPPER}} .trustscript-marquee-slider' => '--trustscript-marquee-gap: {{VALUE}}px;',
 			),
 		) );
 
@@ -958,121 +965,10 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 				return;
 			}
 		}?>
-		<style>
-			#<?php echo esc_attr( $uid ); ?> .trustscript-elementor-review-card {
-				display: flex; flex-direction: column; height: 100%; position: relative; transition: transform 0.3s ease, box-shadow 0.3s ease;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-marquee-card {
-				display: flex; flex-direction: column; position: relative; transition: transform 0.3s ease, box-shadow 0.3s ease;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card {
-				display: flex; flex-direction: column; height: 100%; position: relative;
-				overflow: hidden; 
-				isolation: isolate;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-image-wrapper {
-				position: relative; overflow: hidden; background: #f5f5f5; flex-shrink: 0;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-image {
-				width: 100%; display: block;
-				transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-				will-change: transform;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card:hover .trustscript-image-first-card-image {
-				transform: scale(1.05);
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-overlay {
-				position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-				background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.32) 100%);
-				opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
-			}
-			<?php if ( 'yes' === ( $settings['image_hover_overlay'] ?? 'yes' ) ) : ?>
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card:hover .trustscript-image-first-card-overlay {
-				opacity: 1;
-			}
-			<?php endif; ?>
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-content {
-				flex-grow: 1; display: flex; flex-direction: column; padding: 1.25rem;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-meta {
-				display: flex; align-items: center; flex-wrap: wrap; gap: 8px; line-height: 1;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-rating {
-				display: inline-flex; align-items: center; gap: 4px;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-text {
-				font-size: 0.95rem; flex-grow: 1;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-author {
-				font-weight: 500; color: #333; display: flex; align-items: center;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-avatar {
-				flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-			}
-			.trustscript-image-first-card-avatar {
-				background-color: var(--avatar-bg, #ccc);
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-author-info {
-				text-align: left;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-image-first-card-author-name {
-				/* no flex-grow */
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-review-text { flex-grow: 1; }
-			#<?php echo esc_attr( $uid ); ?> .trustscript-marquee-text { flex-grow: 1; }
-			#<?php echo esc_attr( $uid ); ?> .trustscript-review-author {
-				display: flex;
-				align-items: center;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-review-avatar {
-				flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-			}
-			.trustscript-review-avatar {
-				background-color: var(--avatar-bg, #ccc);
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-review-author-info {
-				text-align: left;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-review-author-name {
-				/* no flex-grow */
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-marquee-author { 
-				display: flex;
-				align-items: center;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-marquee-author-info {
-				text-align: left;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-review-rating {
-				display: flex;
-				align-items: center;
-				flex-wrap: nowrap;
-				line-height: 1;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-stars {
-				display: inline-flex;
-				align-items: center;
-				line-height: 1;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-badge-wrap,
-			#<?php echo esc_attr( $uid ); ?> .trustscript-badge-inline {
-				display: inline-flex;
-				align-items: center;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-badge-inline svg {
-				vertical-align: middle;
-				flex-shrink: 0;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-marquee-avatar {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				flex-shrink: 0;
-			}
-			#<?php echo esc_attr( $uid ); ?> .trustscript-star-empty {
-				color: #d1d5db !important;
-			}
-		</style>
+		<?php
+		wp_enqueue_style( 'trustscript-elementor-widget' );
+		?>
+
 		<?php
 
 		if ( ! $is_marquee ) {
@@ -1080,11 +976,6 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 			$cols_tab = isset( $settings['columns_tablet'] ) ? intval( $settings['columns_tablet'] ) : 2;
 			$cols_mob = isset( $settings['columns_mobile'] ) ? intval( $settings['columns_mobile'] ) : 1;
 			?>
-			<style>
-				#<?php echo esc_attr( $uid ); ?> { display: grid; grid-template-columns: repeat(<?php echo esc_attr( $cols ); ?>, 1fr); }
-				@media (max-width: 1024px) { #<?php echo esc_attr( $uid ); ?> { grid-template-columns: repeat(<?php echo esc_attr( $cols_tab ); ?>, 1fr); } }
-				@media (max-width:  767px) { #<?php echo esc_attr( $uid ); ?> { grid-template-columns: repeat(<?php echo esc_attr( $cols_mob ); ?>, 1fr); } }
-			</style>
 			<div id="<?php echo esc_attr( $uid ); ?>" class="trustscript-reviews-showcase <?php echo $is_image_first ? 'trustscript-reviews-image-first' : 'trustscript-reviews-grid'; ?>">
 		<?php } else {
 			$speed      = isset( $settings['marquee_speed'] )      ? intval( $settings['marquee_speed'] )      : 32;
@@ -1133,8 +1024,8 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 							 class="trustscript-image-first-card-image"
 							 loading="lazy"
 							 decoding="async"
-							 onload="this.classList.add('ts-loaded')"
-							 onerror="this.classList.add('ts-loaded')">
+							 onload="this.classList.add('trustscript-loaded')"
+							 onerror="this.classList.add('trustscript-loaded')">
 						<div class="trustscript-image-first-card-overlay"></div>
 					</div>
 					
@@ -1159,19 +1050,10 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 							
 							<?php if ( $show_badge && ! empty( $verification_hash ) ) : ?>
 								<span class="trustscript-badge-inline" style="display:inline-flex; align-items:center; gap:4px; font-size:0.85rem;">
-									<svg xmlns="http://www.w3.org/2000/svg"
-										 width="1em" height="1em"
-										 viewBox="0 0 24 24"
-										 fill="none"
-										 stroke="currentColor"
-										 stroke-width="2"
-										 stroke-linecap="round"
-										 stroke-linejoin="round"
-										 aria-hidden="true"
-										 style="flex-shrink:0;">
-										<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-										<path d="m9 12 2 2 4-4"/>
-									</svg>
+									<?php
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo trustscript_get_badge_svg();
+									?>
 									<?php echo esc_html( $badge_label ); ?>
 								</span>
 							<?php endif; ?>
@@ -1209,33 +1091,24 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 							$product_name = substr( $product_name, 0, $max_length );
 						}
 					?>
-						<div class="<?php echo $is_marquee ? 'trustscript-marquee-product' : 'trustscript-review-product'; ?>">
+						<div class="<?php echo esc_attr( $is_marquee ? 'trustscript-marquee-product' : 'trustscript-review-product' ); ?>">
 							<?php echo esc_html( $product_name ); ?>
 						</div>
 					<?php endif; ?>
 
-					<div class="<?php echo $is_marquee ? 'trustscript-marquee-meta' : 'trustscript-review-rating'; ?>" style="display:flex; align-items:center; flex-wrap:nowrap; gap:6px; line-height:1;">
-						<div class="<?php echo $is_marquee ? 'trustscript-marquee-stars' : 'trustscript-stars'; ?>">
+					<div class="<?php echo esc_attr( $is_marquee ? 'trustscript-marquee-meta' : 'trustscript-review-rating' ); ?>" style="display:flex; align-items:center; flex-wrap:nowrap; gap:6px; line-height:1;">
+						<div class="<?php echo esc_attr( $is_marquee ? 'trustscript-marquee-stars' : 'trustscript-stars' ); ?>">
 							<?php echo wp_kses_post( TrustScript_Review_Renderer::render_stars( intval( $rating ) ) ); ?>
 						</div>
 
 						<?php if ( $show_badge && ! empty( $verification_hash ) ) : ?>
-							<span class="<?php echo $is_marquee ? 'trustscript-marquee-verified' : 'trustscript-badge-wrap'; ?>" style="display:inline-flex; align-items:center;">
+							<span class="<?php echo esc_attr( $is_marquee ? 'trustscript-marquee-verified' : 'trustscript-badge-wrap' ); ?>" style="display:inline-flex; align-items:center;">
 								<?php if ( ! $is_marquee ) : ?>
 								<span class="trustscript-badge-inline" style="display:inline-flex; align-items:center; gap:4px;">
-									<svg xmlns="http://www.w3.org/2000/svg"
-										 width="1em" height="1em"
-										 viewBox="0 0 24 24"
-										 fill="none"
-										 stroke="currentColor"
-										 stroke-width="2"
-										 stroke-linecap="round"
-										 stroke-linejoin="round"
-										 aria-hidden="true"
-										 style="flex-shrink:0;">
-										<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-										<path d="m9 12 2 2 4-4"/>
-									</svg>
+									<?php
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo trustscript_get_badge_svg();
+									?>
 									<?php echo esc_html( $badge_label ); ?>
 								</span>
 								<?php else : ?>
@@ -1251,7 +1124,7 @@ class TrustScript_Reviews_Showcase_Widget extends \Elementor\Widget_Base {
 						</div>
 					<?php endif; ?>
 
-					<div class="<?php echo $is_marquee ? 'trustscript-marquee-text' : 'trustscript-review-text'; ?>">
+					<div class="<?php echo esc_attr( $is_marquee ? 'trustscript-marquee-text' : 'trustscript-review-text' ); ?>">
 						<?php echo wp_kses_post( $review_text ); ?>
 					</div>
 

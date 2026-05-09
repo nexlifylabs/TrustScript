@@ -9,14 +9,8 @@
 class TrustScript_Date_Formatter {
 
 	/**
-	 * Format a date string using the specified format type.
-	 *
-	 * Timestamps are stored in site-local time. The method parses them with the
-	 * site timezone so `wp_date()` can convert to display time without double-offsetting.
-	 * Falls back to a raw escaped string if the date cannot be parsed at all.
-	 *
-	 * Supported formats: 'relative', 'full', 'short', 'datetime', 'numeric'.
-	 * Unknown values fall back to 'relative'.
+	 * Format a date string into a human-readable format based on the specified type.
+	 * Supported formats: 'relative', 'full', 'short', 'datetime', 'numeric'. Defaults to 'relative'.
 	 *
 	 * @since 1.0.0
 	 * @param string $date   Date string in Y-m-d H:i:s format.
@@ -50,7 +44,7 @@ class TrustScript_Date_Formatter {
 				return wp_date( 'M j, Y', $timestamp );
 
 			case 'datetime':
-				return wp_date( 'M j, Y g:i A', $timestamp );
+				return wp_date( 'M j, Y g:i A T', $timestamp );
 
 			case 'numeric':
 				return wp_date( 'm/d/Y', $timestamp );
@@ -61,7 +55,7 @@ class TrustScript_Date_Formatter {
 	}
 
 	/**
-	 * Format a Unix timestamp as a human-readable relative time string.
+	 * Format a Unix timestamp as a readable relative time string.
 	 *
 	 * Thresholds: < 1 hour → minutes, < 1 day → hours, < 1 week → days,
 	 * < 30 days → weeks, otherwise → months. All strings are translatable.

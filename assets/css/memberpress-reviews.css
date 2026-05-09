@@ -2,7 +2,7 @@
  * TrustScript MemberPress Reviews Styles
  *
  * @package TrustScript
- * @since   1.1.0
+ * @since   1.0.0
  */
 
 .trustscript-memberpress-reviews {
@@ -515,10 +515,6 @@
         width: 100%;
     }
 }
-
-/* ===========================================================================
-   Admin Metabox Styles
-   =========================================================================== */
 
 .trustscript-reviews-metabox {
     margin-top: 10px;

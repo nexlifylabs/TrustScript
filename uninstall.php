@@ -24,6 +24,12 @@ $trustscript_prefix = $wpdb->prefix;
 $wpdb->query( "DROP TABLE IF EXISTS {$trustscript_prefix}trustscript_order_registry" );
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Intentional cleanup on uninstall, table names cannot be parameterized.
+$wpdb->query( "DROP TABLE IF EXISTS {$trustscript_prefix}trustscript_published_orders" );
+
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Intentional cleanup on uninstall, table names cannot be parameterized.
+$wpdb->query( "DROP TABLE IF EXISTS {$trustscript_prefix}trustscript_review_requests" );
+
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Intentional cleanup on uninstall, table names cannot be parameterized.
 $wpdb->query( "DROP TABLE IF EXISTS {$trustscript_prefix}trustscript_queue" );
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Intentional cleanup on uninstall, table names cannot be parameterized.
@@ -84,10 +90,21 @@ $trustscript_options_to_delete = array(
 	'trustscript_trigger_status_woocommerce',
 	'trustscript_trigger_status_memberpress',
 	'trustscript_webhook_secret',
-    'trustscript_encryption_key',
-    'trustscript_consent_schema_version',
-    'trustscript_queue_db_version',
-    'trustscript_votes_table_version',
+	'trustscript_encryption_key',
+	'trustscript_consent_schema_version',
+	'trustscript_queue_db_version',
+	'trustscript_votes_table_version',
+	'trustscript_review_requests_db_version',
+	'trustscript_memberpress_default_layout',
+	'trustscript_custom_optin_countries',
+	'trustscript_custom_double_optin_countries',
+	'trustscript_checkbox_label',
+	'trustscript_enable_verification_modal',
+	'trustscript_review_page_id',
+	'trustscript_simple_email_subject',
+	'trustscript_simple_email_body',
+	'trustscript_simple_review_enabled',
+	'trustscript_api_review_collection_enabled',
 );
 
 foreach ( $trustscript_options_to_delete as $trustscript_option_name ) {

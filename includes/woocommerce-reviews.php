@@ -1,6 +1,6 @@
 <?php
 /**
- * TrustScript_WooCommerce_Reviews - Replaces the default WooCommerce reviews 
+ * TrustScript WooCommerce Reviews - Replaces the default WooCommerce reviews
  * tab content with our custom review section, and enqueues necessary assets.
  *
  * @package TrustScript
@@ -21,8 +21,8 @@ class TrustScript_WooCommerce_Reviews {
 			return;
 		}
 
-		add_action( 'wp_enqueue_scripts',              array( $this, 'enqueue_assets' ) );
-		add_filter( 'woocommerce_product_tabs',        array( $this, 'replace_review_tab_content' ), 98 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_filter( 'woocommerce_product_tabs', array( $this, 'replace_review_tab_content' ), 98 );
 		add_filter( 'wc_get_template', array( $this, 'intercept_reviews_template' ), 10, 2 );
 		add_filter( 'comments_template', array( $this, 'intercept_comments_template' ), 20 );
 		add_action( 'elementor/preview/enqueue_styles', array( $this, 'enqueue_preview_assets' ) );
@@ -47,8 +47,8 @@ class TrustScript_WooCommerce_Reviews {
 			return;
 		}
 
-		$base  = TRUSTSCRIPT_PLUGIN_URL;
-		$ver   = TRUSTSCRIPT_VERSION;
+		$base = TRUSTSCRIPT_PLUGIN_URL;
+		$ver  = TRUSTSCRIPT_VERSION;
 
 		wp_enqueue_style(
 			'trustscript-reviews',
@@ -64,13 +64,32 @@ class TrustScript_WooCommerce_Reviews {
 			$ver
 		);
 
+		if ( class_exists( 'TrustScript_Simple_Review' ) && TrustScript_Simple_Review::is_enabled() ) {
+			wp_enqueue_style(
+				'trustscript-review-form',
+				$base . 'assets/css/trustscript-review-form.css',
+				array( 'trustscript-reviews' ),
+				$ver
+			);
+		}
+
 		wp_enqueue_script(
 			'trustscript-reviews',
 			$base . 'assets/js/trustscript-reviews.js',
-			array(),          
+			array(),
 			$ver,
-			true              
+			true
 		);
+
+		if ( class_exists( 'TrustScript_Simple_Review' ) && TrustScript_Simple_Review::is_enabled() ) {
+			wp_enqueue_script(
+				'trustscript-review-form',
+				$base . 'assets/js/trustscript-review-form.js',
+				array(),
+				$ver,
+				true
+			);
+		}
 
 		wp_localize_script(
 			'trustscript-reviews',
@@ -82,18 +101,22 @@ class TrustScript_WooCommerce_Reviews {
 				'voting_enabled' => (bool) get_option( 'trustscript_enable_voting', false ),
 				'product_id'     => get_the_ID(),
 				'strings'        => array(
-				'vote_thanks'     => __( 'Thank you for your feedback!', 'trustscript' ),
-				'vote_already'    => __( 'You have already voted on this review', 'trustscript' ),
-				'vote_error'      => __( 'Something went wrong. Please try again.', 'trustscript' ),
-				'loginToVote'     => __( 'Login to vote', 'trustscript' ),
-				'showing_one'     => __( 'Showing 1 review', 'trustscript' ),
-				/* translators: %d = number of reviews */
-				'showing_n'       => __( 'Showing %d reviews', 'trustscript' ),
+					'vote_thanks'      => __( 'Thank you for your feedback!', 'trustscript' ),
+					'vote_already'     => __( 'You have already voted on this review', 'trustscript' ),
+					'vote_error'       => __( 'Something went wrong. Please try again.', 'trustscript' ),
+					'loginToVote'      => __( 'Login to vote', 'trustscript' ),
+					'showing_one'      => __( 'Showing 1 review', 'trustscript' ),
+					/* translators: %d = number of reviews */
+					'showing_n'        => __( 'Showing %d reviews', 'trustscript' ),
 					/* translators: %1$d = reviews shown, %2$d = total reviews */
-				'showing_x_of_y'  => __( 'Showing %1$d of %2$d reviews', 'trustscript' ),
-				'imageUnavailable'  => __( 'Image unavailable', 'trustscript' ),
-				'copyHash'          => __( 'Copy Hash', 'trustscript' ),
-				'copied'            => __( '✓ Copied!', 'trustscript' ),
+					'showing_x_of_y'   => __( 'Showing %1$d of %2$d reviews', 'trustscript' ),
+					'imageUnavailable' => __( 'Image unavailable', 'trustscript' ),
+					'copyHash'         => __( 'Copy Hash', 'trustscript' ),
+					'copied'           => __( '✓ Copied!', 'trustscript' ),
+					'selectRating'     => __( 'Please select a rating.', 'trustscript' ),
+					'reviewTooShort'   => __( 'Review must be at least 10 characters.', 'trustscript' ),
+					'nameRequired'     => __( 'Please enter your name.', 'trustscript' ),
+					'emailRequired'    => __( 'Please enter a valid email.', 'trustscript' ),
 				),
 			)
 		);
@@ -129,9 +152,8 @@ class TrustScript_WooCommerce_Reviews {
 	 */
 	public function intercept_reviews_template( $located, $template_name ) {
 		if ( 'single-product/reviews.php' === $template_name ) {
-			// Construct plugin path defensively in case constant not defined yet.
-			$plugin_path = defined( 'TRUSTSCRIPT_PLUGIN_PATH' ) ? TRUSTSCRIPT_PLUGIN_PATH : dirname( dirname( __FILE__ ) ) . '/';
-			$located = $plugin_path . 'templates/single-product/reviews.php';
+			$plugin_path = defined( 'TRUSTSCRIPT_PLUGIN_PATH' ) ? TRUSTSCRIPT_PLUGIN_PATH : dirname( __DIR__ ) . '/';
+			$located     = $plugin_path . 'templates/single-product/reviews.php';
 		}
 		return $located;
 	}
@@ -151,13 +173,12 @@ class TrustScript_WooCommerce_Reviews {
 			return $template;
 		}
 
-		// Ensure global $product is set for our template.
 		global $product;
 		if ( ! $product instanceof WC_Product ) {
 			$product = wc_get_product( get_the_ID() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		}
 
-		$plugin_path = defined( 'TRUSTSCRIPT_PLUGIN_PATH' ) ? TRUSTSCRIPT_PLUGIN_PATH : dirname( dirname( __FILE__ ) ) . '/';
+		$plugin_path          = defined( 'TRUSTSCRIPT_PLUGIN_PATH' ) ? TRUSTSCRIPT_PLUGIN_PATH : dirname( __DIR__ ) . '/';
 		$trustscript_template = $plugin_path . 'templates/single-product/reviews.php';
 
 		if ( file_exists( $trustscript_template ) ) {

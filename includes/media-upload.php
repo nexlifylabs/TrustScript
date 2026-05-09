@@ -162,7 +162,7 @@ class TrustScript_Media_Upload {
 					if ($photos['error'][$i] === UPLOAD_ERR_OK) {
 						$total_size += $photos['size'][$i];
 						if ($total_size > $max_total_size) {
-							return new WP_Error('upload_size_exceeded', 'Total upload size exceeds 50MB', array('status' => 413));
+							return new WP_Error('upload_size_exceeded', __( 'Total upload size exceeds 50MB', 'trustscript' ), array('status' => 413));
 						}
 						
 						$file_data = array(
@@ -182,7 +182,7 @@ class TrustScript_Media_Upload {
 				if ($photos['error'] === UPLOAD_ERR_OK) {
 					$total_size += $photos['size'];
 					if ($total_size > $max_total_size) {
-						return new WP_Error('upload_size_exceeded', 'Total upload size exceeds 50MB', array('status' => 413));
+						return new WP_Error('upload_size_exceeded', __( 'Total upload size exceeds 50MB', 'trustscript' ), array('status' => 413));
 					}
 					
 					$uploaded_url = $this->upload_file($photos, 'photo', $review_token);
@@ -202,7 +202,7 @@ class TrustScript_Media_Upload {
 					if ($videos['error'][$i] === UPLOAD_ERR_OK) {
 						$total_size += $videos['size'][$i];
 						if ($total_size > $max_total_size) {
-							return new WP_Error('upload_size_exceeded', 'Total upload size exceeds 50MB', array('status' => 413));
+							return new WP_Error('upload_size_exceeded', __( 'Total upload size exceeds 50MB', 'trustscript' ), array('status' => 413));
 						}
 						
 						$file_data = array(
@@ -222,7 +222,7 @@ class TrustScript_Media_Upload {
 				if ($videos['error'] === UPLOAD_ERR_OK) {
 					$total_size += $videos['size'];
 					if ($total_size > $max_total_size) {
-						return new WP_Error('upload_size_exceeded', 'Total upload size exceeds 50MB', array('status' => 413));
+						return new WP_Error('upload_size_exceeded', __( 'Total upload size exceeds 50MB', 'trustscript' ), array('status' => 413));
 					}
 					
 					$uploaded_url = $this->upload_file($videos, 'video', $review_token);
@@ -301,7 +301,8 @@ class TrustScript_Media_Upload {
 
 		$attachment = array(
 			'post_mime_type' => $wp_filetype['type'],
-			'post_title'     => sprintf( 'TrustScript Review %s - %s', ucfirst( $type ), $review_token ),
+			/* translators: 1: media type (photo/video), 2: review token identifier */
+			'post_title'     => sprintf( __( 'TrustScript Review %1$s - %2$s', 'trustscript' ), ucfirst( $type ), $review_token ),
 			'post_content'   => '',
 			'post_status'    => 'inherit',
 		);
@@ -356,7 +357,6 @@ class TrustScript_Media_Upload {
 				return true;
 			}
 
-			// Check if token exists as orderToken in order meta
 			$orders = wc_get_orders( array(
 				'limit'      => 1,
 				'return'     => 'ids',
@@ -379,7 +379,6 @@ class TrustScript_Media_Upload {
 			}
 		}
 
-		// Check if token exists as productToken in order item meta
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$order_item_id = $wpdb->get_var( $wpdb->prepare(

@@ -1,6 +1,12 @@
-<?php 
-
-// TrustScript Review Immutability Handler
+<?php
+/**
+ * Handles immutability of TrustScript reviews to ensure authenticity and customer trust.
+ *
+ * This class prevents editing of reviews that have been published through TrustScript, both via the WordPress admin interface and the REST API. It also displays a notice in the admin edit screen for locked reviews.
+ *
+ * @package TrustScript
+ * @since 1.0.0
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -14,17 +20,17 @@ class TrustScript_Immutability {
 	}
 
 	public function prevent_comment_update( $data, $comment, $args ) {
-		$comment_id = $comment['comment_ID'];
-		$review_token = get_comment_meta( $comment_id, '_trustscript_review_token', true );
+		$comment_id    = $comment['comment_ID'];
+		$review_token  = get_comment_meta( $comment_id, '_trustscript_review_token', true );
 		$product_token = get_comment_meta( $comment_id, '_trustscript_product_token', true );
-		
+
 		if ( empty( $review_token ) && empty( $product_token ) ) {
 			return $data;
 		}
-		
+
 		$original_content = $comment['comment_content'];
-		$new_content = isset( $data['comment_content'] ) ? $data['comment_content'] : $original_content;
-		
+		$new_content      = isset( $data['comment_content'] ) ? $data['comment_content'] : $original_content;
+
 		if ( $new_content !== $original_content ) {
 			return new WP_Error(
 				'trustscript_comment_locked',
@@ -33,7 +39,7 @@ class TrustScript_Immutability {
 			);
 
 		}
-		
+
 		return $data;
 	}
 
@@ -43,22 +49,22 @@ class TrustScript_Immutability {
 		if ( ! $comment_id ) {
 			return $prepared_comment;
 		}
-		
+
 		$comment = get_comment( $comment_id );
 		if ( ! $comment ) {
 			return $prepared_comment;
 		}
-		
-		$review_token = get_comment_meta( $comment_id, '_trustscript_review_token', true );
+
+		$review_token  = get_comment_meta( $comment_id, '_trustscript_review_token', true );
 		$product_token = get_comment_meta( $comment_id, '_trustscript_product_token', true );
-		
+
 		if ( empty( $review_token ) && empty( $product_token ) ) {
 			return $prepared_comment;
 		}
-		
+
 		$original_content = $comment->comment_content;
-		$new_content = isset( $prepared_comment['content'] ) ? $prepared_comment['content'] : $original_content;
-		
+		$new_content      = isset( $prepared_comment['content'] ) ? $prepared_comment['content'] : $original_content;
+
 		if ( $new_content !== $original_content ) {
 			return new WP_Error(
 				'trustscript_comment_locked',
@@ -66,7 +72,7 @@ class TrustScript_Immutability {
 				array( 'status' => 403 )
 			);
 		}
-		
+
 		return $prepared_comment;
 	}
 
@@ -84,18 +90,18 @@ class TrustScript_Immutability {
 			return;
 		}
 
-		$comment_id = intval( $_GET['c'] );
-		$review_token = get_comment_meta( $comment_id, '_trustscript_review_token', true );
-		$product_token = get_comment_meta( $comment_id, '_trustscript_product_token', true );
+		$comment_id      = intval( $_GET['c'] );
+		$review_token    = get_comment_meta( $comment_id, '_trustscript_review_token', true );
+		$product_token   = get_comment_meta( $comment_id, '_trustscript_product_token', true );
 		$publishing_mode = get_comment_meta( $comment_id, '_trustscript_publishing_mode', true );
-		
+
 		if ( ! empty( $review_token ) || ! empty( $product_token ) ) {
 			$mode_label = $this->get_publishing_mode_label( $publishing_mode );
-			
+
 			?>
 			<div style="background-color: #fff8e5; border-left: 4px solid #ffb81c; padding: 12px; margin-bottom: 20px; border-radius: 2px;">
 				<p style="margin: 0; color: #333;">
-					<strong>🔒 This review is locked by TrustScript</strong>
+					<strong>This review is locked by TrustScript</strong>
 				</p>
 				<p style="margin: 8px 0 0 0; color: #666; font-size: 13px;">
 					TrustScript reviews are <strong>immutable</strong> to maintain authenticity and customer trust. 
@@ -113,11 +119,11 @@ class TrustScript_Immutability {
 
 	private function get_publishing_mode_label( $mode ) {
 		$modes = array(
-			'webhook'     => __('TrustScript App (Webhook)', 'trustscript'),
-			'manual_sync'  => __('Manual Sync (WordPress Admin)', 'trustscript'),
-			'auto_sync'    => __('Automatic Daily Sync', 'trustscript'),
+			'webhook'     => __( 'TrustScript App (Webhook)', 'trustscript' ),
+			'manual_sync' => __( 'Manual Sync (WordPress Admin)', 'trustscript' ),
+			'auto_sync'   => __( 'Automatic Daily Sync', 'trustscript' ),
 		);
 
-		return isset( $modes[ $mode ] ) ? $modes[ $mode ] : __('TrustScript', 'trustscript');
+		return isset( $modes[ $mode ] ) ? $modes[ $mode ] : __( 'TrustScript', 'trustscript' );
 	}
 }

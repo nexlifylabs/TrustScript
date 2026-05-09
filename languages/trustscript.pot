@@ -1,4 +1,4 @@
-# Copyright (C) 2026 NexlifyLabs
+# Copyright (C) 2026 TrustScript
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-25T11:58:15+00:00\n"
+"POT-Creation-Date: 2026-05-05T12:24:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: trustscript\n"
@@ -17,16 +17,16 @@ msgstr ""
 #. Plugin Name of the plugin
 #: trustscript.php
 #: includes/admin/settings.php:30
-#: includes/class-trustscript-admin.php:123
-#: includes/class-trustscript-immutability.php:121
+#: includes/immutability.php:127
 #: includes/integration/elementor/class-trustscript-elementor.php:59
-#: trustscript.php:186
+#: includes/trustscript-admin.php:217
+#: trustscript.php:179
 msgid "TrustScript"
 msgstr ""
 
 #. Plugin URI of the plugin
 #: trustscript.php
-msgid "https://nexlifylabs.com"
+msgid "https://trustscript.io"
 msgstr ""
 
 #. Description of the plugin
@@ -36,57 +36,62 @@ msgstr ""
 
 #. Author of the plugin
 #: trustscript.php
-msgid "NexlifyLabs"
+msgid "TrustScript"
 msgstr ""
 
-#: includes/abstracts/class-trustscript-service-provider.php:984
-#: includes/abstracts/class-trustscript-service-provider.php:1006
+#: includes/abstracts/class-trustscript-service-provider.php:1055
+#: includes/abstracts/class-trustscript-service-provider.php:1077
 msgid "Your Purchase"
 msgstr ""
 
-#: includes/abstracts/class-trustscript-service-provider.php:1023
-#: includes/admin/pending-queue.php:210
+#: includes/abstracts/class-trustscript-service-provider.php:1095
+#: includes/admin/pending-queue.php:208
+#: includes/admin/review-request.php:81
 msgid "Order #"
 msgstr ""
 
-#: includes/abstracts/class-trustscript-service-provider.php:1026
+#: includes/abstracts/class-trustscript-service-provider.php:1098
 msgid "Total:"
 msgstr ""
 
-#: includes/admin/pending-queue.php:27
+#: includes/abstracts/class-trustscript-service-provider.php:1099
+msgid "TAJINDER IS BEST:"
+msgstr ""
+
+#: includes/admin/pending-queue.php:25
 #: includes/admin/settings.php:10
-#: includes/consent/privacy-settings.php:42
+#: includes/consent/privacy-settings.php:66
 msgid "Sorry, you are not allowed to access this page."
 msgstr ""
 
 #. translators: %d = number of processed review requests
-#: includes/admin/pending-queue.php:65
+#: includes/admin/pending-queue.php:61
 #, php-format
 msgid "All done! %d review request(s) were sent successfully."
 msgstr ""
 
 #. translators: 1: number of processed review requests, 2: number of still pending orders
-#: includes/admin/pending-queue.php:73
+#: includes/admin/pending-queue.php:70
 #, php-format
 msgid "%1$d review request(s) sent. %2$d order(s) still pending — quota may still be limited."
 msgstr ""
 
 #. translators: %d = number of failed orders
-#: includes/admin/pending-queue.php:82
+#: includes/admin/pending-queue.php:80
 #, php-format
 msgid "%d order(s) could not be processed. Check the Failed tab for details."
 msgstr ""
 
-#: includes/admin/pending-queue.php:88
+#: includes/admin/pending-queue.php:86
 msgid "Queue processed — no new orders were sent (quota may still be limited)."
 msgstr ""
 
-#: includes/admin/pending-queue.php:96
+#: includes/admin/pending-queue.php:94
 msgid "Pending Review Queue"
 msgstr ""
 
 #. translators: %d number of pending orders
-#: includes/admin/pending-queue.php:103
+#: includes/admin/pending-queue.php:101
 #, php-format
 msgid "%d order pending"
 msgid_plural "%d orders pending"
@@ -94,306 +99,440 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s formatted reset date
-#: includes/admin/pending-queue.php:113
+#: includes/admin/pending-queue.php:111
 #, php-format
 msgid "&nbsp;&middot;&nbsp; Quota resets %s"
 msgstr ""
 
 #. translators: 1: next plan name 2: limit
-#: includes/admin/pending-queue.php:128
+#: includes/admin/pending-queue.php:126
 #, php-format
 msgid "Upgrade to %1$s for %2$s reviews/mo"
 msgstr ""
 
-#: includes/admin/pending-queue.php:139
+#: includes/admin/pending-queue.php:137
 #: includes/admin/settings.php:158
-#: includes/admin/settings.php:475
+#: includes/admin/settings.php:499
 msgid "Upgrade Plan"
 msgstr ""
 
-#: includes/admin/pending-queue.php:146
-#: includes/class-trustscript-admin.php:712
+#: includes/admin/pending-queue.php:144
+#: includes/trustscript-admin.php:864
 msgid "Process Queue Now"
 msgstr ""
 
-#: includes/admin/pending-queue.php:149
+#: includes/admin/pending-queue.php:147
 msgid "Processes quota failures and other non-scheduled errors only. To process scheduled items early, use the Retry button on each individual item."
 msgstr ""
 
-#: includes/admin/pending-queue.php:154
+#: includes/admin/pending-queue.php:152
 msgid "✅ Queue is empty — all review requests are up to date."
 msgstr ""
 
 #. translators: %d = number of pending items
-#: includes/admin/pending-queue.php:181
+#: includes/admin/pending-queue.php:179
 #, php-format
 msgid "Pending (%d)"
 msgstr ""
 
 #. translators: %d = number of failed items
-#: includes/admin/pending-queue.php:186
+#: includes/admin/pending-queue.php:184
 #, php-format
 msgid "Failed (%d)"
 msgstr ""
 
 #. translators: %d = number of completed items
-#: includes/admin/pending-queue.php:191
+#: includes/admin/pending-queue.php:189
 #, php-format
 msgid "Completed (%d)"
 msgstr ""
 
-#: includes/admin/pending-queue.php:194
+#: includes/admin/pending-queue.php:192
 msgid "All"
 msgstr ""
 
-#: includes/admin/pending-queue.php:209
+#: includes/admin/pending-queue.php:207
 msgid "ID"
 msgstr ""
 
-#: includes/admin/pending-queue.php:211
+#: includes/admin/pending-queue.php:209
 msgid "Service"
 msgstr ""
 
-#: includes/admin/pending-queue.php:212
+#: includes/admin/pending-queue.php:210
 msgid "Reason"
 msgstr ""
 
-#: includes/admin/pending-queue.php:213
+#: includes/admin/pending-queue.php:211
 msgid "Queued At"
 msgstr ""
 
-#: includes/admin/pending-queue.php:214
+#: includes/admin/pending-queue.php:212
 msgid "Scheduled For"
 msgstr ""
 
-#: includes/admin/pending-queue.php:215
+#: includes/admin/pending-queue.php:213
 msgid "Last Attempt"
 msgstr ""
 
-#: includes/admin/pending-queue.php:216
+#: includes/admin/pending-queue.php:214
 msgid "Retries"
 msgstr ""
 
-#: includes/admin/pending-queue.php:217
+#: includes/admin/pending-queue.php:215
 #: includes/admin/review-request.php:84
-#: includes/admin/review-request.php:127
+#: includes/admin/review-request.php:126
 msgid "Status"
 msgstr ""
 
-#: includes/admin/pending-queue.php:218
+#: includes/admin/pending-queue.php:216
 msgid "Actions"
 msgstr ""
 
-#: includes/admin/pending-queue.php:227
+#: includes/admin/pending-queue.php:225
 msgid "No permanently failed items."
 msgstr ""
 
-#: includes/admin/pending-queue.php:229
+#: includes/admin/pending-queue.php:227
 msgid "No completed review requests yet."
 msgstr ""
 
-#: includes/admin/pending-queue.php:231
+#: includes/admin/pending-queue.php:229
 msgid "The queue is empty."
 msgstr ""
 
-#: includes/admin/pending-queue.php:233
+#: includes/admin/pending-queue.php:231
 msgid "No pending orders. New quota-exceeded orders will appear here automatically."
 msgstr ""
 
-#: includes/admin/pending-queue.php:259
+#: includes/admin/pending-queue.php:257
 msgid "Quota"
 msgstr ""
 
-#: includes/admin/pending-queue.php:260
+#: includes/admin/pending-queue.php:258
 msgid "Rate limit"
 msgstr ""
 
-#: includes/admin/pending-queue.php:261
+#: includes/admin/pending-queue.php:259
 msgid "Network"
 msgstr ""
 
-#: includes/admin/pending-queue.php:262
+#: includes/admin/pending-queue.php:260
 msgid "API error"
 msgstr ""
 
-#: includes/admin/pending-queue.php:263
-#: includes/admin/review-request.php:46
+#: includes/admin/pending-queue.php:261
+#: includes/admin/review-request.php:49
 #: includes/admin/review-request.php:88
 msgid "Scheduled"
 msgstr ""
 
-#: includes/admin/pending-queue.php:288
-msgid "Immediate"
+#: includes/admin/pending-queue.php:262
+msgid "Simple Email"
 msgstr ""
 
-#: includes/admin/pending-queue.php:292
+#: includes/admin/pending-queue.php:293
 msgid "Never"
 msgstr ""
 
-#: includes/admin/pending-queue.php:298
-#: includes/admin/review-request.php:50
-#: includes/admin/review-request.php:412
-#: includes/providers/class-trustscript-memberpress-provider.php:79
+#: includes/admin/pending-queue.php:299
+#: includes/admin/review-request.php:45
+#: includes/admin/review-request.php:87
+#: includes/admin/review-request.php:275
+#: includes/providers/memberpress-provider.php:79
 msgid "Pending"
 msgstr ""
 
-#: includes/admin/pending-queue.php:299
-#: includes/providers/class-trustscript-memberpress-provider.php:80
+#: includes/admin/pending-queue.php:300
+#: includes/providers/memberpress-provider.php:80
 msgid "Failed"
 msgstr ""
 
-#: includes/admin/pending-queue.php:300
+#: includes/admin/pending-queue.php:301
 msgid "Completed"
 msgstr ""
 
-#: includes/admin/pending-queue.php:321
-#: includes/class-trustscript-admin.php:710
+#: includes/admin/pending-queue.php:323
+#: includes/trustscript-admin.php:862
 msgid "Retry"
 msgstr ""
 
-#: includes/admin/pending-queue.php:327
-#: includes/class-trustscript-admin.php:711
+#: includes/admin/pending-queue.php:330
+#: includes/trustscript-admin.php:863
 msgid "Clear"
 msgstr ""
 
-#: includes/admin/pending-queue.php:331
+#: includes/admin/pending-queue.php:334
 msgid "No actions available"
 msgstr ""
 
 #. translators: %d = total number of items
-#: includes/admin/pending-queue.php:358
+#: includes/admin/pending-queue.php:362
 #, php-format
 msgid "%d item"
 msgid_plural "%d items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/pending-queue.php:374
-#: includes/admin/pending-queue.php:435
+#: includes/admin/pending-queue.php:377
+#: includes/admin/pending-queue.php:463
 msgid "Security verification failed. Please refresh the page."
 msgstr ""
 
-#: includes/admin/pending-queue.php:378
-#: includes/admin/pending-queue.php:439
-#: includes/admin/pending-queue.php:473
-#: includes/class-trustscript-admin.php:736
-#: includes/class-trustscript-admin.php:762
-#: includes/class-trustscript-admin.php:1287
-#: includes/class-trustscript-admin.php:1794
+#: includes/admin/pending-queue.php:381
+#: includes/admin/pending-queue.php:467
+#: includes/admin/pending-queue.php:499
+#: includes/trustscript-admin.php:888
+#: includes/trustscript-admin.php:914
+#: includes/trustscript-admin.php:936
+#: includes/trustscript-admin.php:1504
+#: includes/trustscript-admin.php:1585
 msgid "Permission denied"
 msgstr ""
 
-#: includes/admin/pending-queue.php:383
-#: includes/admin/pending-queue.php:444
+#: includes/admin/pending-queue.php:386
+#: includes/admin/pending-queue.php:472
 msgid "Invalid ID"
 msgstr ""
 
-#: includes/admin/pending-queue.php:392
+#: includes/admin/pending-queue.php:395
 msgid "Queue item not found"
 msgstr ""
 
-#: includes/admin/pending-queue.php:397
+#: includes/admin/pending-queue.php:400
 msgid "This order has already been completed. No retry needed."
 msgstr ""
 
+#. translators: %d: order ID
+#: includes/admin/pending-queue.php:425
+#, php-format
+msgid "Order #%d email sent successfully."
+msgstr ""
+
+#: includes/admin/pending-queue.php:429
+msgid "Failed to send simple review email."
+msgstr ""
+
 #. translators: %s: service ID
-#: includes/admin/pending-queue.php:406
+#: includes/admin/pending-queue.php:432
 #, php-format
 msgid "Service provider not active: %s"
 msgstr ""
 
 #. translators: %d: order ID
-#: includes/admin/pending-queue.php:416
+#: includes/admin/pending-queue.php:443
 #, php-format
 msgid "Order #%d processed successfully."
 msgstr ""
 
 #. translators: %s: error message
-#: includes/admin/pending-queue.php:424
+#: includes/admin/pending-queue.php:453
 #, php-format
 msgid "Request failed (%s). Order remains in queue."
 msgstr ""
 
-#: includes/admin/pending-queue.php:453
+#: includes/admin/pending-queue.php:481
 msgid "Completed items cannot be cleared (kept for audit trail). Use the Completed tab to view processed orders."
 msgstr ""
 
-#: includes/admin/pending-queue.php:457
+#: includes/admin/pending-queue.php:485
 msgid "Item removed from queue."
 msgstr ""
 
-#: includes/admin/pending-queue.php:459
+#: includes/admin/pending-queue.php:487
 msgid "Item not found or already removed."
 msgstr ""
 
-#: includes/admin/pending-queue.php:469
+#: includes/admin/pending-queue.php:495
 msgid "Security verification failed. Please refresh the page and try again."
 msgstr ""
 
-#: includes/admin/pending-queue.php:506
-msgid "An error occurred while processing the queue. Check the error logs for details."
+#: includes/admin/pending-queue.php:507
+msgid "Queue is currently being processed. Please wait a moment and try again."
 msgstr ""
 
-#: includes/admin/review-request.php:27
-msgid "Review Requests"
+#: includes/admin/pending-queue.php:546
+msgid "An error occurred while processing the queue. Try again later."
+msgstr ""
+
+#: includes/admin/review-form.php:24
+#: includes/trustscript-admin.php:263
+#: includes/trustscript-admin.php:295
+msgid "Review Form Setup"
+msgstr ""
+
+#: includes/admin/review-form.php:26
+msgid "Customers who receive a review request email are sent to a page on your site. Follow the steps below to configure that page."
+msgstr ""
+
+#: includes/admin/review-form.php:34
+msgid "Create your review page"
+msgstr ""
+
+#: includes/admin/review-form.php:36
+msgid "Go to Pages → Add New in your WordPress dashboard. Give the page any title you like (e.g. \"Write a Review\"), then paste this shortcode into the page content:"
+msgstr ""
+
+#: includes/admin/review-form.php:42
+msgid "Copied!"
+msgstr ""
+
+#: includes/admin/review-form.php:43
+#: includes/admin/review-form.php:44
+msgid "Copy"
+msgstr ""
+
+#: includes/admin/review-form.php:47
+msgid "Publish the page, then come back here for Step 2."
+msgstr ""
+
+#: includes/admin/review-form.php:51
+msgid "+ Create New Page"
+msgstr ""
+
+#: includes/admin/review-form.php:55
+msgid "Twenty Twenty-Five theme: the review collection form styling may not work correctly. If you are just testing, consider using Twenty Twenty-Four or Twenty Twenty-Three instead."
+msgstr ""
+
+#: includes/admin/review-form.php:65
+msgid "Select your review page"
+msgstr ""
+
+#: includes/admin/review-form.php:67
+msgid "Choose the page you created in Step 1. The plugin will include a link to this page in every review request email."
+msgstr ""
+
+#: includes/admin/review-form.php:73
+msgid "Review Form Page"
+msgstr ""
+
+#: includes/admin/review-form.php:82
+msgid "— Select a page —"
+msgstr ""
+
+#: includes/admin/review-form.php:91
+msgid "The selected page does not contain the [trustscript_review_form] shortcode. Please add it before saving."
+msgstr ""
+
+#: includes/admin/review-form.php:95
+msgid "Shortcode detected on this page."
+msgstr ""
+
+#: includes/admin/review-form.php:97
+msgid "Visit page ↗"
+msgstr ""
+
+#: includes/admin/review-form.php:99
+msgid "The form appears when a customer follows their email review link."
+msgstr ""
+
+#: includes/admin/review-form.php:111
+msgid "Customize your email template"
+msgstr ""
+
+#: includes/admin/review-form.php:113
+msgid "Personalize the review request email sent to your customers."
+msgstr ""
+
+#: includes/admin/review-form.php:130
+msgid "Email Subject"
+msgstr ""
+
+#: includes/admin/review-form.php:138
+msgid "Email Body"
+msgstr ""
+
+#: includes/admin/review-form.php:147
+msgid "Click a tag to insert it at the cursor:"
+msgstr ""
+
+#: includes/admin/review-form.php:177
+msgid "👁 Preview Email"
+msgstr ""
+
+#: includes/admin/review-form.php:180
+msgid "Reset to default template"
+msgstr ""
+
+#: includes/admin/review-form.php:194
+msgid "Preview"
+msgstr ""
+
+#: includes/admin/review-form.php:199
+msgid "Subject:"
+msgstr ""
+
+#: includes/admin/review-form.php:204
+msgid "Close preview"
+msgstr ""
+
+#: includes/admin/review-form.php:211
+msgid "Sample data: customer \"Jane Doe\", product \"Sample Product\", order #1001."
+msgstr ""
+
+#: includes/admin/review-form.php:222
+#: includes/memberpress-reviews.php:161
+msgid "Save Settings"
 msgstr ""
 
 #: includes/admin/review-request.php:30
-msgid "Track Synced Orders"
-msgstr ""
-
-#: includes/admin/review-request.php:32
-msgid "View orders synced with your TrustScript account, including pending, scheduled, published, and opt-out statuses."
+msgid "Review Requests"
 msgstr ""
 
 #: includes/admin/review-request.php:33
-msgid "For deeper insights such as review request activity, link open rates, and conversion tracking, explore the"
+msgid "Track Review Requests"
 msgstr ""
 
 #: includes/admin/review-request.php:35
-msgid "TrustScript Analytics Dashboard"
+msgid "View per-product review tracking for every processed order. Products the customer has already reviewed appear as \"Already Reviewed\" — no action needed."
 msgstr ""
 
-#: includes/admin/review-request.php:42
-msgid "Total Requests"
+#: includes/admin/review-request.php:41
+msgid "Total"
 msgstr ""
 
-#: includes/admin/review-request.php:54
+#: includes/admin/review-request.php:53
+#: includes/admin/review-request.php:89
+msgid "Sent"
+msgstr ""
+
+#: includes/admin/review-request.php:57
 #: includes/admin/review-request.php:90
 msgid "Published"
 msgstr ""
 
-#: includes/admin/review-request.php:58
+#: includes/admin/review-request.php:61
 #: includes/admin/review-request.php:91
 msgid "Opt-Out"
 msgstr ""
 
-#: includes/admin/review-request.php:62
+#: includes/admin/review-request.php:65
 #: includes/admin/review-request.php:92
-msgid "Awaiting Consent"
+msgid "Already Reviewed"
 msgstr ""
 
 #: includes/admin/review-request.php:69
+#: includes/admin/review-request.php:94
+msgid "Cancelled"
+msgstr ""
+
+#: includes/admin/review-request.php:76
 msgid "All Review Requests"
 msgstr ""
 
-#: includes/admin/review-request.php:73
+#: includes/admin/review-request.php:79
 msgid "Search"
 msgstr ""
 
-#: includes/admin/review-request.php:79
-msgid "Order # or customer..."
-msgstr ""
-
-#: includes/admin/review-request.php:87
+#: includes/admin/review-request.php:86
 msgid "All Statuses"
 msgstr ""
 
-#: includes/admin/review-request.php:89
-msgid "Pending Review"
+#: includes/admin/review-request.php:93
+msgid "Ineligible"
 msgstr ""
 
-#: includes/admin/review-request.php:97
+#: includes/admin/review-request.php:98
 msgid "Date Range"
 msgstr ""
 
@@ -418,7 +557,7 @@ msgid "Apply Filters"
 msgstr ""
 
 #: includes/admin/review-request.php:113
-msgid "Loading orders..."
+msgid "Loading..."
 msgstr ""
 
 #: includes/admin/review-request.php:121
@@ -430,474 +569,746 @@ msgid "Customer"
 msgstr ""
 
 #: includes/admin/review-request.php:123
+#: includes/simple-review/simple-email-sender.php:60
 msgid "Product"
 msgstr ""
 
 #: includes/admin/review-request.php:124
+#: includes/simple-review/simple-email-sender.php:26
+#: includes/simple-review/simple-email-sender.php:62
 msgid "Order Date"
 msgstr ""
 
 #: includes/admin/review-request.php:125
-msgid "Sent"
-msgstr ""
-
-#: includes/admin/review-request.php:126
 msgid "Consent"
 msgstr ""
 
-#: includes/admin/review-request.php:128
+#: includes/admin/review-request.php:127
 msgid "Action"
 msgstr ""
 
-#: includes/admin/review-request.php:141
+#: includes/admin/review-request.php:140
 msgid "No tracked orders found."
 msgstr ""
 
-#: includes/admin/review-request.php:148
+#: includes/admin/review-request.php:146
 msgid "Refresh"
 msgstr ""
 
-#: includes/admin/review-request.php:409
-msgid "Opted Out"
-msgstr ""
-
-#: includes/admin/review-request.php:416
-msgid "Opted In"
-msgstr ""
-
-#: includes/admin/review-request.php:434
-msgid "Guest"
-msgstr ""
-
-#: includes/admin/review-request.php:435
+#: includes/admin/review-request.php:234
 msgid "Unknown product"
 msgstr ""
 
-#: includes/admin/review-setting.php:87
-#: includes/admin/review-setting.php:90
-#: includes/class-trustscript-admin.php:133
-#: includes/class-trustscript-admin.php:134
+#: includes/admin/review-request.php:255
+msgid "Not Required"
+msgstr ""
+
+#: includes/admin/review-request.php:257
+msgid "Not Given"
+msgstr ""
+
+#: includes/admin/review-request.php:259
+#: includes/providers/memberpress-provider.php:78
+msgid "Confirmed"
+msgstr ""
+
+#: includes/admin/review-request.php:267
+msgid "Expired"
+msgstr ""
+
+#: includes/admin/review-request.php:269
+#: includes/admin/review-request.php:272
+msgid "Waiting"
+msgstr ""
+
+#: includes/admin/review-request.php:283
+msgid "Guest"
+msgstr ""
+
+#: includes/admin/review-request.php:315
+#: includes/trustscript-admin.php:955
+#: includes/trustscript-admin.php:984
+#: includes/trustscript-admin.php:1215
+msgid "Unauthorized"
+msgstr ""
+
+#: includes/admin/review-request.php:321
+msgid "Invalid order ID"
+msgstr ""
+
+#: includes/admin/review-request.php:334
+msgid "Customer has opted out of review requests."
+msgstr ""
+
+#: includes/admin/review-request.php:358
+msgid "All products in this order have been cancelled or refunded. No review request was sent."
+msgstr ""
+
+#: includes/admin/review-request.php:370
+msgid "Cannot send review request due to customer consent restrictions."
+msgstr ""
+
+#: includes/admin/review-request.php:390
+msgid "TrustScript Simple Review request emailed to customer (Manual)."
+msgstr ""
+
+#: includes/admin/review-request.php:392
+msgid "Email sent successfully."
+msgstr ""
+
+#: includes/admin/review-request.php:394
+msgid "Failed to send email. Check plugin settings or all products may be refunded."
+msgstr ""
+
+#: includes/admin/review-request.php:397
+msgid "Simple review component not active."
+msgstr ""
+
+#: includes/admin/review-setting.php:89
+#: includes/admin/review-setting.php:92
+#: includes/trustscript-admin.php:236
+#: includes/trustscript-admin.php:237
 msgid "Review Settings"
 msgstr ""
 
-#: includes/admin/review-setting.php:91
+#: includes/admin/review-setting.php:93
 msgid "Configure how TrustScript generates and collects AI-powered reviews from your customers across all services."
 msgstr ""
 
-#: includes/admin/review-setting.php:99
+#: includes/admin/review-setting.php:103
+msgid "Review Collection Method"
+msgstr ""
+
+#: includes/admin/review-setting.php:104
+msgid "Choose how customers can leave reviews. Both methods can be enabled simultaneously."
+msgstr ""
+
+#: includes/admin/review-setting.php:109
+msgid "Simple On-Site Reviews"
+msgstr ""
+
+#: includes/admin/review-setting.php:116
+msgid "Show a \"Write a Review\" button on product pages. Customers can submit star ratings, reviews, and photos directly on your site. Free — no API key required."
+msgstr ""
+
+#: includes/admin/review-setting.php:121
+msgid "API Review Collection"
+msgstr ""
+
+#: includes/admin/review-setting.php:128
+msgid "Collect reviews via the TrustScript API with AI-powered email automation, verification hashes, and sentiment analysis. Requires an API key."
+msgstr ""
+
+#: includes/admin/review-setting.php:136
 msgid "Review Email Timing Guide"
 msgstr ""
 
-#: includes/admin/review-setting.php:100
+#: includes/admin/review-setting.php:137
 msgid "Common questions about when and how to send review requests"
 msgstr ""
 
-#: includes/admin/review-setting.php:106
+#: includes/admin/review-setting.php:143
 msgid "Why shouldn't I use \"Completed\" status?"
 msgstr ""
 
-#: includes/admin/review-setting.php:110
+#: includes/admin/review-setting.php:147
 msgid "Most stores mark orders as \"Completed\" when shipped, NOT when delivered. This means customers receive review requests while the package is still in transit - before they even have the product!"
 msgstr ""
 
-#: includes/admin/review-setting.php:114
+#: includes/admin/review-setting.php:151
 msgid "Result:"
 msgstr ""
 
-#: includes/admin/review-setting.php:115
+#: includes/admin/review-setting.php:152
 msgid "Low response rates, frustrated customers, and poor quality reviews."
 msgstr ""
 
-#: includes/admin/review-setting.php:123
+#: includes/admin/review-setting.php:160
 msgid "What is the \"Delivered\" status?"
 msgstr ""
 
-#: includes/admin/review-setting.php:127
+#: includes/admin/review-setting.php:164
 msgid "TrustScript creates a new \"Delivered\" order status. Mark orders as \"Delivered\" only when customers actually receive their products."
 msgstr ""
 
-#: includes/admin/review-setting.php:130
+#: includes/admin/review-setting.php:167
 msgid "✅ Customers have the product in hand"
 msgstr ""
 
-#: includes/admin/review-setting.php:131
+#: includes/admin/review-setting.php:168
 msgid "✅ Review emails sent at the perfect time"
 msgstr ""
 
-#: includes/admin/review-setting.php:132
+#: includes/admin/review-setting.php:169
 msgid "✅ Higher response rates and quality reviews"
 msgstr ""
 
-#: includes/admin/review-setting.php:133
+#: includes/admin/review-setting.php:170
 msgid "✅ Professional customer experience"
 msgstr ""
 
-#: includes/admin/review-setting.php:141
+#: includes/admin/review-setting.php:178
 msgid "How do I use the Delivered status?"
 msgstr ""
 
-#: includes/admin/review-setting.php:146
+#: includes/admin/review-setting.php:183
 msgid "Delivered Status Detected!"
 msgstr ""
 
 #. translators: %s: status name
-#: includes/admin/review-setting.php:151
+#: includes/admin/review-setting.php:188
 msgid "TrustScript found an existing \"Delivered\" status. We'll use this automatically!"
 msgstr ""
 
-#: includes/admin/review-setting.php:160
+#: includes/admin/review-setting.php:197
 msgid "Manual Method:"
 msgstr ""
 
-#: includes/admin/review-setting.php:162
+#: includes/admin/review-setting.php:199
 msgid "Go to WooCommerce → Orders"
 msgstr ""
 
-#: includes/admin/review-setting.php:163
+#: includes/admin/review-setting.php:200
 msgid "When a customer confirms delivery, change order status to \"Delivered\""
 msgstr ""
 
-#: includes/admin/review-setting.php:164
+#: includes/admin/review-setting.php:201
 msgid "TrustScript will send review request after configured delay"
 msgstr ""
 
-#: includes/admin/review-setting.php:169
+#: includes/admin/review-setting.php:206
 msgid "Automatic Method (Recommended):"
 msgstr ""
 
-#: includes/admin/review-setting.php:171
+#: includes/admin/review-setting.php:208
 msgid "Use a shipment tracking plugin like ShipStation, TrackShip, or WooCommerce Shipment Tracking"
 msgstr ""
 
-#: includes/admin/review-setting.php:172
+#: includes/admin/review-setting.php:209
 msgid "Configure it to auto-update orders to \"Delivered\" when tracking shows delivery"
 msgstr ""
 
-#: includes/admin/review-setting.php:173
+#: includes/admin/review-setting.php:210
 msgid "TrustScript will handle the rest automatically!"
 msgstr ""
 
-#: includes/admin/review-setting.php:182
+#: includes/admin/review-setting.php:219
 msgid "Can I still use \"Completed\" status?"
 msgstr ""
 
-#: includes/admin/review-setting.php:188
+#: includes/admin/review-setting.php:225
 msgid "Yes, but with caution."
 msgstr ""
 
-#: includes/admin/review-setting.php:189
+#: includes/admin/review-setting.php:226
 msgid "You can use \"Completed\" status, but set a longer delay to ensure customers receive products first. By default, international orders use this same domestic delay. To send international orders on a different schedule, enable the \"Handle international orders differently\" option above to set a separate delay."
 msgstr ""
 
-#: includes/admin/review-setting.php:198
+#: includes/admin/review-setting.php:235
 msgid "Review Collection"
 msgstr ""
 
-#: includes/admin/review-setting.php:205
+#: includes/admin/review-setting.php:242
 msgid "Enable automatic review requests"
 msgstr ""
 
-#: includes/admin/review-setting.php:207
+#: includes/admin/review-setting.php:244
 msgid "When enabled, TrustScript will automatically send review request emails to customers after order completion."
 msgstr ""
 
-#: includes/admin/review-setting.php:211
+#: includes/admin/review-setting.php:248
 msgid "Domestic Review Request Delay"
 msgstr ""
 
-#: includes/admin/review-setting.php:215
-#: includes/class-trustscript-admin.php:1769
+#: includes/admin/review-setting.php:252
+#: includes/admin/review-setting.php:838
 msgid "Immediately"
 msgstr ""
 
-#: includes/admin/review-setting.php:216
+#: includes/admin/review-setting.php:253
 msgid "1 hour"
 msgstr ""
 
-#: includes/admin/review-setting.php:217
+#: includes/admin/review-setting.php:254
 msgid "12 hours"
 msgstr ""
 
-#: includes/admin/review-setting.php:218
+#: includes/admin/review-setting.php:255
 msgid "1 day"
 msgstr ""
 
-#: includes/admin/review-setting.php:219
+#: includes/admin/review-setting.php:256
 msgid "2 days"
 msgstr ""
 
-#: includes/admin/review-setting.php:220
+#: includes/admin/review-setting.php:257
 msgid "3 days"
 msgstr ""
 
-#: includes/admin/review-setting.php:221
+#: includes/admin/review-setting.php:258
 msgid "1 week"
 msgstr ""
 
-#: includes/admin/review-setting.php:222
 #: includes/admin/review-setting.php:259
+#: includes/admin/review-setting.php:296
 msgid "2 weeks"
 msgstr ""
 
-#: includes/admin/review-setting.php:223
 #: includes/admin/review-setting.php:260
+#: includes/admin/review-setting.php:297
 msgid "3 weeks"
 msgstr ""
 
-#: includes/admin/review-setting.php:224
 #: includes/admin/review-setting.php:261
+#: includes/admin/review-setting.php:298
 msgid "4 weeks (1 month)"
 msgstr ""
 
-#: includes/admin/review-setting.php:225
-#: includes/admin/review-setting.php:263
+#: includes/admin/review-setting.php:262
+#: includes/admin/review-setting.php:300
 msgid "Custom..."
 msgstr ""
 
-#: includes/admin/review-setting.php:230
-#: includes/admin/review-setting.php:268
+#: includes/admin/review-setting.php:267
+#: includes/admin/review-setting.php:305
 msgid "Value"
 msgstr ""
 
-#: includes/admin/review-setting.php:232
-#: includes/admin/review-setting.php:270
+#: includes/admin/review-setting.php:269
+#: includes/admin/review-setting.php:307
 msgid "Hours"
 msgstr ""
 
-#: includes/admin/review-setting.php:233
-#: includes/admin/review-setting.php:271
+#: includes/admin/review-setting.php:270
+#: includes/admin/review-setting.php:308
 msgid "Days"
 msgstr ""
 
-#: includes/admin/review-setting.php:238
+#: includes/admin/review-setting.php:275
 msgid "Time to wait after order status change before sending review request to customers."
 msgstr ""
 
-#: includes/admin/review-setting.php:247
+#: includes/admin/review-setting.php:284
 msgid "Handle international orders differently"
 msgstr ""
 
-#: includes/admin/review-setting.php:249
+#: includes/admin/review-setting.php:286
 msgid "When enabled, international orders will use a separate, longer review request delay. This gives international customers more time to receive and verify their orders."
 msgstr ""
 
-#: includes/admin/review-setting.php:253
+#: includes/admin/review-setting.php:290
 msgid "International Order Review Request Delay"
 msgstr ""
 
-#: includes/admin/review-setting.php:255
+#: includes/admin/review-setting.php:292
 msgid "International Delay"
 msgstr ""
 
-#: includes/admin/review-setting.php:262
+#: includes/admin/review-setting.php:299
 msgid "8 weeks (2 months)"
 msgstr ""
 
-#: includes/admin/review-setting.php:276
+#: includes/admin/review-setting.php:313
 msgid "International shipments typically take longer. Set a longer delay to ensure customers receive and verify orders before review requests arrive."
 msgstr ""
 
-#: includes/admin/review-setting.php:282
+#: includes/admin/review-setting.php:319
 msgid "Service-Specific Settings"
 msgstr ""
 
-#: includes/admin/review-setting.php:283
+#: includes/admin/review-setting.php:320
 msgid "Configure filtering and options for each active service independently."
 msgstr ""
 
-#: includes/admin/review-setting.php:322
+#: includes/admin/review-setting.php:359
 msgid "No active services detected. Please install and activate WooCommerce, MemberPress, or other supported plugins."
 msgstr ""
 
-#: includes/admin/review-setting.php:328
+#: includes/admin/review-setting.php:365
 msgid "Review Publishing"
 msgstr ""
 
-#: includes/admin/review-setting.php:335
+#: includes/admin/review-setting.php:375
 msgid "Auto-publish approved reviews"
 msgstr ""
 
-#: includes/admin/review-setting.php:337
+#: includes/admin/review-setting.php:378
 msgid "When enabled, customer-approved reviews will be published immediately to your WooCommerce product pages. When disabled, reviews will require admin approval first."
 msgstr ""
 
-#: includes/admin/review-setting.php:344
+#: includes/admin/review-setting.php:387
 msgid "Review & Email Settings"
 msgstr ""
 
-#: includes/admin/review-setting.php:345
-msgid "The following settings are now managed from your TrustScript Dashboard:"
+#: includes/admin/review-setting.php:388
+msgid "Depending on your review collection mode, email and media settings are managed in different places:"
 msgstr ""
 
-#: includes/admin/review-setting.php:347
-msgid "Email Mode Settings (Auto Send or Manual Send)"
+#: includes/admin/review-setting.php:392
+msgid "Simple Mode (On-Site):"
 msgstr ""
 
-#: includes/admin/review-setting.php:348
-msgid "Photo Uploads (Enable/Disable)"
+#: includes/admin/review-setting.php:393
+msgid "Configure your review collection form, email templates, and media settings directly within WordPress."
 msgstr ""
 
-#: includes/admin/review-setting.php:349
-msgid "Video Uploads (Coming Soon)"
+#: includes/admin/review-setting.php:396
+msgid "Configure Simple Review Form"
 msgstr ""
 
-#: includes/admin/review-setting.php:353
+#: includes/admin/review-setting.php:401
+msgid "API Mode (TrustScript):"
+msgstr ""
+
+#: includes/admin/review-setting.php:402
+msgid "Manage Email Mode Settings (Auto/Manual) and Media Uploads from your TrustScript Dashboard."
+msgstr ""
+
+#: includes/admin/review-setting.php:405
 msgid "Go to TrustScript Dashboard →"
 msgstr ""
 
-#: includes/admin/review-setting.php:361
+#: includes/admin/review-setting.php:415
 msgid "Review Filter Keywords"
 msgstr ""
 
-#: includes/admin/review-setting.php:362
+#: includes/admin/review-setting.php:416
 msgid "Select which keywords should appear as filter chips on product pages. Keywords are only displayed if they exist in actual customer reviews. You can also configure product-specific keywords from the product editor."
 msgstr ""
 
-#: includes/admin/review-setting.php:365
+#: includes/admin/review-setting.php:419
 msgid "Available Keywords"
 msgstr ""
 
-#: includes/admin/review-setting.php:379
+#: includes/admin/review-setting.php:433
 msgid "💡 Tip: Select the keywords that matter most for your products. Unselected keywords will never appear as filter chips, even if found in reviews."
 msgstr ""
 
-#: includes/admin/review-setting.php:385
+#: includes/admin/review-setting.php:439
 msgid "Review Voting"
 msgstr ""
 
-#: includes/admin/review-setting.php:386
+#: includes/admin/review-setting.php:440
 msgid "Allow logged-in users to vote on review helpfulness. One vote per review per user."
 msgstr ""
 
-#: includes/admin/review-setting.php:397
+#: includes/admin/review-setting.php:451
 msgid "Enable upvote/downvote on reviews"
 msgstr ""
 
-#: includes/admin/review-setting.php:400
+#: includes/admin/review-setting.php:454
 msgid "When enabled, logged-in users can vote on review helpfulness. Users must be logged in to vote, and each user can vote once per review."
 msgstr ""
 
-#: includes/admin/review-setting.php:408
+#: includes/admin/review-setting.php:462
 msgid "Privacy Guarantee"
 msgstr ""
 
-#: includes/admin/review-setting.php:411
+#: includes/admin/review-setting.php:465
 msgid "✓ Vote data is stored ONLY on your WordPress site"
 msgstr ""
 
-#: includes/admin/review-setting.php:412
+#: includes/admin/review-setting.php:466
 msgid "✓ NO voting data is ever sent to or stored on TrustScript servers"
 msgstr ""
 
-#: includes/admin/review-setting.php:413
+#: includes/admin/review-setting.php:467
 msgid "✓ All vote tracking is handled locally using WordPress user accounts"
 msgstr ""
 
-#: includes/admin/review-setting.php:414
+#: includes/admin/review-setting.php:468
 msgid "✓ Users must be logged in to vote"
 msgstr ""
 
-#: includes/admin/review-setting.php:420
-#: includes/class-trustscript-immutability.php:118
+#: includes/admin/review-setting.php:474
+#: includes/immutability.php:124
 msgid "Automatic Daily Sync"
 msgstr ""
 
-#: includes/admin/review-setting.php:424
+#: includes/admin/review-setting.php:478
 msgid "Two-way synchronization"
 msgstr ""
 
-#: includes/admin/review-setting.php:426
+#: includes/admin/review-setting.php:480
 msgid "TrustScript runs a complete synchronization once every day. During this cycle, it:"
 msgstr ""
 
-#: includes/admin/review-setting.php:428
+#: includes/admin/review-setting.php:482
 msgid "Publishes any approved reviews from TrustScript to your products (WooCommerce, MemberPress, etc.)"
 msgstr ""
 
-#: includes/admin/review-setting.php:429
+#: includes/admin/review-setting.php:483
 msgid "Sends completed orders/bookings to TrustScript (WooCommerce, MemberPress)"
 msgstr ""
 
-#: includes/admin/review-setting.php:431
+#: includes/admin/review-setting.php:485
 msgid "This ensures all your services stay synced even if webhooks are unavailable or manual sync is not triggered."
 msgstr ""
 
-#: includes/admin/review-setting.php:443
+#: includes/admin/review-setting.php:497
 msgid "Enable automatic daily sync"
 msgstr ""
 
-#: includes/admin/review-setting.php:446
+#: includes/admin/review-setting.php:500
 msgid "When enabled, TrustScript will automatically check for missed orders once per day."
 msgstr ""
 
-#: includes/admin/review-setting.php:453
+#: includes/admin/review-setting.php:507
 msgid "Daily Sync Time"
 msgstr ""
 
-#: includes/admin/review-setting.php:454
+#: includes/admin/review-setting.php:508
 msgid "Time of day to run automatic sync (in your site timezone)."
 msgstr ""
 
-#: includes/admin/review-setting.php:470
+#: includes/admin/review-setting.php:524
 msgid "Next Scheduled Sync:"
 msgstr ""
 
-#: includes/admin/review-setting.php:482
+#: includes/admin/review-setting.php:536
 msgid "Last Run: Processed"
 msgstr ""
 
-#: includes/admin/review-setting.php:486
+#: includes/admin/review-setting.php:540
 msgid "Last Run: Skipped"
 msgstr ""
 
-#: includes/admin/review-setting.php:490
+#: includes/admin/review-setting.php:544
 msgid "Last Run: Errors"
 msgstr ""
 
-#: includes/admin/review-setting.php:494
+#: includes/admin/review-setting.php:548
 msgid "Last run:"
 msgstr ""
 
-#: includes/admin/review-setting.php:502
-#: includes/class-trustscript-admin.php:682
+#: includes/admin/review-setting.php:556
+#: includes/trustscript-admin.php:834
 msgid "Save Review Settings"
 msgstr ""
 
-#: includes/admin/review-setting.php:510
+#: includes/admin/review-setting.php:564
 msgid "Manual Sync & Test"
 msgstr ""
 
-#: includes/admin/review-setting.php:513
+#: includes/admin/review-setting.php:567
 msgid "Run a complete sync immediately without waiting for the daily schedule. This is helpful for testing on staging sites."
 msgstr ""
 
-#: includes/admin/review-setting.php:517
+#: includes/admin/review-setting.php:571
 msgid "What happens when you click:"
 msgstr ""
 
-#: includes/admin/review-setting.php:519
+#: includes/admin/review-setting.php:573
 msgid "1. Fetches any approved reviews from TrustScript and publishes them to your products/services"
 msgstr ""
 
-#: includes/admin/review-setting.php:520
+#: includes/admin/review-setting.php:574
 msgid "2. Sends existing orders/bookings from all enabled services (WooCommerce, MemberPress, etc.) to TrustScript"
 msgstr ""
 
-#: includes/admin/review-setting.php:524
+#: includes/admin/review-setting.php:578
 msgid "Sync orders from the last:"
 msgstr ""
 
-#: includes/admin/review-setting.php:533
+#: includes/admin/review-setting.php:587
 msgid "Run Complete Sync Now"
 msgstr ""
 
-#: includes/admin/review-setting.php:540
+#: includes/admin/review-setting.php:594
 msgid "TOTAL PROCESSED"
+msgstr ""
+
+#: includes/admin/review-setting.php:611
+msgid "No additional filters available for this service. All orders/bookings will be processed."
+msgstr ""
+
+#: includes/admin/review-setting.php:730
+msgid "Product Category Filtering"
+msgstr ""
+
+#: includes/admin/review-setting.php:732
+msgid "Select specific product categories to collect reviews for. Leave all unchecked to include all products."
+msgstr ""
+
+#: includes/admin/review-setting.php:733
+msgid "Note: When you select a parent category, all products in that category tree are included. Child categories should not be selected alongside their parent."
+msgstr ""
+
+#: includes/admin/review-setting.php:739
+msgid "Search categories..."
+msgstr ""
+
+#: includes/admin/review-setting.php:742
+#: includes/consent/privacy-settings.php:275
+msgid "Select All"
+msgstr ""
+
+#: includes/admin/review-setting.php:746
+#: includes/consent/privacy-settings.php:278
+msgid "Deselect All"
+msgstr ""
+
+#. translators: %d: number of categories
+#: includes/admin/review-setting.php:751
+#: includes/trustscript-admin.php:858
+#, php-format
+msgid "%d categories"
+msgstr ""
+
+#: includes/admin/review-setting.php:760
+msgid "No product categories found."
+msgstr ""
+
+#: includes/admin/review-setting.php:764
+msgid "Order Value Filtering"
+msgstr ""
+
+#. translators: %s: store currency symbol
+#: includes/admin/review-setting.php:770
+#, php-format
+msgid "Minimum Order Value (%s):"
+msgstr ""
+
+#: includes/admin/review-setting.php:777
+msgid "Only send review requests for orders above this amount. Set to 0 to disable."
+msgstr ""
+
+#. translators: %s: store currency symbol
+#: includes/admin/review-setting.php:788
+#, php-format
+msgid "Exclude free products and %s0 orders"
+msgstr ""
+
+#: includes/admin/review-setting.php:799
+msgid "MemberPress is not properly loaded."
+msgstr ""
+
+#: includes/admin/review-setting.php:809
+msgid "Membership Tier Filtering"
+msgstr ""
+
+#: includes/admin/review-setting.php:811
+msgid "Select which membership tiers should trigger review requests. Leave all unchecked to include all memberships."
+msgstr ""
+
+#: includes/admin/review-setting.php:825
+msgid "No memberships found."
+msgstr ""
+
+#: includes/admin/review-setting.php:830
+msgid "Review Request Timing"
+msgstr ""
+
+#: includes/admin/review-setting.php:833
+msgid "Send review request after:"
+msgstr ""
+
+#: includes/admin/review-setting.php:840
+msgid "7 days"
+msgstr ""
+
+#: includes/admin/review-setting.php:842
+msgid "14 days"
+msgstr ""
+
+#: includes/admin/review-setting.php:844
+msgid "30 days"
+msgstr ""
+
+#: includes/admin/review-setting.php:848
+msgid "Allow members time to experience your content before requesting a review."
+msgstr ""
+
+#: includes/admin/review-setting.php:868
+msgid "No Supported Services Detected"
+msgstr ""
+
+#: includes/admin/review-setting.php:871
+msgid "TrustScript works with WooCommerce, MemberPress, and more."
+msgstr ""
+
+#: includes/admin/review-setting.php:874
+#: trustscript.php:183
+msgid "Install and activate a supported plugin to start collecting reviews."
+msgstr ""
+
+#: includes/admin/review-setting.php:877
+#: trustscript.php:185
+msgid "View Supported Platforms"
+msgstr ""
+
+#: includes/admin/review-setting.php:887
+msgid "Detected Services"
+msgstr ""
+
+#: includes/admin/review-setting.php:888
+msgid "TrustScript has detected the following services on your site. Configure trigger statuses for each service to automatically collect reviews."
+msgstr ""
+
+#: includes/admin/review-setting.php:921
+msgid "Trigger Status:"
+msgstr ""
+
+#: includes/admin/review-setting.php:923
+msgid "Send review request when order reaches this status"
+msgstr ""
+
+#. translators: %s is the number of available statuses
+#: includes/admin/review-setting.php:941
+#, php-format
+msgid "%d status options available"
+msgstr ""
+
+#: includes/admin/review-setting.php:954
+msgid "Save Service Settings"
+msgstr ""
+
+#: includes/admin/review-setting.php:961
+msgid "Optional Data Collection"
+msgstr ""
+
+#: includes/admin/review-setting.php:962
+msgid "Enhance review requests with additional context. You can disable these options for privacy-sensitive products (e.g., medical, adult content)."
+msgstr ""
+
+#: includes/admin/review-setting.php:966
+msgid "Include Product Names"
+msgstr ""
+
+#: includes/admin/review-setting.php:978
+msgid "Show specific product names in review requests (e.g., \"Blue Wireless Headphones\")."
+msgstr ""
+
+#: includes/admin/review-setting.php:982
+msgid "If disabled, customers will see generic text like \"your recent purchase\" instead. Disable this for privacy-sensitive products."
+msgstr ""
+
+#: includes/admin/review-setting.php:986
+msgid "Why this matters:"
+msgstr ""
+
+#: includes/admin/review-setting.php:988
+msgid "Specific product names help customers write better, more relevant reviews. However, for sensitive items (health, personal care, gifts), you may want to keep purchases private."
+msgstr ""
+
+#: includes/admin/review-setting.php:994
+msgid "Include Order Dates"
+msgstr ""
+
+#: includes/admin/review-setting.php:1006
+msgid "Share the purchase date with customers."
+msgstr ""
+
+#: includes/admin/review-setting.php:1010
+msgid "This helps with timing review requests and adds context to their feedback."
+msgstr ""
+
+#: includes/admin/review-setting.php:1018
+msgid "Save Privacy Settings"
 msgstr ""
 
 #: includes/admin/settings.php:22
 #: includes/admin/settings.php:151
-#: includes/class-trustscript-admin.php:122
 msgid "TrustScript Settings"
 msgstr ""
 
@@ -952,7 +1363,8 @@ msgid "↓ Jump to API Key Field"
 msgstr ""
 
 #: includes/admin/settings.php:97
-msgid "Choose Your Plan"
+#: trustscript.php:194
+msgid "Go Pro"
 msgstr ""
 
 #: includes/admin/settings.php:98
@@ -999,1787 +1411,346 @@ msgstr ""
 msgid "Don't have a key? Get one free →"
 msgstr ""
 
-#: includes/admin/settings.php:200
-#: includes/admin/settings.php:287
+#: includes/admin/settings.php:201
+#: includes/admin/settings.php:280
 msgid "API Key Save Failed"
 msgstr ""
 
-#: includes/admin/settings.php:211
-#: includes/admin/settings.php:298
+#: includes/admin/settings.php:212
+#: includes/admin/settings.php:291
 msgid "Connected Successfully"
 msgstr ""
 
-#: includes/admin/settings.php:221
-#: includes/admin/settings.php:308
+#: includes/admin/settings.php:222
+#: includes/admin/settings.php:301
 msgid "Connected — Quota Limit Reached"
 msgstr ""
 
-#: includes/admin/settings.php:255
+#: includes/admin/settings.php:256
 msgid "Save &amp; Connect"
 msgstr ""
 
 #. translators: %s dashboard link open, %s close
-#: includes/admin/settings.php:262
+#: includes/admin/settings.php:263
 #, php-format
 msgid "Generate a new API key from your %1$sTrustScript Dashboard%2$s. You will receive both an API Key (TSK-...) and a Webhook Secret (TSS-...). Paste both above."
 msgstr ""
 
-#: includes/admin/settings.php:269
-msgid "Security Note:"
-msgstr ""
-
-#: includes/admin/settings.php:270
-msgid "Your API key and webhook secret are masked as you type for security. They will never be displayed in plain text or source code."
-msgstr ""
-
-#: includes/admin/settings.php:273
-#: includes/admin/settings.php:423
-msgid "Important:"
-msgstr ""
-
-#: includes/admin/settings.php:274
-msgid "Both your API Key and Webhook Secret are required to use TrustScript securely. The form submission will be blocked until you paste both credentials."
-msgstr ""
-
-#: includes/admin/settings.php:319
-#: includes/consent-form-template.php:42
+#: includes/admin/settings.php:312
+#: includes/consent-form-template.php:41
 msgid "API Key"
 msgstr ""
 
-#: includes/admin/settings.php:327
+#: includes/admin/settings.php:320
 msgid "Replace Key"
 msgstr ""
 
-#: includes/admin/settings.php:330
+#: includes/admin/settings.php:323
 msgid "Delete"
 msgstr ""
 
-#: includes/admin/settings.php:334
+#: includes/admin/settings.php:327
 msgid "Click \"Replace Key\" to paste a new key. Leave the field blank to keep the current key unchanged."
 msgstr ""
 
-#: includes/admin/settings.php:339
+#: includes/admin/settings.php:332
 msgid "Webhook Secret"
 msgstr ""
 
-#: includes/admin/settings.php:352
+#: includes/admin/settings.php:345
 msgid "Used to verify webhook signatures from TrustScript. Update this by generating a new API key in your dashboard and replacing your API key above."
 msgstr ""
 
-#: includes/admin/settings.php:358
+#: includes/admin/settings.php:351
 msgid "No webhook secret configured. Update your API key in the form above to enable webhook signature verification."
 msgstr ""
 
-#: includes/admin/settings.php:366
+#: includes/admin/settings.php:359
 msgid "TrustScript Server"
 msgstr ""
 
 #. translators: %s: TrustScript server URL
-#: includes/admin/settings.php:373
+#: includes/admin/settings.php:366
 #, php-format
 msgid "Your site is connected to the TrustScript server at %s"
 msgstr ""
 
-#: includes/admin/settings.php:381
+#: includes/admin/settings.php:374
 msgid "Webhook Endpoint"
 msgstr ""
 
-#: includes/admin/settings.php:384
+#: includes/admin/settings.php:377
 msgid "Webhooks from TrustScript will be delivered to this URL."
 msgstr ""
 
-#: includes/admin/settings.php:388
-#: includes/class-trustscript-admin.php:719
-#: includes/consent/privacy-settings.php:231
+#: includes/admin/settings.php:381
+#: includes/consent/privacy-settings.php:259
+#: includes/trustscript-admin.php:871
 msgid "Save Changes"
 msgstr ""
 
+#: includes/admin/settings.php:394
+msgid "Verification Modal Settings"
+msgstr ""
+
 #: includes/admin/settings.php:395
-msgid "Plugin Uninstall & Data"
+msgid "Control how review verification information is displayed to customers."
 msgstr ""
 
-#: includes/admin/settings.php:396
-msgid "Choose how TrustScript should handle your data if you decide to uninstall the plugin."
+#: includes/admin/settings.php:400
+msgid "Enable Verification Modal"
 msgstr ""
 
-#: includes/admin/settings.php:401
-msgid "Delete Data on Uninstall"
+#: includes/admin/settings.php:411
+msgid "Show verification hash modal when customers click the verification badge"
 msgstr ""
 
-#: includes/admin/settings.php:412
-msgid "Completely remove all TrustScript data when I uninstall the plugin"
+#: includes/admin/settings.php:415
+msgid "When enabled, clicking the verification badge opens a modal showing the unique verification hash. Disable this if you prefer not to display verification details to customers."
 msgstr ""
 
-#: includes/admin/settings.php:416
-msgid "If unchecked (recommended), your TrustScript data will be preserved when you uninstall the plugin. This lets you reinstall later without losing your settings and review history."
+#: includes/admin/settings.php:422
+msgid "What does this do?"
 msgstr ""
 
-#: includes/admin/settings.php:425
-msgid "If you enable this option, the following data will be permanently deleted when you uninstall the plugin:"
-msgstr ""
-
-#: includes/admin/settings.php:428
-msgid "All TrustScript settings and configuration"
+#: includes/admin/settings.php:424
+msgid "The verification modal shows a cryptographic hash that ties the review to its original submission on TrustScript. This allows customers to verify that the review is genuine and hasn't been tampered with."
 msgstr ""
 
 #: includes/admin/settings.php:429
-msgid "API key and connection information"
-msgstr ""
-
-#: includes/admin/settings.php:430
-msgid "Review collection history and pending queue items"
-msgstr ""
-
-#: includes/admin/settings.php:431
-msgid "Database tables (order registry, queue, and related data)"
-msgstr ""
-
-#: includes/admin/settings.php:432
-msgid "Scheduled automation tasks (auto-sync, quota checks)"
+msgid "Save Verification Settings"
 msgstr ""
 
 #: includes/admin/settings.php:437
-#: includes/class-trustscript-admin.php:713
-msgid "Save Preference"
+msgid "Plugin Uninstall & Data"
 msgstr ""
 
-#: includes/admin/settings.php:444
-msgid "Privacy-First Architecture (GDPR Compliant)"
+#: includes/admin/settings.php:438
+msgid "Choose how TrustScript should handle your data if you decide to uninstall the plugin."
 msgstr ""
 
-#: includes/admin/settings.php:449
-msgid "TrustScript follows privacy-by-design principles. We do NOT store customer names or email addresses — only Order IDs for merchant analytics."
-msgstr ""
-
-#: includes/admin/settings.php:452
-msgid "✓ Customer emails are hashed (SHA-256) for opt-out checking only, then immediately discarded"
-msgstr ""
-
-#: includes/admin/settings.php:453
-msgid "✓ No customer PII (personally identifiable information) is stored in our database"
+#: includes/admin/settings.php:443
+msgid "Delete Data on Uninstall"
 msgstr ""
 
 #: includes/admin/settings.php:454
-msgid "✓ Reviews are published as \"Verified Buyer\" — no customer names displayed"
+msgid "Completely remove all TrustScript data when I uninstall the plugin"
 msgstr ""
 
-#: includes/admin/settings.php:455
-msgid "✓ Full compliance with GDPR Article 5 (data minimization) and Article 25 (privacy by design)"
+#: includes/admin/settings.php:458
+msgid "If unchecked (recommended), your TrustScript data will be preserved when you uninstall the plugin. This lets you reinstall later without losing your settings and review history."
 msgstr ""
 
-#: includes/admin/settings.php:463
-msgid "Documentation"
+#: includes/admin/settings.php:465
+msgid "Important:"
 msgstr ""
 
 #: includes/admin/settings.php:467
-#: trustscript.php:210
-msgid "Support"
+msgid "If you enable this option, the following data will be permanently deleted when you uninstall the plugin:"
+msgstr ""
+
+#: includes/admin/settings.php:470
+msgid "All TrustScript settings and configuration"
 msgstr ""
 
 #: includes/admin/settings.php:471
+msgid "API key and connection information"
+msgstr ""
+
+#: includes/admin/settings.php:472
+msgid "Review collection history and pending queue items"
+msgstr ""
+
+#: includes/admin/settings.php:473
+msgid "Database tables (order registry, queue, and related data)"
+msgstr ""
+
+#: includes/admin/settings.php:474
+msgid "Scheduled automation tasks (auto-sync, quota checks)"
+msgstr ""
+
+#: includes/admin/settings.php:479
+#: includes/trustscript-admin.php:865
+msgid "Save Preference"
+msgstr ""
+
+#: includes/admin/settings.php:487
+msgid "Documentation"
+msgstr ""
+
+#: includes/admin/settings.php:491
+#: trustscript.php:203
+msgid "Support"
+msgstr ""
+
+#: includes/admin/settings.php:495
 msgid "Manage API Keys"
 msgstr ""
 
-#: includes/admin/settings.php:482
+#: includes/admin/settings.php:506
 msgid "Delete API Key?"
 msgstr ""
 
-#: includes/admin/settings.php:489
+#: includes/admin/settings.php:513
 msgid "Are you sure you want to delete your API key? You will need to enter a new API key to use TrustScript."
 msgstr ""
 
-#: includes/admin/settings.php:492
-#: includes/class-trustscript-admin.php:707
-#: includes/consent-form-template.php:70
+#: includes/admin/settings.php:516
+#: includes/consent-form-template.php:69
+#: includes/trustscript-admin.php:859
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/settings.php:493
+#: includes/admin/settings.php:517
 msgid "Delete API Key"
 msgstr ""
 
-#: includes/class-trustscript-admin.php:142
-#: includes/class-trustscript-admin.php:143
-msgid "Analytics"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:153
-#: includes/class-trustscript-admin.php:154
-#: includes/consent/privacy-settings.php:64
-#: includes/consent/privacy-settings.php:69
-msgid "Privacy & Compliance"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:161
-#: includes/class-trustscript-admin.php:167
-msgid "Pending Queue"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:197
-msgid "API Key Invalid or Expired"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:198
-msgid "Your TrustScript API key is no longer valid. This might be because:"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:200
-msgid "The key has expired (development keys expire after 24 hours)"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:201
-msgid "The key was deleted from your TrustScript dashboard"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:202
-msgid "Your account or key was revoked"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:207
-msgid "Go to Settings & Update Key"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:210
-msgid "Generate New Key"
-msgstr ""
-
-#. translators: %s: plan name
-#: includes/class-trustscript-admin.php:245
-#: includes/class-trustscript-admin.php:513
-#, php-format
-msgid "Monthly review limit reached for your %s plan."
-msgstr ""
-
-#. translators: %1$s: next plan name, %2$d: review limit
-#: includes/class-trustscript-admin.php:253
-#: includes/class-trustscript-admin.php:521
-#, php-format
-msgid " Upgrade to %1$s for %2$d reviews per month."
-msgstr ""
-
-#. translators: %s: reset date
-#: includes/class-trustscript-admin.php:265
-#: includes/class-trustscript-admin.php:271
-#: includes/class-trustscript-admin.php:533
-#: includes/class-trustscript-admin.php:539
-#, php-format
-msgid " Or wait until %s for your limit to reset."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:279
-msgid "Review Quota Limit Reached"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:283
-msgid "Upgrade Your Plan"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:339
-#: includes/class-trustscript-admin.php:421
-msgid "Invalid webhook secret format. Webhook secrets should look like: TSS-XXXX-XXXX-XXXX"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:350
-msgid "Failed to encrypt webhook secret. Please try again."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:384
-msgid "Invalid API key format. API keys should look like: TSK-XXXX-XXXX-XXXX"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:399
-msgid "You must agree to data sharing before verifying your API key."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:412
-msgid "Webhook secret is required. Please generate both an API key and webhook secret from the TrustScript dashboard."
-msgstr ""
-
-#. translators: %s: error message
-#: includes/class-trustscript-admin.php:450
-#, php-format
-msgid "Could not verify your API key with TrustScript: %s. Please check your internet connection and try again."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:491
-msgid "API key verified successfully! Your site is now connected to TrustScript."
-msgstr ""
-
-#. translators: 1: remaining reviews, 2: total limit, 3: reset date
-#: includes/class-trustscript-admin.php:557
-#, php-format
-msgid " You have %1$d/%2$d reviews remaining this month (resets on %3$s)."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:598
-msgid "Failed to encrypt API key. Please try again."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:675
-msgid "No recent activity"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:676
-msgid "Start by configuring review settings"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:677
-msgid "Reviews Generated"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:678
-msgid "Failed to load analytics data. Please check your API connection in Settings."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:679
-msgid "Refreshing..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:680
-msgid "Refresh Analytics"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:681
-msgid "Saving..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:683
-#: includes/class-trustscript-memberpress-reviews.php:112
-msgid "Settings saved successfully!"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:684
-msgid "Failed to save"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:685
-msgid "Network error"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:686
-msgid "Syncing..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:687
-msgid "Sync Completed Orders"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:688
-msgid "This will create review requests for all completed orders in the selected time range. Continue?"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:689
-msgid "Failed to sync"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:690
-msgid "Short delay recommended (1-2 days) - customers already have the product."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:691
-msgid "Longer delay recommended to ensure product delivery before review request. International orders use this same delay by default. To use a different delay for international orders, enable \"Handle international orders differently\" below."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:692
-msgid "Are you sure? This will remove the item from the queue."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:693
-msgid "Remove this order from the queue? This will not cancel the order, but the review request will NOT be retried."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:694
-msgid "Please paste your TrustScript API key (TSK-XXXX-XXXX-XXXX)."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:695
-msgid "API Key Required"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:696
-msgid "Invalid format. Your key should look like: TSK-XXXX-XXXX-XXXX. Copy it from your TrustScript dashboard."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:697
-msgid "Invalid API Key Format"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:698
-msgid "Deleting..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:699
-msgid "Failed to delete API key"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:700
-msgid "Unknown error"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:701
-msgid "Queued for processing..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:702
-msgid "Processing your orders in the background — please check back in a few minutes."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:703
-msgid "All categories"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:704
-msgid "1 category"
-msgstr ""
-
-#. translators: %d: number of categories
-#: includes/class-trustscript-admin.php:706
-#: includes/class-trustscript-admin.php:1682
-#, php-format
-msgid "%d categories"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:708
-msgid "Retrying..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:709
-msgid "Clearing..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:714
-msgid "Failed to retry"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:715
-msgid "Failed to clear"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:716
-msgid "Failed to process queue"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:717
-msgid "Failed to save preference"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:718
-msgid "Paste new API key to replace current key…"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:720
-msgid "Breakdown:"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:721
-msgid "review(s) published"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:722
-msgid "new order(s) sent to TrustScript"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:723
-msgid "order(s) already published (skipped)"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:747
-msgid "Unknown notice"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:768
-msgid "enabled"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:768
-msgid "disabled"
-msgstr ""
-
-#. translators: %s is the status of data deletion (enabled or disabled)
-#: includes/class-trustscript-admin.php:771
-#, php-format
-msgid "Data deletion on uninstall %s"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:781
-#: includes/class-trustscript-admin.php:810
-#: includes/class-trustscript-admin.php:998
-msgid "Unauthorized"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:788
-msgid "API key deleted successfully"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:804
-msgid "Security check failed"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:970
-msgid "Review settings saved successfully"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1006
-msgid "No active service providers detected. Please enable at least one service (WooCommerce or MemberPress)."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1020
-msgid "Sync service not available"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1053
-msgid "No new data to sync"
-msgstr ""
-
-#. translators: %d: number of orders that were already published
-#: includes/class-trustscript-admin.php:1057
-#, php-format
-msgid " (but %d order(s) were already published and skipped)"
-msgstr ""
-
-#. translators: %1$d: reviews published, %2$d: orders synced
-#: includes/class-trustscript-admin.php:1074
-#, php-format
-msgid "Sync complete! Reviews published: %1$d, New orders sent: %2$d"
-msgstr ""
-
-#. translators: %d: orders that were already published and skipped
-#: includes/class-trustscript-admin.php:1082
-#, php-format
-msgid ", %d order(s) already published (skipped re-sync)"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1294
-#: includes/class-trustscript-service-manager.php:145
-msgid "No services detected"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1313
-msgid "Service settings saved successfully!"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1330
-msgid "No Supported Services Detected"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1333
-msgid "TrustScript works with WooCommerce, MemberPress, and more."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1336
-#: trustscript.php:190
-msgid "Install and activate a supported plugin to start collecting reviews."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1339
-#: trustscript.php:192
-msgid "View Supported Platforms"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1350
-msgid "Detected Services"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1353
-msgid "TrustScript has detected the following services on your site. Configure trigger statuses for each service to automatically collect reviews."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1387
-msgid "Trigger Status:"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1389
-msgid "Send review request when order reaches this status"
-msgstr ""
-
-#. translators: %s is the number of available statuses
-#: includes/class-trustscript-admin.php:1407
-#, php-format
-msgid "%d status options available"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1420
-msgid "Save Service Settings"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1429
-msgid "Optional Data Collection"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1432
-msgid "Enhance review requests with additional context. You can disable these options for privacy-sensitive products (e.g., medical, adult content)."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1446
-msgid "Include Product Names"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1449
-msgid "Show specific product names in review requests (e.g., \"Blue Wireless Headphones\"). If disabled, customers will see generic text like \"your recent purchase\" instead. Disable this for privacy-sensitive products."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1455
-msgid "Why this matters:"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1456
-msgid "Specific product names help customers write better, more relevant reviews. However, for sensitive items (health, personal care, gifts), you may want to keep purchases private."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1472
-msgid "Include Order Dates"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1474
-msgid "Share the purchase date with customers. This helps with timing review requests and adds context to their feedback."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1483
-msgid "Save Privacy Settings"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1515
-msgid "No additional filters available for this service. All orders/bookings will be processed."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1661
-msgid "Product Category Filtering"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1663
-msgid "Select specific product categories to collect reviews for. Leave all unchecked to include all products."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1664
-msgid "Note: When you select a parent category, all products in that category tree are included. Child categories should not be selected alongside their parent."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1670
-msgid "Search categories..."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1673
-#: includes/consent/privacy-settings.php:249
-msgid "Select All"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1677
-#: includes/consent/privacy-settings.php:252
-msgid "Deselect All"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1691
-msgid "No product categories found."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1695
-msgid "Order Value Filtering"
-msgstr ""
-
-#. translators: %s: store currency symbol
-#: includes/class-trustscript-admin.php:1701
-#, php-format
-msgid "Minimum Order Value (%s):"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1708
-msgid "Only send review requests for orders above this amount. Set to 0 to disable."
-msgstr ""
-
-#. translators: %s: store currency symbol
-#: includes/class-trustscript-admin.php:1719
-#, php-format
-msgid "Exclude free products and %s0 orders"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1730
-msgid "MemberPress is not properly loaded."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1740
-msgid "Membership Tier Filtering"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1742
-msgid "Select which membership tiers should trigger review requests. Leave all unchecked to include all memberships."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1756
-msgid "No memberships found."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1761
-msgid "Review Request Timing"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1764
-msgid "Send review request after:"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1771
-msgid "7 days"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1773
-msgid "14 days"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1775
-msgid "30 days"
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1779
-msgid "Allow members time to experience your content before requesting a review."
-msgstr ""
-
-#: includes/class-trustscript-admin.php:1807
-msgid "Privacy settings saved successfully!"
-msgstr ""
-
 #. translators: %s: Plugin/Component name
-#: includes/class-trustscript-compatibility.php:341
+#: includes/compatibility.php:337
 #, php-format
 msgid "TrustScript Compatibility: %s"
 msgstr ""
 
-#: includes/class-trustscript-compatibility.php:346
+#: includes/compatibility.php:342
 msgid "Solution:"
 msgstr ""
 
-#: includes/class-trustscript-compatibility.php:352
+#: includes/compatibility.php:348
 msgid "View Documentation"
 msgstr ""
 
-#: includes/class-trustscript-compatibility.php:356
+#: includes/compatibility.php:352
 msgid "Configure Compatibility Settings"
 msgstr ""
 
-#: includes/class-trustscript-compatibility.php:382
-#: includes/class-trustscript-review-renderer.php:1056
+#: includes/compatibility.php:380
+#: includes/review-renderer-eng.php:1347
 msgid "Critical"
 msgstr ""
 
-#: includes/class-trustscript-compatibility.php:383
-#: includes/class-trustscript-compatibility.php:388
+#: includes/compatibility.php:384
+#: includes/compatibility.php:398
 msgid "Warning"
 msgstr ""
 
-#: includes/class-trustscript-compatibility.php:384
+#: includes/compatibility.php:388
 msgid "Caution"
 msgstr ""
 
-#: includes/class-trustscript-compatibility.php:385
+#: includes/compatibility.php:392
 msgid "Information"
 msgstr ""
 
-#. translators: %d = number of minutes
-#: includes/class-trustscript-date-formatter.php:80
-#, php-format
-msgid "%d minute ago"
-msgid_plural "%d minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %d = number of hours
-#: includes/class-trustscript-date-formatter.php:89
-#, php-format
-msgid "%d hour ago"
-msgid_plural "%d hours ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %d = number of days
-#: includes/class-trustscript-date-formatter.php:98
-#, php-format
-msgid "%d day ago"
-msgid_plural "%d days ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %d = number of weeks
-#: includes/class-trustscript-date-formatter.php:107
-#, php-format
-msgid "%d week ago"
-msgid_plural "%d weeks ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: %d = number of months
-#: includes/class-trustscript-date-formatter.php:115
-#, php-format
-msgid "%d month ago"
-msgid_plural "%d months ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-trustscript-date-formatter.php:128
-msgid "Relative (e.g., \"2 weeks ago\")"
-msgstr ""
-
-#: includes/class-trustscript-date-formatter.php:129
-msgid "Full (e.g., \"January 15, 2024\")"
-msgstr ""
-
-#: includes/class-trustscript-date-formatter.php:130
-msgid "Short (e.g., \"Jan 15, 2024\")"
-msgstr ""
-
-#: includes/class-trustscript-date-formatter.php:131
-msgid "Date & Time (e.g., \"Jan 15, 2024 4:26 PM\")"
-msgstr ""
-
-#: includes/class-trustscript-date-formatter.php:132
-msgid "Numeric (e.g., \"01/15/2024\")"
-msgstr ""
-
-#: includes/class-trustscript-frontend-reviews-base.php:133
-msgid "View verification hash"
-msgstr ""
-
-#: includes/class-trustscript-frontend-reviews-base.php:150
-msgid "View verification details"
-msgstr ""
-
-#: includes/class-trustscript-frontend-reviews-base.php:151
-msgid "Internal Membership Verification"
-msgstr ""
-
-#: includes/class-trustscript-frontend-reviews-base.php:198
-msgid "Previous"
-msgstr ""
-
-#. translators: 1: Current page number, 2: Total pages
-#: includes/class-trustscript-frontend-reviews-base.php:205
-#, php-format
-msgid "Page %1$d of %2$d"
-msgstr ""
-
-#: includes/class-trustscript-frontend-reviews-base.php:211
-msgid "Next"
-msgstr ""
-
-#: includes/class-trustscript-immutability.php:31
-msgid "This review is locked by TrustScript and cannot be edited. TrustScript reviews are immutable to maintain authenticity and customer trust. You can delete this review if needed, but the text cannot be modified."
-msgstr ""
-
-#: includes/class-trustscript-immutability.php:116
-msgid "TrustScript App (Webhook)"
-msgstr ""
-
-#: includes/class-trustscript-immutability.php:117
-msgid "Manual Sync (WordPress Admin)"
-msgstr ""
-
-#: includes/class-trustscript-media-upload.php:36
-#: includes/class-trustscript-webhook.php:147
-msgid "Missing authentication headers (X-API-Key and X-Site-URL required)"
-msgstr ""
-
-#: includes/class-trustscript-media-upload.php:55
-msgid "Too many uploads. Rate limit: 50 per minute"
-msgstr ""
-
-#: includes/class-trustscript-media-upload.php:67
-#: includes/class-trustscript-webhook.php:177
-#: includes/class-trustscript-webhook.php:1010
-msgid "No API key configured"
-msgstr ""
-
-#: includes/class-trustscript-media-upload.php:75
-#: includes/class-trustscript-webhook.php:185
-#: includes/class-trustscript-webhook.php:1014
-msgid "Invalid API key"
-msgstr ""
-
-#: includes/class-trustscript-media-upload.php:84
-#: includes/class-trustscript-webhook.php:194
-#: includes/class-trustscript-webhook.php:1023
-msgid "API key has expired. Please generate a new API key in TrustScript dashboard."
-msgstr ""
-
-#: includes/class-trustscript-media-upload.php:92
-#: includes/class-trustscript-webhook.php:202
-msgid "Domain mismatch: API key is not valid for this domain"
-msgstr ""
-
-#: includes/class-trustscript-media-upload.php:129
-msgid "Review token not found or not associated with this API key"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:43
-#: includes/class-trustscript-memberpress-reviews.php:39
-#: includes/class-trustscript-review-renderer.php:808
-#: includes/class-trustscript-review-renderer.php:816
-msgid "Verified Purchase"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:47
-#: includes/class-trustscript-memberpress-reviews.php:43
-msgid "Verified Member"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:51
-#: includes/class-trustscript-memberpress-reviews.php:47
-msgid "Verified Purchase Hash"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:70
-msgid "TrustScript Member Reviews"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:115
-msgid "Display Member Reviews Below This Page"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:122
-msgid "Review Display Options"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:126
-#: includes/class-trustscript-memberpress-reviews-metabox.php:130
-msgid "Display Method"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:133
-msgid "Select from Dropdown"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:138
-msgid "Paste Shortcode"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:146
-#: includes/providers/class-trustscript-memberpress-provider.php:111
-#: includes/providers/class-trustscript-memberpress-provider.php:187
-msgid "Membership"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:150
-msgid "-- Select a Membership --"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:153
-msgid "Choose a membership to display its reviews."
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:159
-msgid "Shortcode"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:164
-msgid "Example: "
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:172
-msgid "Reviews Per Page"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:176
-msgid "Number of reviews to display per page. Default: 10"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:182
-msgid "Minimum Rating Filter"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:186
-msgid "Show All Ratings"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:193
-msgid "Only show reviews with this minimum rating. Default: Show all"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:199
-msgid "💡 Tip:"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews-metabox.php:200
-msgid "These reviews will display below the page content, outside of MemberPress access restrictions. This allows public visibility for SEO and social proof."
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:78
-msgid "Review Display Settings"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:79
-msgid "Review Display"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:86
-msgid "MemberPress Review Display"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:87
-msgid "MemberPress Reviews"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:120
-msgid "MemberPress Review Display Settings"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:123
-msgid "How to Display Reviews"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:125
-msgid "Use the shortcode below to display member reviews anywhere on your site. The shortcode parameters allow full control over what and how reviews are displayed."
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:134
-msgid "Default Layout"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:137
-msgid "List"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:139
-msgid "Reviews display in a vertical list format"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:144
-msgid "Who Can See Reviews"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:147
-msgid "Everyone"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:148
-msgid "Members Only"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:149
-msgid "Active Members Only"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:151
-msgid "Control who can view member reviews on your site"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:157
-msgid "Save Settings"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:163
-msgid "Shortcode Reference"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:165
-msgid "Basic Usage"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:166
-msgid "Display member reviews for a specific membership product:"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:169
-msgid "Shortcode Parameters"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:173
-msgid "Parameter"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:174
-msgid "Description"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:175
-msgid "Example"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:181
-msgid "Membership product ID (required)"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:186
-msgid "Number of reviews per page. Default: 10"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:191
-msgid "Display layout (list). Default: list"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:196
-msgid "Filter by minimum rating (1-5). Default: 0 (show all)"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:201
-msgid "Page number for pagination. Default: 1"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:207
-msgid "Example Shortcodes"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:208
-msgid "Show 5 reviews per page:"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:211
-msgid "Show only 4 and 5 star reviews:"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:214
-msgid "Show 15 reviews per page:"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:270
-msgid "You must be a member to view reviews."
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:345
-msgid "Member Reviews"
-msgstr ""
-
-#. translators: %s: Number of reviews
-#: includes/class-trustscript-memberpress-reviews.php:356
-#, php-format
-msgid "%s review"
-msgid_plural "%s reviews"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-trustscript-memberpress-reviews.php:390
-msgid "No Reviews Yet"
-msgstr ""
-
-#: includes/class-trustscript-memberpress-reviews.php:391
-msgid "Be the first to share your experience with this membership!"
-msgstr ""
-
-#: includes/class-trustscript-order-status.php:46
-msgctxt "Order status"
-msgid "Delivered"
-msgstr ""
-
-#. translators: %s: number of orders
-#: includes/class-trustscript-order-status.php:52
-#, php-format
-msgid "Delivered <span class=\"count\">(%s)</span>"
-msgid_plural "Delivered <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-trustscript-order-status.php:66
-#: includes/class-trustscript-order-status.php:68
-msgid "Delivered"
-msgstr ""
-
-#: includes/class-trustscript-order-status.php:89
-msgid "Change status to delivered"
-msgstr ""
-
-#: includes/class-trustscript-order-status.php:107
-msgid "Order marked as delivered by bulk action."
-msgstr ""
-
-#: includes/class-trustscript-order-status.php:129
-msgid "Order status changed to delivered via bulk action."
-msgstr ""
-
-#: includes/class-trustscript-order-status.php:143
-msgid "Mark as Delivered"
-msgstr ""
-
-#: includes/class-trustscript-order-status.php:151
-msgid "Order marked as delivered."
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:136
-msgid "Image"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:144
-msgid "Customer name"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:145
-msgid "Customer email"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:146
-msgid "Store name"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:147
-msgid "Store URL"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:148
-msgid "Review link"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:149
-msgid "Item/Product/Service name"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:150
-msgid "Item description"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:151
-msgid "Item image"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:152
-msgid "Order/Transaction/Booking ID"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:153
-msgid "Purchase date"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:154
-msgid "Purchase total"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:155
-msgid "Physical mailing address"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:163
-msgid "Product name"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:164
-msgid "Product description"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:165
-msgid "Product image"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:166
-msgid "Order number"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:167
-msgid "Order date"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:168
-msgid "Order total"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:173
-msgid "Membership name"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:174
-msgid "Membership description"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:175
-msgid "Transaction number"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:176
-msgid "Transaction total"
-msgstr ""
-
-#: includes/class-trustscript-placeholder-mapper.php:177
-msgid "Subscription date"
-msgstr ""
-
-#: includes/class-trustscript-queue.php:331
-msgid "Every 6 hours"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:421
-msgid "Customer Reviews"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:422
-msgid "Honest opinions from verified buyers"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:451
-msgid "No reviews yet. Be the first!"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:572
-msgid "Filter by keyword"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:575
-msgid "All Reviews"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:589
-msgid "Sort by"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:592
-msgid "Most Helpful"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:595
-msgid "Newest"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:598
-#: includes/integration/elementor/widgets/reviews-showcase.php:57
-msgid "Highest Rated"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:601
-msgid "Lowest Rated"
-msgstr ""
-
-#. translators: %1$d = reviews shown, %2$d = total reviews
-#: includes/class-trustscript-review-renderer.php:610
-#: includes/class-trustscript-woocommerce-reviews.php:93
-#, php-format
-msgid "Showing %1$d of %2$d reviews"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:615
-#: includes/class-trustscript-woocommerce-reviews.php:89
-msgid "Showing 1 review"
-msgstr ""
-
-#. translators: %d = number of reviews
-#: includes/class-trustscript-review-renderer.php:619
-#, php-format
-msgid "Showing %d review"
-msgid_plural "Showing %d reviews"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-trustscript-review-renderer.php:651
-msgctxt "button label"
-msgid "Load more reviews"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:657
-msgid "No reviews match your filter."
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:803
-msgid "Click to verify this review"
-msgstr ""
-
-#. translators: %d = star rating number from 1 to 5
-#: includes/class-trustscript-review-renderer.php:828
-#, php-format
-msgid "%d out of 5 stars"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:848
-msgid "Read more"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:866
-#: includes/class-trustscript-review-renderer.php:1191
-msgid "Previous photo"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:893
-#: includes/class-trustscript-webhook.php:950
-#: includes/integration/elementor/widgets/reviews-showcase.php:1132
-msgid "Review photo"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:904
-#: includes/class-trustscript-review-renderer.php:1196
-msgid "Next photo"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:921
-msgid "Was this helpful?"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:928
-msgid "Yes, helpful"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:930
-#: includes/integration/elementor/widgets/reviews-showcase.php:262
-#: includes/integration/elementor/widgets/reviews-showcase.php:272
-#: includes/integration/elementor/widgets/reviews-showcase.php:299
-msgid "Yes"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:938
-msgid "No, not helpful"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:940
-#: includes/integration/elementor/widgets/reviews-showcase.php:263
-#: includes/integration/elementor/widgets/reviews-showcase.php:273
-#: includes/integration/elementor/widgets/reviews-showcase.php:300
-msgid "No"
-msgstr ""
-
-#. translators: 1: total count
-#: includes/class-trustscript-review-renderer.php:1022
-#, php-format
-msgid "out of 5 · %d review"
-msgid_plural "out of 5 · %d reviews"
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/class-trustscript-review-renderer.php:1054
-msgid "Positive"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1055
-msgid "Neutral"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1060
-msgid "Sentiment"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1105
-msgid "All Product Photos"
-msgstr ""
-
-#. translators: %d is an integer count of photos
-#: includes/class-trustscript-review-renderer.php:1111
-#, php-format
-msgid "%d images"
-msgstr ""
-
-#. translators: %d = total count of images in the gallery
-#: includes/class-trustscript-review-renderer.php:1125
-#: includes/class-trustscript-review-renderer.php:1130
-#, php-format
-msgid "View all %d images"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1143
-#: includes/class-trustscript-review-renderer.php:1165
-msgid "Product photo"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1146
-msgid "+More"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1186
-msgid "Photo viewer"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1201
-#: includes/class-trustscript-review-renderer.php:1259
-msgid "Close"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1223
-msgid "✓ Verified Buyer"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1249
-msgid "Review Verified by TrustScript"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1270
-msgid "Star rating"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1276
-msgid "This code ties the review to its original submission on TrustScript. You can use it to confirm the review is genuine and unedited."
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1283
-#: includes/class-trustscript-woocommerce-reviews.php:95
-msgid "Copy Hash"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1290
-msgid "Powered by TrustScript"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1292
-msgid "Verify externally ↗"
-msgstr ""
-
-#: includes/class-trustscript-review-renderer.php:1345
-msgid "Store Owner"
-msgstr ""
-
-#: includes/class-trustscript-review-voting.php:125
-msgid "Invalid or missing nonce."
-msgstr ""
-
-#: includes/class-trustscript-review-voting.php:133
-msgid "You must be logged in to vote."
-msgstr ""
-
-#: includes/class-trustscript-review-voting.php:152
-msgid "Voting is currently disabled"
-msgstr ""
-
-#: includes/class-trustscript-review-voting.php:160
-msgid "You must be logged in to vote"
-msgstr ""
-
-#: includes/class-trustscript-review-voting.php:172
-#: includes/class-trustscript-review-voting.php:211
-msgid "Invalid request"
-msgstr ""
-
-#: includes/class-trustscript-review-voting.php:181
-msgid "Could not process your vote. Please try again."
-msgstr ""
-
-#: includes/class-trustscript-review-voting.php:194
-msgid "Vote recorded successfully"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:165
-#: includes/class-trustscript-webhook.php:1002
-msgid "Too many requests. Rate limit: 100 requests per minute"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:223
-#: includes/class-trustscript-webhook.php:346
-msgid "Missing uniqueToken or productToken"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:256
-#: includes/class-trustscript-webhook.php:379
-msgid "Invalid productToken format"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:262
-#: includes/class-trustscript-webhook.php:383
-msgid "This product token has already been used to publish a review"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:295
-msgid "Invalid uniqueToken format"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:315
-#: includes/class-trustscript-webhook.php:545
-msgid "Order not found for this token, or API key mismatch"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:325
-msgid "Failed to send email"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:334
-msgid "Reminder email sent successfully"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:350
-msgid "Missing reviewText"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:389
-msgid "No order found for this product token"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:408
-msgid "WooCommerce provider not active"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:427
-msgid "Failed to insert review comment for product #"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:472
-#: includes/class-trustscript-webhook.php:707
-msgid "published"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:472
-#: includes/class-trustscript-webhook.php:707
-msgid "submitted for moderation"
-msgstr ""
-
-#. translators: %1$d: number of reviews published, %2$s: status text (published or submitted for moderation)
-#: includes/class-trustscript-webhook.php:476
-#: includes/class-trustscript-webhook.php:711
-#, php-format
-msgid "%1$d review(s) %2$s successfully"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:488
-msgid "Invalid token format"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:498
-#: includes/class-trustscript-webhook.php:521
-msgid "This token has already been used to publish a review"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:556
-msgid "No eligible items found in order"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:565
-msgid "No items found in order"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:731
-msgid "All reviews for this token have already been published"
-msgstr ""
-
-#. translators: %s: list of error messages
-#: includes/class-trustscript-webhook.php:739
-#, php-format
-msgid "No reviews were created. Errors: %s"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:956
-msgid "Your browser does not support the video tag."
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:991
-msgid "Missing X-TrustScript-Api-Key or X-Site-URL header"
-msgstr ""
-
-#: includes/class-trustscript-webhook.php:1028
-msgid "X-Site-URL does not match this site"
-msgstr ""
-
-#: includes/class-trustscript-woocommerce-reviews.php:85
-msgid "Thank you for your feedback!"
-msgstr ""
-
-#: includes/class-trustscript-woocommerce-reviews.php:86
-msgid "You have already voted on this review"
-msgstr ""
-
-#: includes/class-trustscript-woocommerce-reviews.php:87
-msgid "Something went wrong. Please try again."
-msgstr ""
-
-#: includes/class-trustscript-woocommerce-reviews.php:88
-msgid "Login to vote"
-msgstr ""
-
-#. translators: %d = number of reviews
-#: includes/class-trustscript-woocommerce-reviews.php:91
-#, php-format
-msgid "Showing %d reviews"
-msgstr ""
-
-#: includes/class-trustscript-woocommerce-reviews.php:94
-msgid "Image unavailable"
-msgstr ""
-
-#: includes/class-trustscript-woocommerce-reviews.php:96
-msgid "✓ Copied!"
-msgstr ""
-
-#: includes/consent-form-template.php:26
+#: includes/consent-form-template.php:25
 msgid "I agree to the"
 msgstr ""
 
-#: includes/consent-form-template.php:27
+#: includes/consent-form-template.php:26
 msgid "data sharing terms"
 msgstr ""
 
-#: includes/consent-form-template.php:35
+#: includes/consent-form-template.php:34
 msgid "Data Sharing & Privacy Policy"
 msgstr ""
 
-#: includes/consent-form-template.php:40
+#: includes/consent-form-template.php:39
 msgid "What Data We Share:"
 msgstr ""
 
-#: includes/consent-form-template.php:42
+#: includes/consent-form-template.php:41
 msgid "Required for authentication (sent securely via HTTPS)"
 msgstr ""
 
-#: includes/consent-form-template.php:43
+#: includes/consent-form-template.php:42
 msgid "Site URL"
 msgstr ""
 
-#: includes/consent-form-template.php:43
+#: includes/consent-form-template.php:42
 msgid "Required to tie the integration to your store"
 msgstr ""
 
-#: includes/consent-form-template.php:44
+#: includes/consent-form-template.php:43
 msgid "Order IDs"
 msgstr ""
 
-#: includes/consent-form-template.php:44
+#: includes/consent-form-template.php:43
 msgid "Required for analytics and review verification (masked / never publicly exposed)"
 msgstr ""
 
-#: includes/consent-form-template.php:45
+#: includes/consent-form-template.php:44
 msgid "Hashed Customer Email (SHA-256)"
 msgstr ""
 
-#: includes/consent-form-template.php:45
+#: includes/consent-form-template.php:44
 msgid "Required for opt-out tracking and duplicate prevention (raw email never sent or stored)"
 msgstr ""
 
-#: includes/consent-form-template.php:46
+#: includes/consent-form-template.php:45
 msgid "Product Names"
 msgstr ""
 
-#: includes/consent-form-template.php:46
+#: includes/consent-form-template.php:45
 msgid "Optional (you can disable in review settings if privacy-sensitive, e.g., medical/adult products). However, product name is always required when order contain multiple products."
 msgstr ""
 
-#: includes/consent-form-template.php:47
+#: includes/consent-form-template.php:46
 msgid "Order Dates"
 msgstr ""
 
-#: includes/consent-form-template.php:47
+#: includes/consent-form-template.php:46
 msgid "Suggested but optional (helps with timing review requests)"
 msgstr ""
 
-#: includes/consent-form-template.php:48
+#: includes/consent-form-template.php:47
 msgid "Review Content"
 msgstr ""
 
-#: includes/consent-form-template.php:48
+#: includes/consent-form-template.php:47
 msgid "Only after customer approval (sent inbound via secure webhook)"
 msgstr ""
 
-#: includes/consent-form-template.php:53
+#: includes/consent-form-template.php:52
 msgid "Important – What we NEVER collect:"
 msgstr ""
 
-#: includes/consent-form-template.php:55
+#: includes/consent-form-template.php:54
 msgid "Raw customer emails"
 msgstr ""
 
-#: includes/consent-form-template.php:56
+#: includes/consent-form-template.php:55
 msgid "Customer names"
 msgstr ""
 
-#: includes/consent-form-template.php:57
+#: includes/consent-form-template.php:56
 msgid "Any other personal information"
 msgstr ""
 
-#: includes/consent-form-template.php:63
+#: includes/consent-form-template.php:62
 msgid "This integration is privacy-first and GDPR/CCPA compliant. TrustScript does not sell data, use it for marketing, or train AI on your reviews without explicit permission. You can disable the integration or revoke access anytime by removing the API key."
 msgstr ""
 
-#: includes/consent-form-template.php:73
+#: includes/consent-form-template.php:72
 msgid "I Agree"
 msgstr ""
 
-#: includes/consent/consent-block-checkout.php:64
+#: includes/consent/consent-block-checkout.php:65
 msgid "Whether the customer opted in for a review request."
 msgstr ""
 
-#: includes/consent/consent-block-checkout.php:71
+#: includes/consent/consent-block-checkout.php:72
 msgid "Customer billing country code at time of consent."
 msgstr ""
 
-#: includes/consent/consent-block-checkout.php:78
+#: includes/consent/consent-block-checkout.php:79
 msgid "Consent type: single_optin, double_optin, or not_required."
 msgstr ""
 
-#: includes/consent/consent-block-checkout.php:85
+#: includes/consent/consent-block-checkout.php:86
 msgid "WordPress nonce for server-side verification."
 msgstr ""
 
-#: includes/consent/consent-block-checkout.php:135
-#: includes/consent/consent.php:113
+#: includes/consent/consent-block-checkout.php:136
+#: includes/consent/consent.php:110
 msgid "Privacy Policy"
 msgstr ""
 
@@ -2787,246 +1758,351 @@ msgstr ""
 msgid "Invalid confirmation link. Missing required parameters."
 msgstr ""
 
-#: includes/consent/consent-confirmation.php:72
+#: includes/consent/consent-confirmation.php:70
 msgid "Preference Confirmed"
 msgstr ""
 
-#: includes/consent/consent-confirmation.php:75
+#: includes/consent/consent-confirmation.php:73
 msgid "Thank you! Your review request preference has been confirmed. You will receive a review request after your order is delivered."
 msgstr ""
 
-#: includes/consent/consent-confirmation.php:79
-#: includes/consent/consent-confirmation.php:109
+#: includes/consent/consent-confirmation.php:77
+#: includes/consent/consent-confirmation.php:107
 msgid "Return to Store"
 msgstr ""
 
-#: includes/consent/consent-confirmation.php:98
+#: includes/consent/consent-confirmation.php:96
 msgid "Confirmation Failed"
 msgstr ""
 
-#: includes/consent/consent-confirmation.php:100
+#: includes/consent/consent-confirmation.php:98
 msgid "We encountered an issue with your confirmation request:"
 msgstr ""
 
-#: includes/consent/consent-confirmation.php:106
+#: includes/consent/consent-confirmation.php:104
 msgid "No review request will be sent for this order. If you believe this is an error, please contact our support team."
 msgstr ""
 
 #. translators: 1: store name, 2: order number
-#: includes/consent/consent-manager.php:481
+#: includes/consent/consent-manager.php:482
 #, php-format
 msgid "%1$s – Confirm your review request for order #%2$s"
 msgstr ""
 
 #. translators: Greeting line at the top of the confirmation email. %s: customer name
-#: includes/consent/consent-manager.php:488
+#: includes/consent/consent-manager.php:489
 #, php-format
 msgid "Hello %s!"
 msgstr ""
 
-#: includes/consent/consent-manager.php:489
+#: includes/consent/consent-manager.php:490
 msgid "Hello!"
 msgstr ""
 
-#: includes/consent/consent-manager.php:491
+#: includes/consent/consent-manager.php:492
 msgid "You recently indicated that you'd like to receive a review request after your order is delivered.<br><br>We'd love to hear about your experience with us! To proceed, please confirm your preference by clicking the button below."
 msgstr ""
 
 #. translators: CTA button label in the confirmation email.
-#: includes/consent/consent-manager.php:498
+#: includes/consent/consent-manager.php:499
 msgid "Confirm"
 msgstr ""
 
 #. translators: Heading of the privacy/security note box.
-#: includes/consent/consent-manager.php:501
+#: includes/consent/consent-manager.php:502
 msgid "Why are we asking this?"
 msgstr ""
 
 #. translators: Body of the privacy/security note box.
-#: includes/consent/consent-manager.php:504
+#: includes/consent/consent-manager.php:505
 msgid "To protect your privacy and comply with regulations, we need you to confirm this preference. This link expires in 7 days."
 msgstr ""
 
 #. translators: %s: HTML anchor linking to the store homepage.
-#: includes/consent/consent-manager.php:511
+#: includes/consent/consent-manager.php:512
 #, php-format
 msgid "If you did not request this, simply ignore this email. No review request will be sent to your account. Questions? Contact us at %s"
 msgstr ""
 
 #. translators: 1: store name, 2: order number.
-#: includes/consent/consent-manager.php:522
+#: includes/consent/consent-manager.php:523
 #, php-format
 msgid "%1$s – Confirm your review preference for order #%2$s"
 msgstr ""
 
-#: includes/consent/consent-manager.php:661
+#: includes/consent/consent-manager.php:660
 msgid "Order not found."
 msgstr ""
 
-#: includes/consent/consent-manager.php:666
+#: includes/consent/consent-manager.php:665
 msgid "No confirmation pending for this order."
 msgstr ""
 
-#: includes/consent/consent-manager.php:670
+#: includes/consent/consent-manager.php:669
 msgid "Invalid confirmation link."
 msgstr ""
 
-#: includes/consent/consent-manager.php:675
+#: includes/consent/consent-manager.php:674
 msgid "This preference has already been confirmed."
 msgstr ""
 
-#: includes/consent/consent-manager.php:683
+#: includes/consent/consent-manager.php:681
 msgid "This confirmation link has expired. No review request will be sent."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:49
+#: includes/consent/privacy-settings.php:73
 msgid "Send me a one-time review request after my order is delivered. No personal data is stored."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:79
-msgid "Physical Mailing Address"
-msgstr ""
-
-#: includes/consent/privacy-settings.php:82
-msgid "Required under CAN-SPAM for customers in the United States. This address is passed to the TrustScript server and injected into the footer of every review request email via the {physical_address} template placeholder."
-msgstr ""
-
-#: includes/consent/privacy-settings.php:87
-msgid "Business Address"
-msgstr ""
-
-#: includes/consent/privacy-settings.php:94
-msgid "e.g. Acme Inc, 123 Main St, Springfield, IL 62701, USA"
-msgstr ""
-
-#: includes/consent/privacy-settings.php:97
-msgid "Keep this on a single line or use commas to separate parts. It will appear exactly as typed in the email footer."
+#: includes/consent/privacy-settings.php:88
+#: includes/consent/privacy-settings.php:93
+#: includes/trustscript-admin.php:254
+#: includes/trustscript-admin.php:255
+msgid "Privacy & Compliance"
 msgstr ""
 
 #: includes/consent/privacy-settings.php:103
-msgid "No address saved yet."
+msgid "Physical Mailing Address"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:105
-msgid "Review request emails sent to US customers will be missing the required CAN-SPAM footer address until you save one here."
+#: includes/consent/privacy-settings.php:106
+msgid "Required under CAN-SPAM for customers in the United States. This address is passed to the TrustScript server and injected into the footer of every review request email via the {physical_address} template placeholder."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:114
-msgid "Require address for all countries"
+#: includes/consent/privacy-settings.php:111
+msgid "Business Address"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:117
-msgid "When enabled, the physical address will be included in all review emails regardless of customer country. When disabled (recommended), the address is only included for US customers (CAN-SPAM requirement) and other countries where you explicitly require it."
+#: includes/consent/privacy-settings.php:118
+msgid "e.g. Acme Inc, 123 Main St, Springfield, IL 62701, USA"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:124
-msgid "Consent Mode"
+#: includes/consent/privacy-settings.php:121
+msgid "Keep this on a single line or use commas to separate parts. It will appear exactly as typed in the email footer."
 msgstr ""
 
 #: includes/consent/privacy-settings.php:127
-msgid "Controls when a consent checkbox appears at checkout. In Auto mode, TrustScript detects the billing country and applies the correct flow — no checkbox for US customers, single opt-in for EU/UK, double opt-in for Germany and Austria."
+msgid "No address saved yet."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:134
-msgid "Auto (Recommended)"
+#: includes/consent/privacy-settings.php:129
+msgid "Review request emails sent to US customers will be missing the required CAN-SPAM footer address until you save one here."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:135
-msgid "— TrustScript detects the billing country and applies the correct consent flow automatically."
-msgstr ""
-
-#: includes/consent/privacy-settings.php:140
-msgid "Always Show Checkbox"
+#: includes/consent/privacy-settings.php:138
+msgid "Require address for all countries"
 msgstr ""
 
 #: includes/consent/privacy-settings.php:141
+msgid "When enabled, the physical address will be included in all review emails regardless of customer country. When disabled (recommended), the address is only included for US customers (CAN-SPAM requirement) and other countries where you explicitly require it."
+msgstr ""
+
+#: includes/consent/privacy-settings.php:148
+msgid "Consent Mode"
+msgstr ""
+
+#: includes/consent/privacy-settings.php:151
+msgid "Controls when a consent checkbox appears at checkout. In Auto mode, TrustScript detects the billing country and applies the correct flow — no checkbox for US customers, single opt-in for EU/UK, double opt-in for Germany and Austria."
+msgstr ""
+
+#: includes/consent/privacy-settings.php:158
+msgid "Auto (Recommended)"
+msgstr ""
+
+#: includes/consent/privacy-settings.php:159
+msgid "— TrustScript detects the billing country and applies the correct consent flow automatically."
+msgstr ""
+
+#: includes/consent/privacy-settings.php:164
+msgid "Always Show Checkbox"
+msgstr ""
+
+#: includes/consent/privacy-settings.php:165
 msgid "— Show a consent checkbox at checkout for all customers regardless of country. Use this if your store sells globally and you prefer uniform treatment."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:146
+#: includes/consent/privacy-settings.php:170
 msgid "Disabled — Opt-Out Link Only"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:147
-msgid "— Never show a consent checkbox. Use only if your store exclusively serves jurisdictions where prior consent is not required (e.g. US-only stores)."
+#: includes/consent/privacy-settings.php:171
+msgid "— Never show a consent checkbox. Use only if your store exclusively serves jurisdictions where prior consent is not required."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:154
+#: includes/consent/privacy-settings.php:178
 msgid "Consent Checkbox Label"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:157
+#: includes/consent/privacy-settings.php:181
 msgid "The text shown next to the opt-in checkbox at checkout. Keep this neutral — do not mention discounts, incentives, or ratings. The opt-out link is appended automatically by TrustScript."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:170
+#: includes/consent/privacy-settings.php:194
 msgid "Custom Country Rules"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:173
+#: includes/consent/privacy-settings.php:197
 msgid "By default, TrustScript uses built-in rules for EU/UK/DE/AT countries. Use these pickers to add extra countries to each tier — useful if your legal team requires stricter treatment for specific markets."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:179
+#: includes/consent/privacy-settings.php:203
 msgid "Built-in coverage (always active):"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:182
+#: includes/consent/privacy-settings.php:206
 msgid "Double opt-in:"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:186
+#: includes/consent/privacy-settings.php:210
 msgid "Single opt-in:"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:194
+#: includes/consent/privacy-settings.php:218
 msgid "Additional Single Opt-In Countries"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:197
+#: includes/consent/privacy-settings.php:221
 msgid "Customers from these countries will see an unchecked consent checkbox at checkout. No review is sent if they do not tick it."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:210
+#: includes/consent/privacy-settings.php:236
 msgid "Additional Double Opt-In Countries"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:213
+#: includes/consent/privacy-settings.php:239
 msgid "Customers from these countries must tick the checkbox AND click a confirmation link in a follow-up email before a review request is sent."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:225
+#: includes/consent/privacy-settings.php:253
 msgid "WooCommerce country list unavailable. Activate WooCommerce to use this feature."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:246
+#: includes/consent/privacy-settings.php:272
 msgid "Search countries…"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:262
+#: includes/consent/privacy-settings.php:289
 msgid "Already covered by built-in rules — cannot be unchecked"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:286
+#: includes/consent/privacy-settings.php:317
 msgid "Permission denied."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:345
+#: includes/consent/privacy-settings.php:377
 msgid "Privacy settings saved."
 msgstr ""
 
-#: includes/consent/privacy-settings.php:428
+#: includes/consent/privacy-settings.php:467
 msgid "I agree to receive a one-time review request after my order is delivered."
 msgstr ""
 
 #. translators: %s: Order ID
-#: includes/consent/privacy-settings.php:441
+#: includes/consent/privacy-settings.php:480
 #, php-format
 msgid "Confirm your review request for order #%s"
 msgstr ""
 
-#: includes/consent/privacy-settings.php:443
+#: includes/consent/privacy-settings.php:482
 msgid "Confirm your review request"
+msgstr ""
+
+#. translators: %d = number of minutes
+#: includes/date-formatter.php:74
+#, php-format
+msgid "%d minute ago"
+msgid_plural "%d minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d = number of hours
+#: includes/date-formatter.php:83
+#, php-format
+msgid "%d hour ago"
+msgid_plural "%d hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d = number of days
+#: includes/date-formatter.php:92
+#, php-format
+msgid "%d day ago"
+msgid_plural "%d days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d = number of weeks
+#: includes/date-formatter.php:101
+#, php-format
+msgid "%d week ago"
+msgid_plural "%d weeks ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d = number of months
+#: includes/date-formatter.php:109
+#, php-format
+msgid "%d month ago"
+msgid_plural "%d months ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/date-formatter.php:122
+msgid "Relative (e.g., \"2 weeks ago\")"
+msgstr ""
+
+#: includes/date-formatter.php:123
+msgid "Full (e.g., \"January 15, 2024\")"
+msgstr ""
+
+#: includes/date-formatter.php:124
+msgid "Short (e.g., \"Jan 15, 2024\")"
+msgstr ""
+
+#: includes/date-formatter.php:125
+msgid "Date & Time (e.g., \"Jan 15, 2024 4:26 PM\")"
+msgstr ""
+
+#: includes/date-formatter.php:126
+msgid "Numeric (e.g., \"01/15/2024\")"
+msgstr ""
+
+#: includes/frontend-reviews-base.php:126
+msgid "View verification hash"
+msgstr ""
+
+#: includes/frontend-reviews-base.php:143
+msgid "View verification details"
+msgstr ""
+
+#: includes/frontend-reviews-base.php:144
+msgid "Internal Membership Verification"
+msgstr ""
+
+#: includes/frontend-reviews-base.php:191
+msgid "Previous"
+msgstr ""
+
+#. translators: 1: Current page number, 2: Total pages
+#: includes/frontend-reviews-base.php:198
+#, php-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: includes/frontend-reviews-base.php:204
+msgid "Next"
+msgstr ""
+
+#: includes/immutability.php:37
+msgid "This review is locked by TrustScript and cannot be edited. TrustScript reviews are immutable to maintain authenticity and customer trust. You can delete this review if needed, but the text cannot be modified."
+msgstr ""
+
+#: includes/immutability.php:122
+msgid "TrustScript App (Webhook)"
+msgstr ""
+
+#: includes/immutability.php:123
+msgid "Manual Sync (WordPress Admin)"
 msgstr ""
 
 #: includes/integration/elementor/widgets/reviews-showcase.php:20
@@ -3047,6 +2123,11 @@ msgstr ""
 
 #: includes/integration/elementor/widgets/reviews-showcase.php:56
 msgid "Recent Reviews"
+msgstr ""
+
+#: includes/integration/elementor/widgets/reviews-showcase.php:57
+#: includes/review-renderer-eng.php:836
+msgid "Highest Rated"
 msgstr ""
 
 #: includes/integration/elementor/widgets/reviews-showcase.php:58
@@ -3101,356 +2182,1850 @@ msgstr ""
 msgid "Columns"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:136
+#: includes/integration/elementor/widgets/reviews-showcase.php:140
 msgid "Gap Between Cards (Rows & Columns)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:149
+#: includes/integration/elementor/widgets/reviews-showcase.php:153
 msgid "Show Verification Badge"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:151
-#: includes/integration/elementor/widgets/reviews-showcase.php:160
-#: includes/integration/elementor/widgets/reviews-showcase.php:179
-#: includes/integration/elementor/widgets/reviews-showcase.php:188
+#: includes/integration/elementor/widgets/reviews-showcase.php:155
+#: includes/integration/elementor/widgets/reviews-showcase.php:164
+#: includes/integration/elementor/widgets/reviews-showcase.php:183
+#: includes/integration/elementor/widgets/reviews-showcase.php:192
 msgid "Show"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:152
-#: includes/integration/elementor/widgets/reviews-showcase.php:161
-#: includes/integration/elementor/widgets/reviews-showcase.php:180
-#: includes/integration/elementor/widgets/reviews-showcase.php:189
+#: includes/integration/elementor/widgets/reviews-showcase.php:156
+#: includes/integration/elementor/widgets/reviews-showcase.php:165
+#: includes/integration/elementor/widgets/reviews-showcase.php:184
+#: includes/integration/elementor/widgets/reviews-showcase.php:193
 msgid "Hide"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:158
+#: includes/integration/elementor/widgets/reviews-showcase.php:162
 msgid "Show Product Name"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:167
+#: includes/integration/elementor/widgets/reviews-showcase.php:171
 msgid "Product Name Length (words)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:177
+#: includes/integration/elementor/widgets/reviews-showcase.php:181
 msgid "Show Customer Name"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:186
+#: includes/integration/elementor/widgets/reviews-showcase.php:190
 msgid "Show \"Verified Buyer\" Label"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:196
+#: includes/integration/elementor/widgets/reviews-showcase.php:200
 msgid "Review Text Length (words)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:206
+#: includes/integration/elementor/widgets/reviews-showcase.php:210
 msgid "Image-First Settings"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:212
+#: includes/integration/elementor/widgets/reviews-showcase.php:216
 msgid "Image Height"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:223
+#: includes/integration/elementor/widgets/reviews-showcase.php:227
 msgid "Image Fit"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:227
+#: includes/integration/elementor/widgets/reviews-showcase.php:231
 msgid "Cover"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:228
+#: includes/integration/elementor/widgets/reviews-showcase.php:232
 msgid "Contain"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:229
+#: includes/integration/elementor/widgets/reviews-showcase.php:233
 msgid "Fill"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:230
+#: includes/integration/elementor/widgets/reviews-showcase.php:234
 msgid "None (original size)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:231
+#: includes/integration/elementor/widgets/reviews-showcase.php:235
 msgid "Scale Down"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:239
+#: includes/integration/elementor/widgets/reviews-showcase.php:243
 msgid "Image Position"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:243
+#: includes/integration/elementor/widgets/reviews-showcase.php:247
 msgid "Center Center"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:244
+#: includes/integration/elementor/widgets/reviews-showcase.php:248
 msgid "Center Top"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:245
+#: includes/integration/elementor/widgets/reviews-showcase.php:249
 msgid "Center Bottom"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:246
+#: includes/integration/elementor/widgets/reviews-showcase.php:250
 msgid "Left Top"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:247
+#: includes/integration/elementor/widgets/reviews-showcase.php:251
 msgid "Left Center"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:248
+#: includes/integration/elementor/widgets/reviews-showcase.php:252
 msgid "Left Bottom"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:249
+#: includes/integration/elementor/widgets/reviews-showcase.php:253
 msgid "Right Top"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:250
+#: includes/integration/elementor/widgets/reviews-showcase.php:254
 msgid "Right Center"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:251
+#: includes/integration/elementor/widgets/reviews-showcase.php:255
 msgid "Right Bottom"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:260
+#: includes/integration/elementor/widgets/reviews-showcase.php:264
 msgid "Show Only Reviews With Images"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:269
+#: includes/integration/elementor/widgets/reviews-showcase.php:266
+#: includes/integration/elementor/widgets/reviews-showcase.php:276
+#: includes/integration/elementor/widgets/reviews-showcase.php:306
+#: includes/review-renderer-eng.php:1208
+msgid "Yes"
+msgstr ""
+
+#: includes/integration/elementor/widgets/reviews-showcase.php:267
+#: includes/integration/elementor/widgets/reviews-showcase.php:277
+#: includes/integration/elementor/widgets/reviews-showcase.php:307
+#: includes/review-renderer-eng.php:1218
+msgid "No"
+msgstr ""
+
+#: includes/integration/elementor/widgets/reviews-showcase.php:273
 msgid "Darken Image on Card Hover"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:270
+#: includes/integration/elementor/widgets/reviews-showcase.php:274
 msgid "Shows a subtle dark gradient over the photo when the card is hovered."
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:281
+#: includes/integration/elementor/widgets/reviews-showcase.php:288
 msgid "Marquee Settings"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:287
+#: includes/integration/elementor/widgets/reviews-showcase.php:294
 msgid "Animation Speed (seconds)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:293
+#: includes/integration/elementor/widgets/reviews-showcase.php:300
 msgid "Higher = slower animation"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:297
+#: includes/integration/elementor/widgets/reviews-showcase.php:304
 msgid "Pause on Hover"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:306
+#: includes/integration/elementor/widgets/reviews-showcase.php:313
 msgid "Scroll Direction"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:310
+#: includes/integration/elementor/widgets/reviews-showcase.php:317
 msgid "Left (default)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:311
-#: includes/integration/elementor/widgets/reviews-showcase.php:379
+#: includes/integration/elementor/widgets/reviews-showcase.php:318
+#: includes/integration/elementor/widgets/reviews-showcase.php:386
 msgid "Right"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:317
+#: includes/integration/elementor/widgets/reviews-showcase.php:324
 msgid "Card Width (px)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:329
+#: includes/integration/elementor/widgets/reviews-showcase.php:336
 msgid "Gap Between Cards (px)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:341
+#: includes/integration/elementor/widgets/reviews-showcase.php:348
 msgid "Edge Fade Color"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:342
+#: includes/integration/elementor/widgets/reviews-showcase.php:349
 msgid "Should match your section background color."
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:353
+#: includes/integration/elementor/widgets/reviews-showcase.php:360
 msgid "Edge Fade Width"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:369
+#: includes/integration/elementor/widgets/reviews-showcase.php:376
 msgid "Review Card"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:374
+#: includes/integration/elementor/widgets/reviews-showcase.php:381
 msgid "Content Alignment"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:377
+#: includes/integration/elementor/widgets/reviews-showcase.php:384
 msgid "Left"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:378
+#: includes/integration/elementor/widgets/reviews-showcase.php:385
 msgid "Center"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:402
-#: includes/integration/elementor/widgets/reviews-showcase.php:789
+#: includes/integration/elementor/widgets/reviews-showcase.php:409
+#: includes/integration/elementor/widgets/reviews-showcase.php:796
 msgid "Background"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:423
-#: includes/integration/elementor/widgets/reviews-showcase.php:680
-#: includes/integration/elementor/widgets/reviews-showcase.php:810
+#: includes/integration/elementor/widgets/reviews-showcase.php:430
+#: includes/integration/elementor/widgets/reviews-showcase.php:687
+#: includes/integration/elementor/widgets/reviews-showcase.php:817
 msgid "Border Radius"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:439
-#: includes/integration/elementor/widgets/reviews-showcase.php:668
+#: includes/integration/elementor/widgets/reviews-showcase.php:446
+#: includes/integration/elementor/widgets/reviews-showcase.php:675
 msgid "Padding"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:450
+#: includes/integration/elementor/widgets/reviews-showcase.php:457
 msgid "Hover Effects"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:456
+#: includes/integration/elementor/widgets/reviews-showcase.php:463
 msgid "Scale"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:470
+#: includes/integration/elementor/widgets/reviews-showcase.php:477
 msgid "Hover Shadow"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:476
+#: includes/integration/elementor/widgets/reviews-showcase.php:483
 msgid "Transition Duration (ms)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:490
+#: includes/integration/elementor/widgets/reviews-showcase.php:497
+#: includes/simple-review/simple-email-sender.php:24
 msgid "Product Name"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:495
-#: includes/integration/elementor/widgets/reviews-showcase.php:529
-#: includes/integration/elementor/widgets/reviews-showcase.php:573
-#: includes/integration/elementor/widgets/reviews-showcase.php:713
-#: includes/integration/elementor/widgets/reviews-showcase.php:749
-#: includes/integration/elementor/widgets/reviews-showcase.php:838
+#: includes/integration/elementor/widgets/reviews-showcase.php:502
+#: includes/integration/elementor/widgets/reviews-showcase.php:536
+#: includes/integration/elementor/widgets/reviews-showcase.php:580
+#: includes/integration/elementor/widgets/reviews-showcase.php:720
+#: includes/integration/elementor/widgets/reviews-showcase.php:756
+#: includes/integration/elementor/widgets/reviews-showcase.php:845
 msgid "Color"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:510
-#: includes/integration/elementor/widgets/reviews-showcase.php:553
-#: includes/integration/elementor/widgets/reviews-showcase.php:587
-#: includes/integration/elementor/widgets/reviews-showcase.php:693
-#: includes/integration/elementor/widgets/reviews-showcase.php:728
+#: includes/integration/elementor/widgets/reviews-showcase.php:517
+#: includes/integration/elementor/widgets/reviews-showcase.php:560
+#: includes/integration/elementor/widgets/reviews-showcase.php:594
+#: includes/integration/elementor/widgets/reviews-showcase.php:700
+#: includes/integration/elementor/widgets/reviews-showcase.php:735
 msgid "Bottom Spacing"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:524
+#: includes/integration/elementor/widgets/reviews-showcase.php:531
 msgid "Star Rating"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:540
-#: includes/integration/elementor/widgets/reviews-showcase.php:797
+#: includes/integration/elementor/widgets/reviews-showcase.php:547
+#: includes/integration/elementor/widgets/reviews-showcase.php:804
 msgid "Size"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:567
+#: includes/integration/elementor/widgets/reviews-showcase.php:574
 msgid "Review Date"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:600
+#: includes/integration/elementor/widgets/reviews-showcase.php:607
 msgid "Verified Badge"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:606
+#: includes/integration/elementor/widgets/reviews-showcase.php:613
 msgid "Badge Style"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:610
+#: includes/integration/elementor/widgets/reviews-showcase.php:617
 msgid "Inline (next to stars)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:616
+#: includes/integration/elementor/widgets/reviews-showcase.php:623
 msgid "Text & Icon Color"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:627
+#: includes/integration/elementor/widgets/reviews-showcase.php:634
 msgid "Background Color"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:638
-#: includes/integration/elementor/widgets/reviews-showcase.php:850
+#: includes/integration/elementor/widgets/reviews-showcase.php:645
+#: includes/integration/elementor/widgets/reviews-showcase.php:857
 msgid "Typography"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:644
+#: includes/integration/elementor/widgets/reviews-showcase.php:651
 msgid "Icon Size"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:656
+#: includes/integration/elementor/widgets/reviews-showcase.php:663
 msgid "Text Size"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:708
+#: includes/integration/elementor/widgets/reviews-showcase.php:715
 msgid "Review Text"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:743
+#: includes/integration/elementor/widgets/reviews-showcase.php:750
+#: includes/simple-review/simple-email-sender.php:22
 msgid "Customer Name"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:768
+#: includes/integration/elementor/widgets/reviews-showcase.php:775
 msgid "Label Font Size"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:782
+#: includes/integration/elementor/widgets/reviews-showcase.php:789
 msgid "Avatar"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:827
+#: includes/integration/elementor/widgets/reviews-showcase.php:834
 msgid "Border"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:832
+#: includes/integration/elementor/widgets/reviews-showcase.php:839
 msgid "Text (Initials)"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:855
+#: includes/integration/elementor/widgets/reviews-showcase.php:862
 msgid "Gap to Name"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:876
+#: includes/integration/elementor/widgets/reviews-showcase.php:883
 msgid "Unknown Product"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:937
+#: includes/integration/elementor/widgets/reviews-showcase.php:944
 msgid "No reviews found matching your criteria."
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:946
+#: includes/integration/elementor/widgets/reviews-showcase.php:953
 msgid "Verified"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:956
+#: includes/integration/elementor/widgets/reviews-showcase.php:963
 msgid "No reviews with images found matching your criteria."
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:1198
-#: includes/integration/elementor/widgets/reviews-showcase.php:1276
-#: includes/integration/elementor/widgets/reviews-showcase.php:1293
+#: includes/integration/elementor/widgets/reviews-showcase.php:1023
+#: includes/review-renderer-eng.php:1170
+#: includes/webhook.php:993
+msgid "Review photo"
+msgstr ""
+
+#: includes/integration/elementor/widgets/reviews-showcase.php:1089
+#: includes/integration/elementor/widgets/reviews-showcase.php:1167
+#: includes/integration/elementor/widgets/reviews-showcase.php:1184
 msgid "Verified Buyer"
 msgstr ""
 
-#: includes/providers/class-trustscript-memberpress-provider.php:77
+#: includes/media-upload.php:36
+#: includes/webhook.php:148
+msgid "Missing authentication headers (X-API-Key and X-Site-URL required)"
+msgstr ""
+
+#: includes/media-upload.php:55
+msgid "Too many uploads. Rate limit: 50 per minute"
+msgstr ""
+
+#: includes/media-upload.php:67
+#: includes/webhook.php:178
+#: includes/webhook.php:1053
+msgid "No API key configured"
+msgstr ""
+
+#: includes/media-upload.php:75
+#: includes/webhook.php:186
+#: includes/webhook.php:1057
+msgid "Invalid API key"
+msgstr ""
+
+#: includes/media-upload.php:84
+#: includes/webhook.php:195
+#: includes/webhook.php:1066
+msgid "API key has expired. Please generate a new API key in TrustScript dashboard."
+msgstr ""
+
+#: includes/media-upload.php:92
+#: includes/webhook.php:203
+msgid "Domain mismatch: API key is not valid for this domain"
+msgstr ""
+
+#: includes/media-upload.php:129
+msgid "Review token not found or not associated with this API key"
+msgstr ""
+
+#: includes/media-upload.php:165
+#: includes/media-upload.php:185
+#: includes/media-upload.php:205
+#: includes/media-upload.php:225
+msgid "Total upload size exceeds 50MB"
+msgstr ""
+
+#. translators: 1: media type (photo/video), 2: review token identifier
+#: includes/media-upload.php:305
+#, php-format
+msgid "TrustScript Review %1$s - %2$s"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:43
+#: includes/memberpress-reviews.php:39
+#: includes/review-renderer-eng.php:1081
+#: includes/review-renderer-eng.php:1089
+#: includes/simple-review/views/inline-form.php:32
+msgid "Verified Purchase"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:47
+#: includes/memberpress-reviews.php:43
+msgid "Verified Member"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:51
+#: includes/memberpress-reviews.php:47
+msgid "Verified Purchase Hash"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:70
+msgid "TrustScript Member Reviews"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:115
+msgid "Display Member Reviews Below This Page"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:122
+msgid "Review Display Options"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:126
+#: includes/memberpress-reviews-metabox.php:130
+msgid "Display Method"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:133
+msgid "Select from Dropdown"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:138
+msgid "Paste Shortcode"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:146
+#: includes/providers/memberpress-provider.php:111
+#: includes/providers/memberpress-provider.php:183
+msgid "Membership"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:150
+msgid "-- Select a Membership --"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:153
+msgid "Choose a membership to display its reviews."
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:159
+msgid "Shortcode"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:164
+msgid "Example: "
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:172
+msgid "Reviews Per Page"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:176
+msgid "Number of reviews to display per page. Default: 10"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:182
+msgid "Minimum Rating Filter"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:186
+msgid "Show All Ratings"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:193
+msgid "Only show reviews with this minimum rating. Default: Show all"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:199
+msgid "Tip:"
+msgstr ""
+
+#: includes/memberpress-reviews-metabox.php:200
+msgid "These reviews will display below the page content, outside of MemberPress access restrictions. This allows public visibility for SEO and social proof."
+msgstr ""
+
+#: includes/memberpress-reviews.php:82
+msgid "Review Display Settings"
+msgstr ""
+
+#: includes/memberpress-reviews.php:83
+msgid "Review Display"
+msgstr ""
+
+#: includes/memberpress-reviews.php:90
+msgid "MemberPress Review Display"
+msgstr ""
+
+#: includes/memberpress-reviews.php:91
+msgid "MemberPress Reviews"
+msgstr ""
+
+#: includes/memberpress-reviews.php:116
+#: includes/trustscript-admin.php:835
+msgid "Settings saved successfully!"
+msgstr ""
+
+#: includes/memberpress-reviews.php:124
+msgid "MemberPress Review Display Settings"
+msgstr ""
+
+#: includes/memberpress-reviews.php:127
+msgid "How to Display Reviews"
+msgstr ""
+
+#: includes/memberpress-reviews.php:129
+msgid "Use the shortcode below to display member reviews anywhere on your site. The shortcode parameters allow full control over what and how reviews are displayed."
+msgstr ""
+
+#: includes/memberpress-reviews.php:138
+msgid "Default Layout"
+msgstr ""
+
+#: includes/memberpress-reviews.php:141
+msgid "List"
+msgstr ""
+
+#: includes/memberpress-reviews.php:143
+msgid "Reviews display in a vertical list format"
+msgstr ""
+
+#: includes/memberpress-reviews.php:148
+msgid "Who Can See Reviews"
+msgstr ""
+
+#: includes/memberpress-reviews.php:151
+msgid "Everyone"
+msgstr ""
+
+#: includes/memberpress-reviews.php:152
+msgid "Members Only"
+msgstr ""
+
+#: includes/memberpress-reviews.php:153
+msgid "Active Members Only"
+msgstr ""
+
+#: includes/memberpress-reviews.php:155
+msgid "Control who can view member reviews on your site"
+msgstr ""
+
+#: includes/memberpress-reviews.php:167
+msgid "Shortcode Reference"
+msgstr ""
+
+#: includes/memberpress-reviews.php:169
+msgid "Basic Usage"
+msgstr ""
+
+#: includes/memberpress-reviews.php:170
+msgid "Display member reviews for a specific membership product:"
+msgstr ""
+
+#: includes/memberpress-reviews.php:173
+msgid "Shortcode Parameters"
+msgstr ""
+
+#: includes/memberpress-reviews.php:177
+msgid "Parameter"
+msgstr ""
+
+#: includes/memberpress-reviews.php:178
+msgid "Description"
+msgstr ""
+
+#: includes/memberpress-reviews.php:179
+msgid "Example"
+msgstr ""
+
+#: includes/memberpress-reviews.php:185
+msgid "Membership product ID (required)"
+msgstr ""
+
+#: includes/memberpress-reviews.php:190
+msgid "Number of reviews per page. Default: 10"
+msgstr ""
+
+#: includes/memberpress-reviews.php:195
+msgid "Display layout (list). Default: list"
+msgstr ""
+
+#: includes/memberpress-reviews.php:200
+msgid "Filter by minimum rating (1-5). Default: 0 (show all)"
+msgstr ""
+
+#: includes/memberpress-reviews.php:205
+msgid "Page number for pagination. Default: 1"
+msgstr ""
+
+#: includes/memberpress-reviews.php:211
+msgid "Example Shortcodes"
+msgstr ""
+
+#: includes/memberpress-reviews.php:212
+msgid "Show 5 reviews per page:"
+msgstr ""
+
+#: includes/memberpress-reviews.php:215
+msgid "Show only 4 and 5 star reviews:"
+msgstr ""
+
+#: includes/memberpress-reviews.php:218
+msgid "Show 15 reviews per page:"
+msgstr ""
+
+#: includes/memberpress-reviews.php:274
+msgid "You must be a member to view reviews."
+msgstr ""
+
+#: includes/memberpress-reviews.php:349
+msgid "Member Reviews"
+msgstr ""
+
+#. translators: %s: Number of reviews
+#: includes/memberpress-reviews.php:360
+#, php-format
+msgid "%s review"
+msgid_plural "%s reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/memberpress-reviews.php:394
+msgid "No Reviews Yet"
+msgstr ""
+
+#: includes/memberpress-reviews.php:395
+msgid "Be the first to share your experience with this membership!"
+msgstr ""
+
+#: includes/order-status.php:48
+msgctxt "Order status"
+msgid "Delivered"
+msgstr ""
+
+#. translators: %s: number of orders
+#: includes/order-status.php:54
+#, php-format
+msgid "Delivered <span class=\"count\">(%s)</span>"
+msgid_plural "Delivered <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/order-status.php:69
+#: includes/order-status.php:71
+msgid "Delivered"
+msgstr ""
+
+#: includes/order-status.php:92
+msgid "Change status to delivered"
+msgstr ""
+
+#: includes/order-status.php:110
+msgid "Order marked as delivered by bulk action."
+msgstr ""
+
+#: includes/order-status.php:135
+msgid "Order status changed to delivered via bulk action."
+msgstr ""
+
+#: includes/order-status.php:152
+msgid "Mark as Delivered"
+msgstr ""
+
+#: includes/order-status.php:160
+msgid "Order marked as delivered."
+msgstr ""
+
+#: includes/placeholder-mapper.php:145
+msgid "Image"
+msgstr ""
+
+#: includes/placeholder-mapper.php:153
+msgid "Customer name"
+msgstr ""
+
+#: includes/placeholder-mapper.php:154
+msgid "Customer email"
+msgstr ""
+
+#: includes/placeholder-mapper.php:155
+msgid "Store name"
+msgstr ""
+
+#: includes/placeholder-mapper.php:156
+#: includes/simple-review/simple-email-sender.php:29
+msgid "Store URL"
+msgstr ""
+
+#: includes/placeholder-mapper.php:157
+msgid "Review link"
+msgstr ""
+
+#: includes/placeholder-mapper.php:158
+msgid "Item/Product/Service name"
+msgstr ""
+
+#: includes/placeholder-mapper.php:159
+msgid "Item description"
+msgstr ""
+
+#: includes/placeholder-mapper.php:160
+msgid "Item image"
+msgstr ""
+
+#: includes/placeholder-mapper.php:161
+msgid "Order/Transaction/Booking ID"
+msgstr ""
+
+#: includes/placeholder-mapper.php:162
+msgid "Purchase date"
+msgstr ""
+
+#: includes/placeholder-mapper.php:163
+msgid "Purchase total"
+msgstr ""
+
+#: includes/placeholder-mapper.php:164
+msgid "Physical mailing address"
+msgstr ""
+
+#: includes/placeholder-mapper.php:172
+msgid "Product name"
+msgstr ""
+
+#: includes/placeholder-mapper.php:173
+msgid "Product description"
+msgstr ""
+
+#: includes/placeholder-mapper.php:174
+msgid "Product image"
+msgstr ""
+
+#: includes/placeholder-mapper.php:175
+msgid "Order number"
+msgstr ""
+
+#: includes/placeholder-mapper.php:176
+msgid "Order date"
+msgstr ""
+
+#: includes/placeholder-mapper.php:177
+msgid "Order total"
+msgstr ""
+
+#: includes/placeholder-mapper.php:182
+msgid "Membership name"
+msgstr ""
+
+#: includes/placeholder-mapper.php:183
+msgid "Membership description"
+msgstr ""
+
+#: includes/placeholder-mapper.php:184
+msgid "Transaction number"
+msgstr ""
+
+#: includes/placeholder-mapper.php:185
+msgid "Transaction total"
+msgstr ""
+
+#: includes/placeholder-mapper.php:186
+msgid "Subscription date"
+msgstr ""
+
+#: includes/providers/memberpress-provider.php:77
 msgid "Complete"
 msgstr ""
 
-#: includes/providers/class-trustscript-memberpress-provider.php:78
-msgid "Confirmed"
+#: includes/providers/memberpress-provider.php:81
+msgid "Refunded"
 msgstr ""
 
-#: includes/providers/class-trustscript-memberpress-provider.php:81
-msgid "Refunded"
+#: includes/review-renderer-eng.php:311
+msgid "Store rating"
+msgstr ""
+
+#: includes/review-renderer-eng.php:315
+msgid "Total reviews"
+msgstr ""
+
+#: includes/review-renderer-eng.php:319
+msgid "Verified buyers"
+msgstr ""
+
+#: includes/review-renderer-eng.php:323
+msgid "Recommend this"
+msgstr ""
+
+#: includes/review-renderer-eng.php:584
+msgid "Customer Reviews"
+msgstr ""
+
+#: includes/review-renderer-eng.php:585
+msgid "Honest opinions from verified buyers"
+msgstr ""
+
+#: includes/review-renderer-eng.php:808
+msgid "Filter by keyword"
+msgstr ""
+
+#: includes/review-renderer-eng.php:811
+msgid "All Reviews"
+msgstr ""
+
+#: includes/review-renderer-eng.php:827
+msgid "Sort by"
+msgstr ""
+
+#: includes/review-renderer-eng.php:830
+msgid "Most Helpful"
+msgstr ""
+
+#: includes/review-renderer-eng.php:833
+msgid "Newest"
+msgstr ""
+
+#: includes/review-renderer-eng.php:839
+msgid "Lowest Rated"
+msgstr ""
+
+#. translators: %1$d = reviews shown, %2$d = total reviews
+#: includes/review-renderer-eng.php:848
+#: includes/woocommerce-reviews.php:112
+#, php-format
+msgid "Showing %1$d of %2$d reviews"
+msgstr ""
+
+#: includes/review-renderer-eng.php:853
+#: includes/woocommerce-reviews.php:108
+msgid "Showing 1 review"
+msgstr ""
+
+#. translators: %d = number of reviews
+#: includes/review-renderer-eng.php:857
+#, php-format
+msgid "Showing %d review"
+msgid_plural "Showing %d reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/review-renderer-eng.php:879
+#: includes/simple-review/rest-simple-review.php:514
+#: includes/simple-review/rest-simple-review.php:607
+msgid "You have already reviewed this product."
+msgstr ""
+
+#: includes/review-renderer-eng.php:885
+msgid "Edit Review"
+msgstr ""
+
+#: includes/review-renderer-eng.php:895
+msgid "No reviews yet. Be the first!"
+msgstr ""
+
+#: includes/review-renderer-eng.php:912
+msgctxt "button label"
+msgid "Load more reviews"
+msgstr ""
+
+#: includes/review-renderer-eng.php:918
+msgid "No reviews match your filter."
+msgstr ""
+
+#: includes/review-renderer-eng.php:1076
+msgid "Verify this review"
+msgstr ""
+
+#. translators: %d = star rating number from 1 to 5
+#: includes/review-renderer-eng.php:1102
+#, php-format
+msgid "%d out of 5 stars"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1123
+msgid "Read more"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1142
+#: includes/review-renderer-eng.php:1499
+msgid "Previous photo"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1181
+#: includes/review-renderer-eng.php:1504
+msgid "Next photo"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1199
+msgid "Was this helpful?"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1206
+msgid "Yes, helpful"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1216
+msgid "No, not helpful"
+msgstr ""
+
+#. translators: 1: total count
+#: includes/review-renderer-eng.php:1303
+#, php-format
+msgid "out of 5 · %d review"
+msgid_plural "out of 5 · %d reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/review-renderer-eng.php:1337
+msgid "Positive"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1342
+msgid "Neutral"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1354
+msgid "Sentiment"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1399
+msgid "All Product Photos"
+msgstr ""
+
+#. translators: %d is an integer count of photos
+#: includes/review-renderer-eng.php:1405
+#, php-format
+msgid "%d images"
+msgstr ""
+
+#. translators: %d = total count of images in the gallery
+#: includes/review-renderer-eng.php:1425
+#: includes/review-renderer-eng.php:1435
+#, php-format
+msgid "View all %d images"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1451
+#: includes/review-renderer-eng.php:1473
+msgid "Product photo"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1454
+msgid "+More"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1494
+msgid "Photo viewer"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1509
+#: includes/review-renderer-eng.php:1566
+#: includes/simple-review/class-trustscript-simple-review.php:177
+msgid "Close"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1530
+msgid "✓ Verified Buyer"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1556
+msgid "Review Verified by TrustScript"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1577
+msgid "Star rating"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1583
+msgid "This code ties the review to its original submission on TrustScript. You can use it to confirm the review is genuine and unedited."
+msgstr ""
+
+#: includes/review-renderer-eng.php:1590
+#: includes/woocommerce-reviews.php:114
+msgid "Copy Hash"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1598
+msgid "Verify this review ↗"
+msgstr ""
+
+#: includes/review-renderer-eng.php:1657
+msgid "Store Owner"
+msgstr ""
+
+#: includes/review-voting.php:125
+msgid "Invalid or missing nonce."
+msgstr ""
+
+#: includes/review-voting.php:133
+msgid "You must be logged in to vote."
+msgstr ""
+
+#: includes/review-voting.php:152
+msgid "Voting is currently disabled"
+msgstr ""
+
+#: includes/review-voting.php:160
+msgid "You must be logged in to vote"
+msgstr ""
+
+#: includes/review-voting.php:172
+#: includes/review-voting.php:211
+msgid "Invalid request"
+msgstr ""
+
+#: includes/review-voting.php:181
+msgid "Could not process your vote. Please try again."
+msgstr ""
+
+#: includes/review-voting.php:194
+msgid "Vote recorded successfully"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:88
+msgid "Please select a star rating."
+msgstr ""
+
+#. translators: %d: minimum number of characters required for a review.
+#: includes/simple-review/class-trustscript-simple-review.php:91
+#: includes/simple-review/rest-simple-review.php:188
+#, php-format
+msgid "Review must be at least %d characters."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:94
+msgid "Review is too long."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:95
+#: includes/simple-review/rest-simple-review.php:243
+#: includes/simple-review/rest-simple-review.php:255
+#: includes/woocommerce-reviews.php:118
+msgid "Please enter your name."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:96
+#: includes/simple-review/rest-simple-review.php:262
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:97
+msgid "Photo exceeds 5MB limit and was not added."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:98
+msgid "Only JPEG, PNG, and WebP photos are allowed."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:99
+#: includes/woocommerce-reviews.php:106
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:100
+msgid "Thank you! Your review has been submitted."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:101
+#: includes/simple-review/rest-simple-review.php:382
+#: includes/simple-review/rest-simple-review.php:385
+msgid "Thank you! Your review is awaiting moderation."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:102
+msgid "Not what I expected"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:103
+msgid "Could be better"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:104
+msgid "It's okay overall"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:105
+msgid "I'm really happy with it"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:106
+msgid "I absolutely love it"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:107
+#: includes/simple-review/views/product-selector.php:34
+msgid "Write Review"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:150
+#: includes/simple-review/class-trustscript-simple-review.php:175
+#: includes/simple-review/class-trustscript-simple-review.php:176
+msgid "Write a Review"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:178
+#: includes/simple-review/views/inline-form.php:57
+msgid "Your Rating"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:179
+#: includes/simple-review/views/inline-form.php:80
+msgid "Your Review"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:180
+msgid "Your Name"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:181
+msgid "Your Email"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:182
+msgid "Add Photos"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:183
+msgid "optional"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:184
+msgid "Your email will not be published."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:185
+msgid "Drag & drop photos here or click to browse"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:186
+msgid "Next: Add Photos"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:187
+#: includes/simple-review/views/inline-form.php:160
+msgid "Back"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:188
+#: includes/simple-review/views/inline-form.php:165
+msgid "Submit Review"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:189
+msgid "Submitting..."
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:190
+msgid "Share your experience with this product..."
+msgstr ""
+
+#. translators: %d: maximum number of photos allowed
+#: includes/simple-review/class-trustscript-simple-review.php:193
+#, php-format
+msgid "Up to %d photos (JPEG, PNG, WebP, max 5MB each)"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:199
+msgid "1 star"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:200
+msgid "2 stars"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:201
+msgid "3 stars"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:202
+msgid "4 stars"
+msgstr ""
+
+#: includes/simple-review/class-trustscript-simple-review.php:203
+msgid "5 stars"
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:120
+msgid "Security check failed. Please refresh and try again."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:128
+msgid "On-site reviews are currently disabled."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:137
+msgid "Submission blocked."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:145
+msgid "Too many submissions. Please wait a few minutes and try again."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:157
+#: includes/simple-review/rest-simple-review.php:168
+msgid "Product not found."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:177
+msgid "Please select a rating between 1 and 5."
+msgstr ""
+
+#. translators: %d is the maximum number of characters allowed for a review.
+#: includes/simple-review/rest-simple-review.php:199
+#, php-format
+msgid "Review must be no more than %d characters."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:279
+msgid "You do not have permission to edit this review."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:303
+msgid "Your review is already being processed."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:330
+msgid "Could not save your review. Please try again."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:384
+msgid "Thank you! Your review has been published."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:470
+msgid "Invalid review token."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:479
+msgid "Invalid or expired review token."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:487
+msgid "This product order has been refunded or cancelled. Review submission is no longer available."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:496
+msgid "This review link has expired."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:522
+msgid "You must be logged in to submit a review."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:534
+#: includes/simple-review/rest-simple-review.php:541
+#: includes/ts-simple-email-review.php:222
+msgid "This review link is not valid for your account."
+msgstr ""
+
+#: includes/simple-review/rest-simple-review.php:558
+msgid "This product is not in your order."
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:23
+msgid "Customer Email"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:25
+#: includes/simple-review/simple-email-sender.php:61
+msgid "Order Number"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:27
+#: includes/simple-review/simple-email-sender.php:63
+msgid "Order Total"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:28
+msgid "Store Name"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:30
+msgid "Review Link (required)"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:31
+msgid "Opt-Out Link"
+msgstr ""
+
+#. translators: Default review request email subject line.
+#: includes/simple-review/simple-email-sender.php:42
+msgid "Share your feedback — {store_name} would love to hear from you"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:52
+msgid "Hi {customer_name},"
+msgstr ""
+
+#. translators: %s: store name
+#: includes/simple-review/simple-email-sender.php:55
+#, php-format
+msgid "Thank you for your purchase from %s. We hope you're enjoying your recent order."
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:58
+msgid "Your feedback helps other customers make informed decisions and helps us improve."
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:59
+msgid "Order Details"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:64
+msgid "Leave a Review"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:65
+msgid "It only takes a minute and we truly appreciate your time."
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:66
+msgid "Sent by"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:67
+msgid "This email was sent to {customer_email}"
+msgstr ""
+
+#: includes/simple-review/simple-email-sender.php:68
+#: includes/simple-review/simple-email-sender.php:213
+msgid "Unsubscribe from review requests"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:51
+msgid "Share your"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:51
+msgid "experience"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:61
+msgid "Rating"
+msgstr ""
+
+#. translators: %d: rating value
+#: includes/simple-review/views/inline-form.php:66
+#, php-format
+msgid "%d star"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:73
+msgid "Tap a star to rate"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:83
+msgid "min. 10 characters"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:86
+msgid "What did you love? Would you recommend it?"
+msgstr ""
+
+#. translators: %s: customer name
+#: includes/simple-review/views/inline-form.php:99
+#, php-format
+msgid "Reviewing as %s"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:105
+msgid "Your Details"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:110
+msgid "Full name"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:115
+msgid "Email address"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:124
+msgid "Continue"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:133
+msgid "Add"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:133
+msgid "photos"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:146
+msgid "Drop photos here"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:147
+msgid "or <strong>browse to upload</strong> &mdash; JPEG, PNG, WebP &bull; max 5 MB each"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:151
+msgid "Up to 3 photos"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:163
+msgid "Skip photos"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:170
+msgid "Submitting…"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:183
+#: includes/simple-review/views/inline-form.php:196
+msgid "Thank you!"
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:184
+#: includes/simple-review/views/inline-form.php:197
+msgid "Your review has been submitted and is pending approval."
+msgstr ""
+
+#: includes/simple-review/views/inline-form.php:186
+msgid "Would you also like to review these products?"
+msgstr ""
+
+#: includes/simple-review/views/login-prompt.php:25
+msgid "Log in to submit your review"
+msgstr ""
+
+#: includes/simple-review/views/login-prompt.php:27
+msgid "Please log in with the email address used for your order."
+msgstr ""
+
+#: includes/simple-review/views/login-prompt.php:31
+msgid "Log In"
+msgstr ""
+
+#: includes/simple-review/views/login-prompt.php:35
+msgid "Create Account"
+msgstr ""
+
+#: includes/simple-review/views/product-selector.php:17
+msgid "Which product would you like to review?"
+msgstr ""
+
+#: includes/trustscript-admin.php:162
+msgid "Attached Photos:"
+msgstr ""
+
+#: includes/trustscript-admin.php:179
+msgid "✏️ This is an EDIT of an existing review."
+msgstr ""
+
+#: includes/trustscript-admin.php:180
+msgid "Original Rating:"
+msgstr ""
+
+#: includes/trustscript-admin.php:181
+msgid "New Rating:"
+msgstr ""
+
+#: includes/trustscript-admin.php:182
+msgid "Original Text:"
+msgstr ""
+
+#: includes/trustscript-admin.php:188
+msgid "Original Photos:"
+msgstr ""
+
+#: includes/trustscript-admin.php:216
+#: includes/trustscript-admin.php:227
+#: includes/trustscript-admin.php:228
+msgid "Analytics"
+msgstr ""
+
+#: includes/trustscript-admin.php:245
+#: includes/trustscript-admin.php:246
+msgid "API Settings"
+msgstr ""
+
+#: includes/trustscript-admin.php:264
+msgid "Review Form"
+msgstr ""
+
+#: includes/trustscript-admin.php:271
+#: includes/trustscript-admin.php:277
+msgid "Pending Queue"
+msgstr ""
+
+#: includes/trustscript-admin.php:291
+msgid "You do not have permission to access this page."
+msgstr ""
+
+#: includes/trustscript-admin.php:322
+msgid "API Key Invalid or Expired"
+msgstr ""
+
+#: includes/trustscript-admin.php:323
+msgid "Your TrustScript API key is no longer valid. This might be because:"
+msgstr ""
+
+#: includes/trustscript-admin.php:325
+msgid "The key has expired (development keys expire after 24 hours)"
+msgstr ""
+
+#: includes/trustscript-admin.php:326
+msgid "The key was deleted from your TrustScript dashboard"
+msgstr ""
+
+#: includes/trustscript-admin.php:327
+msgid "Your account or key was revoked"
+msgstr ""
+
+#: includes/trustscript-admin.php:332
+msgid "Go to Settings & Update Key"
+msgstr ""
+
+#: includes/trustscript-admin.php:335
+msgid "Generate New Key"
+msgstr ""
+
+#. translators: %s: plan name
+#: includes/trustscript-admin.php:370
+#: includes/trustscript-admin.php:667
+#, php-format
+msgid "Monthly review limit reached for your %s plan."
+msgstr ""
+
+#. translators: %1$s: next plan name, %2$d: review limit
+#: includes/trustscript-admin.php:378
+#: includes/trustscript-admin.php:675
+#, php-format
+msgid " Upgrade to %1$s for %2$d reviews per month."
+msgstr ""
+
+#. translators: %s: reset date
+#: includes/trustscript-admin.php:390
+#: includes/trustscript-admin.php:396
+#: includes/trustscript-admin.php:687
+#: includes/trustscript-admin.php:693
+#, php-format
+msgid " Or wait until %s for your limit to reset."
+msgstr ""
+
+#: includes/trustscript-admin.php:404
+msgid "Review Quota Limit Reached"
+msgstr ""
+
+#: includes/trustscript-admin.php:408
+msgid "Upgrade Your Plan"
+msgstr ""
+
+#: includes/trustscript-admin.php:485
+#: includes/trustscript-admin.php:575
+msgid "Invalid webhook secret format. Webhook secrets should look like: TSS-XXXX-XXXX-XXXX"
+msgstr ""
+
+#: includes/trustscript-admin.php:496
+msgid "Failed to encrypt webhook secret. Please try again."
+msgstr ""
+
+#: includes/trustscript-admin.php:538
+msgid "Invalid API key format. API keys should look like: TSK-XXXX-XXXX-XXXX"
+msgstr ""
+
+#: includes/trustscript-admin.php:553
+msgid "You must agree to data sharing before verifying your API key."
+msgstr ""
+
+#: includes/trustscript-admin.php:566
+msgid "Webhook secret is required. Please generate both an API key and webhook secret from the TrustScript dashboard."
+msgstr ""
+
+#. translators: %s: error message
+#: includes/trustscript-admin.php:604
+#, php-format
+msgid "Could not verify your API key with TrustScript: %s. Please check your internet connection and try again."
+msgstr ""
+
+#: includes/trustscript-admin.php:645
+msgid "API key verified successfully! Your site is now connected to TrustScript."
+msgstr ""
+
+#. translators: 1: remaining reviews, 2: total limit, 3: reset date
+#: includes/trustscript-admin.php:711
+#, php-format
+msgid " You have %1$d/%2$d reviews remaining this month (resets on %3$s)."
+msgstr ""
+
+#: includes/trustscript-admin.php:752
+msgid "Failed to encrypt API key. Please try again."
+msgstr ""
+
+#: includes/trustscript-admin.php:827
+msgid "No recent activity"
+msgstr ""
+
+#: includes/trustscript-admin.php:828
+msgid "Start by configuring review settings"
+msgstr ""
+
+#: includes/trustscript-admin.php:829
+msgid "Reviews Generated"
+msgstr ""
+
+#: includes/trustscript-admin.php:830
+msgid "Failed to load analytics data. Please check your API connection in Settings."
+msgstr ""
+
+#: includes/trustscript-admin.php:831
+msgid "Refreshing..."
+msgstr ""
+
+#: includes/trustscript-admin.php:832
+msgid "Refresh Analytics"
+msgstr ""
+
+#: includes/trustscript-admin.php:833
+msgid "Saving..."
+msgstr ""
+
+#: includes/trustscript-admin.php:836
+msgid "Failed to save"
+msgstr ""
+
+#: includes/trustscript-admin.php:837
+msgid "Network error"
+msgstr ""
+
+#: includes/trustscript-admin.php:838
+msgid "Syncing..."
+msgstr ""
+
+#: includes/trustscript-admin.php:839
+msgid "Sync Completed Orders"
+msgstr ""
+
+#: includes/trustscript-admin.php:840
+msgid "This will create review requests for all completed orders in the selected time range. Continue?"
+msgstr ""
+
+#: includes/trustscript-admin.php:841
+msgid "Failed to sync"
+msgstr ""
+
+#: includes/trustscript-admin.php:842
+msgid "Short delay recommended (1-2 days) - customers already have the product."
+msgstr ""
+
+#: includes/trustscript-admin.php:843
+msgid "Longer delay recommended to ensure product delivery before review request. International orders use this same delay by default. To use a different delay for international orders, enable \"Handle international orders differently\" below."
+msgstr ""
+
+#: includes/trustscript-admin.php:844
+msgid "Are you sure? This will remove the item from the queue."
+msgstr ""
+
+#: includes/trustscript-admin.php:845
+msgid "Remove this order from the queue? This will not cancel the order, but the review request will NOT be retried."
+msgstr ""
+
+#: includes/trustscript-admin.php:846
+msgid "Please paste your TrustScript API key (TSK-XXXX-XXXX-XXXX)."
+msgstr ""
+
+#: includes/trustscript-admin.php:847
+msgid "API Key Required"
+msgstr ""
+
+#: includes/trustscript-admin.php:848
+msgid "Invalid format. Your key should look like: TSK-XXXX-XXXX-XXXX. Copy it from your TrustScript dashboard."
+msgstr ""
+
+#: includes/trustscript-admin.php:849
+msgid "Invalid API Key Format"
+msgstr ""
+
+#: includes/trustscript-admin.php:850
+msgid "Deleting..."
+msgstr ""
+
+#: includes/trustscript-admin.php:851
+msgid "Failed to delete API key"
+msgstr ""
+
+#: includes/trustscript-admin.php:852
+msgid "Unknown error"
+msgstr ""
+
+#: includes/trustscript-admin.php:853
+msgid "Queued for processing..."
+msgstr ""
+
+#: includes/trustscript-admin.php:854
+msgid "Processing your orders in the background — please check back in a few minutes."
+msgstr ""
+
+#: includes/trustscript-admin.php:855
+msgid "All categories"
+msgstr ""
+
+#: includes/trustscript-admin.php:856
+msgid "1 category"
+msgstr ""
+
+#: includes/trustscript-admin.php:860
+msgid "Retrying..."
+msgstr ""
+
+#: includes/trustscript-admin.php:861
+msgid "Clearing..."
+msgstr ""
+
+#: includes/trustscript-admin.php:866
+msgid "Failed to retry"
+msgstr ""
+
+#: includes/trustscript-admin.php:867
+msgid "Failed to clear"
+msgstr ""
+
+#: includes/trustscript-admin.php:868
+msgid "Failed to process queue"
+msgstr ""
+
+#: includes/trustscript-admin.php:869
+msgid "Failed to save preference"
+msgstr ""
+
+#: includes/trustscript-admin.php:870
+msgid "Paste new API key to replace current key…"
+msgstr ""
+
+#: includes/trustscript-admin.php:872
+msgid "Breakdown:"
+msgstr ""
+
+#: includes/trustscript-admin.php:873
+msgid "review(s) published"
+msgstr ""
+
+#: includes/trustscript-admin.php:874
+msgid "new order(s) sent to TrustScript"
+msgstr ""
+
+#: includes/trustscript-admin.php:875
+msgid "order(s) already published (skipped)"
+msgstr ""
+
+#: includes/trustscript-admin.php:899
+msgid "Unknown notice"
+msgstr ""
+
+#: includes/trustscript-admin.php:923
+msgid "Verification modal settings saved successfully!"
+msgstr ""
+
+#: includes/trustscript-admin.php:942
+msgid "enabled"
+msgstr ""
+
+#: includes/trustscript-admin.php:942
+msgid "disabled"
+msgstr ""
+
+#. translators: %s is the status of data deletion (enabled or disabled)
+#: includes/trustscript-admin.php:945
+#, php-format
+msgid "Data deletion on uninstall %s"
+msgstr ""
+
+#: includes/trustscript-admin.php:962
+msgid "API key deleted successfully"
+msgstr ""
+
+#: includes/trustscript-admin.php:978
+msgid "Security check failed"
+msgstr ""
+
+#: includes/trustscript-admin.php:1187
+msgid "Review settings saved successfully"
+msgstr ""
+
+#: includes/trustscript-admin.php:1223
+msgid "No active service providers detected. Please enable at least one service (WooCommerce or MemberPress)."
+msgstr ""
+
+#: includes/trustscript-admin.php:1237
+msgid "Sync service not available"
+msgstr ""
+
+#: includes/trustscript-admin.php:1270
+msgid "No new data to sync"
+msgstr ""
+
+#. translators: %d: number of orders that were already published
+#: includes/trustscript-admin.php:1274
+#, php-format
+msgid " (but %d order(s) were already published and skipped)"
+msgstr ""
+
+#. translators: %1$d: reviews published, %2$d: orders synced
+#: includes/trustscript-admin.php:1291
+#, php-format
+msgid "Sync complete! Reviews published: %1$d, New orders sent: %2$d"
+msgstr ""
+
+#. translators: %d: orders that were already published and skipped
+#: includes/trustscript-admin.php:1299
+#, php-format
+msgid ", %d order(s) already published (skipped re-sync)"
+msgstr ""
+
+#: includes/trustscript-admin.php:1511
+#: includes/trustscript-service-manager.php:146
+msgid "No services detected"
+msgstr ""
+
+#: includes/trustscript-admin.php:1530
+msgid "Service settings saved successfully!"
+msgstr ""
+
+#: includes/trustscript-admin.php:1598
+msgid "Privacy settings saved successfully!"
 msgstr ""
 
 #: includes/trustscript-helpers.php:58
@@ -3477,52 +4052,240 @@ msgstr ""
 msgid "Rate limit exceeded"
 msgstr ""
 
-#: includes/trustscript-helpers.php:108
+#: includes/trustscript-helpers.php:115
 msgid "Invalid JSON response from API"
 msgstr ""
 
-#: includes/trustscript-helpers.php:133
+#: includes/trustscript-helpers.php:143
 msgid "Webhook secret not configured. Please save your Webhook Secret in TrustScript settings."
 msgstr ""
 
-#: includes/trustscript-helpers.php:142
+#: includes/trustscript-helpers.php:152
 msgid "X-Webhook-Timestamp header is missing."
 msgstr ""
 
-#: includes/trustscript-helpers.php:150
+#: includes/trustscript-helpers.php:160
 msgid "X-Webhook-Timestamp header must be numeric (Unix seconds)."
 msgstr ""
 
 #. translators: %d: number of seconds for allowed timestamp skew
-#: includes/trustscript-helpers.php:166
+#: includes/trustscript-helpers.php:176
 #, php-format
 msgid "Webhook timestamp is outside acceptable window (max ±%d seconds)."
 msgstr ""
 
-#: includes/trustscript-helpers.php:175
+#: includes/trustscript-helpers.php:185
 msgid "X-Webhook-Signature header is missing."
 msgstr ""
 
-#: includes/trustscript-helpers.php:184
+#: includes/trustscript-helpers.php:194
 msgid "Could not read request body."
 msgstr ""
 
-#: includes/trustscript-helpers.php:195
+#: includes/trustscript-helpers.php:205
 msgid "Webhook signature verification failed. Possible causes: wrong webhook secret, modified payload, or request tampering."
 msgstr ""
 
-#: trustscript.php:187
+#: includes/trustscript-queue.php:439
+msgid "Every 10 minutes"
+msgstr ""
+
+#: includes/trustscript-queue.php:445
+msgid "Every 6 hours"
+msgstr ""
+
+#: includes/ts-simple-email-review.php:94
+msgid "Unauthorized."
+msgstr ""
+
+#: includes/ts-simple-email-review.php:158
+msgid "No review token provided. Please use the link from your email."
+msgstr ""
+
+#: includes/ts-simple-email-review.php:163
+msgid "Review collection is currently disabled."
+msgstr ""
+
+#: includes/ts-simple-email-review.php:168
+msgid "Invalid or expired review link."
+msgstr ""
+
+#: includes/ts-simple-email-review.php:184
+msgid "You have successfully opted out of future review requests."
+msgstr ""
+
+#: includes/ts-simple-email-review.php:198
+msgid "This order has been refunded or cancelled. Review requests are no longer available."
+msgstr ""
+
+#: includes/ts-simple-email-review.php:204
+msgid "This review link has expired. Please contact the store for a new one."
+msgstr ""
+
+#: includes/ts-simple-email-review.php:209
+#: includes/ts-simple-email-review.php:254
+msgid "You have already reviewed all products in this order. Thank you!"
+msgstr ""
+
+#: includes/ts-simple-email-review.php:226
+msgid "This review link is not valid for your account. Please log in with the email address used for your order."
+msgstr ""
+
+#: includes/webhook.php:166
+#: includes/webhook.php:1045
+msgid "Too many requests. Rate limit: 100 requests per minute"
+msgstr ""
+
+#: includes/webhook.php:223
+#: includes/webhook.php:346
+msgid "Missing uniqueToken or productToken"
+msgstr ""
+
+#: includes/webhook.php:256
+#: includes/webhook.php:380
+msgid "Invalid productToken format"
+msgstr ""
+
+#: includes/webhook.php:262
+#: includes/webhook.php:384
+msgid "This product token has already been used to publish a review"
+msgstr ""
+
+#: includes/webhook.php:295
+msgid "Invalid uniqueToken format"
+msgstr ""
+
+#: includes/webhook.php:315
+#: includes/webhook.php:560
+msgid "Order not found for this token, or API key mismatch"
+msgstr ""
+
+#: includes/webhook.php:325
+msgid "Failed to send email"
+msgstr ""
+
+#: includes/webhook.php:334
+msgid "Reminder email sent successfully"
+msgstr ""
+
+#: includes/webhook.php:350
+msgid "Missing reviewText"
+msgstr ""
+
+#: includes/webhook.php:390
+msgid "No order found for this product token"
+msgstr ""
+
+#: includes/webhook.php:417
+msgid "WooCommerce provider not active"
+msgstr ""
+
+#: includes/webhook.php:436
+msgid "Failed to insert review comment for product #"
+msgstr ""
+
+#: includes/webhook.php:487
+#: includes/webhook.php:740
+msgid "published"
+msgstr ""
+
+#: includes/webhook.php:487
+#: includes/webhook.php:740
+msgid "submitted for moderation"
+msgstr ""
+
+#. translators: %1$d: number of reviews published, %2$s: status text (published or submitted for moderation)
+#: includes/webhook.php:491
+#: includes/webhook.php:744
+#, php-format
+msgid "%1$d review(s) %2$s successfully"
+msgstr ""
+
+#: includes/webhook.php:503
+msgid "Invalid token format"
+msgstr ""
+
+#: includes/webhook.php:513
+#: includes/webhook.php:536
+msgid "This token has already been used to publish a review"
+msgstr ""
+
+#: includes/webhook.php:571
+msgid "No eligible items found in order"
+msgstr ""
+
+#: includes/webhook.php:580
+msgid "No items found in order"
+msgstr ""
+
+#: includes/webhook.php:764
+msgid "All reviews for this token have already been published"
+msgstr ""
+
+#. translators: %s: list of error messages
+#: includes/webhook.php:772
+#, php-format
+msgid "No reviews were created. Errors: %s"
+msgstr ""
+
+#: includes/webhook.php:999
+msgid "Your browser does not support the video tag."
+msgstr ""
+
+#: includes/webhook.php:1034
+msgid "Missing X-TrustScript-Api-Key or X-Site-URL header"
+msgstr ""
+
+#: includes/webhook.php:1071
+msgid "X-Site-URL does not match this site"
+msgstr ""
+
+#: includes/woocommerce-reviews.php:104
+msgid "Thank you for your feedback!"
+msgstr ""
+
+#: includes/woocommerce-reviews.php:105
+msgid "You have already voted on this review"
+msgstr ""
+
+#: includes/woocommerce-reviews.php:107
+msgid "Login to vote"
+msgstr ""
+
+#. translators: %d = number of reviews
+#: includes/woocommerce-reviews.php:110
+#, php-format
+msgid "Showing %d reviews"
+msgstr ""
+
+#: includes/woocommerce-reviews.php:113
+msgid "Image unavailable"
+msgstr ""
+
+#: includes/woocommerce-reviews.php:115
+msgid "✓ Copied!"
+msgstr ""
+
+#: includes/woocommerce-reviews.php:116
+msgid "Please select a rating."
+msgstr ""
+
+#: includes/woocommerce-reviews.php:117
+msgid "Review must be at least 10 characters."
+msgstr ""
+
+#: includes/woocommerce-reviews.php:119
+msgid "Please enter a valid email."
+msgstr ""
+
+#: trustscript.php:180
 msgid "No supported services detected. TrustScript works with WooCommerce, MemberPress, and more."
 msgstr ""
 
-#: trustscript.php:201
-msgid "Go Pro"
-msgstr ""
-
-#: trustscript.php:204
+#: trustscript.php:197
 msgid "Settings"
 msgstr ""
 
-#: trustscript.php:207
+#: trustscript.php:200
 msgid "Docs"
 msgstr ""

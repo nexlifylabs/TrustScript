@@ -14,21 +14,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TrustScript_Privacy_Settings_Page {
 
 	/**
-     * Countries requiring double opt-in (checkbox + confirmation email).
-     *
-     * @since 1.0.0
-     */
+	 * Countries requiring double opt-in (checkbox + confirmation email).
+	 *
+	 * @since 1.0.0
+	 */
 	const DOUBLE_OPTIN_COUNTRIES = array( 'DE', 'AT' );
 
 	/**
-     * Countries requiring single opt-in (EU/UK GDPR).
-     *
-     * @since 1.0.0
-     */
+	 * Countries requiring single opt-in (EU/UK GDPR).
+	 *
+	 * @since 1.0.0
+	 */
 	const SINGLE_OPTIN_COUNTRIES = array(
-		'FR', 'IT', 'ES', 'NL', 'BE', 'PL', 'SE', 'DK', 'FI',
-		'NO', 'PT', 'IE', 'CZ', 'HU', 'RO', 'GR', 'BG', 'HR',
-		'SK', 'SI', 'LV', 'LT', 'EE', 'LU', 'MT', 'CY', 'GB',
+		'FR',
+		'IT',
+		'ES',
+		'NL',
+		'BE',
+		'PL',
+		'SE',
+		'DK',
+		'FI',
+		'NO',
+		'PT',
+		'IE',
+		'CZ',
+		'HU',
+		'RO',
+		'GR',
+		'BG',
+		'HR',
+		'SK',
+		'SI',
+		'LV',
+		'LT',
+		'EE',
+		'LU',
+		'MT',
+		'CY',
+		'GB',
 	);
 
 	const OPT_PHYSICAL_ADDRESS        = 'trustscript_physical_address';
@@ -66,7 +90,7 @@ class TrustScript_Privacy_Settings_Page {
 			<div class="trustscript-connected-banner trustscript-privacy-mb-24">
 				<div class="trustscript-connected-left">
 					<h1 class="trustscript-connected-heading">
-						🔒 <?php esc_html_e( 'Privacy & Compliance', 'trustscript' ); ?>
+					<?php esc_html_e( 'Privacy & Compliance', 'trustscript' ); ?>
 					</h1>
 				</div>
 			</div>
@@ -76,18 +100,18 @@ class TrustScript_Privacy_Settings_Page {
 
 				<div class="trustscript-ob-card trustscript-privacy-mb-24">
 					<h2 class="trustscript-ob-section-title">
-						📮 <?php esc_html_e( 'Physical Mailing Address', 'trustscript' ); ?>
+						<?php esc_html_e( 'Physical Mailing Address', 'trustscript' ); ?>
 					</h2>
 					<p class="description">
 						<?php esc_html_e( 'Required under CAN-SPAM for customers in the United States. This address is passed to the TrustScript server and injected into the footer of every review request email via the {physical_address} template placeholder.', 'trustscript' ); ?>
 					</p>
 
 					<div class="trustscript-form-group trustscript-privacy-mt-16">
-						<label for="ts_physical_address">
+						<label for="trustscript_physical_address">
 							<strong><?php esc_html_e( 'Business Address', 'trustscript' ); ?></strong>
 						</label>
 						<textarea
-							id="ts_physical_address"
+							id="trustscript_physical_address"
 							name="physical_address"
 							rows="3"
 							class="large-text trustscript-privacy-mt-6"
@@ -100,7 +124,7 @@ class TrustScript_Privacy_Settings_Page {
 
 					<?php if ( empty( $address ) ) : ?>
 						<div class="trustscript-alert trustscript-alert-warning trustscript-privacy-mt-12">
-							<strong>⚠️ <?php esc_html_e( 'No address saved yet.', 'trustscript' ); ?></strong>
+							<strong><?php esc_html_e( 'No address saved yet.', 'trustscript' ); ?></strong>
 							<p class="trustscript-alert-content">
 								<?php esc_html_e( 'Review request emails sent to US customers will be missing the required CAN-SPAM footer address until you save one here.', 'trustscript' ); ?>
 							</p>
@@ -121,7 +145,7 @@ class TrustScript_Privacy_Settings_Page {
 
 				<div class="trustscript-ob-card trustscript-privacy-mb-24">
 					<h2 class="trustscript-ob-section-title">
-						✅ <?php esc_html_e( 'Consent Mode', 'trustscript' ); ?>
+						<?php esc_html_e( 'Consent Mode', 'trustscript' ); ?>
 					</h2>
 					<p class="description">
 						<?php esc_html_e( 'Controls when a consent checkbox appears at checkout. In Auto mode, TrustScript detects the billing country and applies the correct flow — no checkbox for US customers, single opt-in for EU/UK, double opt-in for Germany and Austria.', 'trustscript' ); ?>
@@ -144,14 +168,14 @@ class TrustScript_Privacy_Settings_Page {
 							<input type="radio" name="consent_mode" value="disabled"
 								<?php checked( $consent_mode, 'disabled' ); ?>>
 							&nbsp;<strong><?php esc_html_e( 'Disabled — Opt-Out Link Only', 'trustscript' ); ?></strong>
-							&nbsp;<span class="description"><?php esc_html_e( '— Never show a consent checkbox. Use only if your store exclusively serves jurisdictions where prior consent is not required (e.g. US-only stores).', 'trustscript' ); ?></span>
+							&nbsp;<span class="description"><?php esc_html_e( '— Never show a consent checkbox. Use only if your store exclusively serves jurisdictions where prior consent is not required.', 'trustscript' ); ?></span>
 						</label>
 					</fieldset>
 				</div>
 
 				<div class="trustscript-ob-card trustscript-privacy-mb-24">
 					<h2 class="trustscript-ob-section-title">
-						🏷️ <?php esc_html_e( 'Consent Checkbox Label', 'trustscript' ); ?>
+						<?php esc_html_e( 'Consent Checkbox Label', 'trustscript' ); ?>
 					</h2>
 					<p class="description">
 						<?php esc_html_e( 'The text shown next to the opt-in checkbox at checkout. Keep this neutral — do not mention discounts, incentives, or ratings. The opt-out link is appended automatically by TrustScript.', 'trustscript' ); ?>
@@ -167,7 +191,7 @@ class TrustScript_Privacy_Settings_Page {
 
 				<div class="trustscript-ob-card trustscript-privacy-mb-24">
 					<h2 class="trustscript-ob-section-title">
-						🌍 <?php esc_html_e( 'Custom Country Rules', 'trustscript' ); ?>
+						<?php esc_html_e( 'Custom Country Rules', 'trustscript' ); ?>
 					</h2>
 					<p class="description">
 						<?php esc_html_e( 'By default, TrustScript uses built-in rules for EU/UK/DE/AT countries. Use these pickers to add extra countries to each tier — useful if your legal team requires stricter treatment for specific markets.', 'trustscript' ); ?>
@@ -196,13 +220,15 @@ class TrustScript_Privacy_Settings_Page {
 							<p class="description trustscript-privacy-desc-sm">
 								<?php esc_html_e( 'Customers from these countries will see an unchecked consent checkbox at checkout. No review is sent if they do not tick it.', 'trustscript' ); ?>
 							</p>
-							<?php self::render_country_picker(
+							<?php
+							self::render_country_picker(
 								'custom_optin_countries[]',
-								'ts-optin-picker',
+								'trustscript-optin-picker',
 								$all_countries,
 								$custom_optin,
-								self::SINGLE_OPTIN_COUNTRIES 
-							); ?>
+								self::SINGLE_OPTIN_COUNTRIES
+							);
+							?>
 						</div>
 
 						<div>
@@ -212,13 +238,15 @@ class TrustScript_Privacy_Settings_Page {
 							<p class="description trustscript-privacy-desc-sm">
 								<?php esc_html_e( 'Customers from these countries must tick the checkbox AND click a confirmation link in a follow-up email before a review request is sent.', 'trustscript' ); ?>
 							</p>
-							<?php self::render_country_picker(
+							<?php
+							self::render_country_picker(
 								'custom_double_optin_countries[]',
-								'ts-double-optin-picker',
+								'trustscript-double-optin-picker',
 								$all_countries,
 								$custom_double_optin,
 								self::DOUBLE_OPTIN_COUNTRIES
-							); ?>
+							);
+							?>
 						</div>
 
 					<?php else : ?>
@@ -240,8 +268,6 @@ class TrustScript_Privacy_Settings_Page {
 	private static function render_country_picker( $input_name, $picker_id, $all_countries, $selected, $builtin_covered ) {
 		?>
 		<div id="<?php echo esc_attr( $picker_id ); ?>" class="trustscript-country-picker-container">
-
-			<!-- Toolbar -->
 			<div class="trustscript-country-toolbar">
 				<input type="text" placeholder="<?php esc_attr_e( 'Search countries…', 'trustscript' ); ?>"
 					class="trustscript-country-search-input">
@@ -254,16 +280,21 @@ class TrustScript_Privacy_Settings_Page {
 			</div>
 
 			<div class="trustscript-country-grid">
-				<?php foreach ( $all_countries as $code => $name ) :
+				<?php
+				foreach ( $all_countries as $code => $name ) :
 					$is_builtin  = in_array( $code, $builtin_covered, true );
 					$is_checked  = $is_builtin || in_array( $code, $selected, true );
 					$label_class = $is_builtin ? 'trustscript-country-label-disabled' : 'trustscript-country-label';
 					$title_attr  = $is_builtin
 						? esc_attr__( 'Already covered by built-in rules — cannot be unchecked', 'trustscript' )
 						: '';
-				?>
+					?>
 					<label class="<?php echo esc_attr( $label_class ); ?>"
-						<?php if ( $title_attr ) echo 'title="' . esc_attr( $title_attr ) . '"'; ?>>
+						<?php
+						if ( $title_attr ) {
+							echo 'title="' . esc_attr( $title_attr ) . '"';}
+						?>
+						>
 						<input
 							type="checkbox"
 							name="<?php echo esc_attr( $input_name ); ?>"
@@ -335,15 +366,17 @@ class TrustScript_Privacy_Settings_Page {
 			return array_values( array_unique( $out ) );
 		};
 
-		$custom_optin        = $sanitise_countries( $raw_optin,        self::SINGLE_OPTIN_COUNTRIES );
+		$custom_optin        = $sanitise_countries( $raw_optin, self::SINGLE_OPTIN_COUNTRIES );
 		$custom_double_optin = $sanitise_countries( $raw_double_optin, self::DOUBLE_OPTIN_COUNTRIES );
 
-		update_option( self::OPT_CUSTOM_OPTIN_COUNTRIES,  $custom_optin );
+		update_option( self::OPT_CUSTOM_OPTIN_COUNTRIES, $custom_optin );
 		update_option( self::OPT_CUSTOM_DOUBLE_COUNTRIES, $custom_double_optin );
 
-		wp_send_json_success( array(
-			'message' => esc_html__( 'Privacy settings saved.', 'trustscript' ),
-		) );
+		wp_send_json_success(
+			array(
+				'message' => esc_html__( 'Privacy settings saved.', 'trustscript' ),
+			)
+		);
 	}
 
 	public static function get_physical_address() {
@@ -361,15 +394,17 @@ class TrustScript_Privacy_Settings_Page {
 			$base_postcode = WC()->countries->get_base_postcode();
 			$base_country  = WC()->countries->get_base_country();
 
-			$parts = array_filter( array(
-				$store_name,
-				$base_address,
-				$base_address2,
-				$base_city,
-				$base_state,
-				$base_postcode,
-				$base_country,
-			) );
+			$parts = array_filter(
+				array(
+					$store_name,
+					$base_address,
+					$base_address2,
+					$base_city,
+					$base_state,
+					$base_postcode,
+					$base_country,
+				)
+			);
 			return implode( ', ', $parts );
 		}
 
@@ -397,15 +432,19 @@ class TrustScript_Privacy_Settings_Page {
 
 		$code = strtoupper( $country_code );
 
-		$double_countries = array_unique( array_merge(
-			self::DOUBLE_OPTIN_COUNTRIES,
-			(array) get_option( self::OPT_CUSTOM_DOUBLE_COUNTRIES, array() )
-		) );
+		$double_countries = array_unique(
+			array_merge(
+				self::DOUBLE_OPTIN_COUNTRIES,
+				(array) get_option( self::OPT_CUSTOM_DOUBLE_COUNTRIES, array() )
+			)
+		);
 
-		$single_countries = array_unique( array_merge(
-			self::SINGLE_OPTIN_COUNTRIES,
-			(array) get_option( self::OPT_CUSTOM_OPTIN_COUNTRIES, array() )
-		) );
+		$single_countries = array_unique(
+			array_merge(
+				self::SINGLE_OPTIN_COUNTRIES,
+				(array) get_option( self::OPT_CUSTOM_OPTIN_COUNTRIES, array() )
+			)
+		);
 
 		if ( in_array( $code, $double_countries, true ) ) {
 			return 'double_optin';

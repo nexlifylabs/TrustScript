@@ -1,6 +1,8 @@
 <?php
 /**
  * TrustScript Compatibility Checker
+ *
+ * @since 1.0.0
  * @package TrustScript
  */
 
@@ -19,7 +21,7 @@ class TrustScript_Compatibility {
 			'solution'    => 'Choose one review system: either disable TrustScript auto-publishing or disable Yotpo.',
 			'docs_url'    => '',
 		),
-		'judgeme/judgeme.php' => array(
+		'judgeme/judgeme.php'                            => array(
 			'name'        => 'Judge.me',
 			'severity'    => 'high',
 			'type'        => 'review_system',
@@ -27,7 +29,7 @@ class TrustScript_Compatibility {
 			'solution'    => 'Disable TrustScript auto-publishing and use Judge.me API integration (coming soon).',
 			'docs_url'    => '',
 		),
-		'loox-photo-reviews/loox.php' => array(
+		'loox-photo-reviews/loox.php'                    => array(
 			'name'        => 'LOOX Photo Reviews',
 			'severity'    => 'high',
 			'type'        => 'review_system',
@@ -35,7 +37,7 @@ class TrustScript_Compatibility {
 			'solution'    => 'Disable TrustScript auto-publishing to avoid duplicate reviews.',
 			'docs_url'    => '',
 		),
-		'stamped-io/stamped-io.php' => array(
+		'stamped-io/stamped-io.php'                      => array(
 			'name'        => 'Stamped.io',
 			'severity'    => 'high',
 			'type'        => 'review_system',
@@ -79,7 +81,6 @@ class TrustScript_Compatibility {
 
 	public function on_any_plugin_activated() {
 		delete_transient( 'trustscript_compatibility_check' );
-		// Reset dismissed notices when any plugin is activated, as this may resolve compatibility issues
 		$notice_id = 'trustscript-compat-email-configuration';
 		delete_user_meta( get_current_user_id(), 'dismissed_' . $notice_id );
 	}
@@ -92,10 +93,10 @@ class TrustScript_Compatibility {
 		if ( strpos( $hook, 'trustscript' ) === false ) {
 			return;
 		}
-		
+
 		wp_enqueue_script(
 			'trustscript-compatibility',
-			plugin_dir_url( __DIR__ ) . 'assets/js/compatibility.js',
+			TRUSTSCRIPT_PLUGIN_URL . 'assets/js/compatibility.js',
 			array( 'jquery' ),
 			'1.0.0',
 			true
@@ -105,7 +106,7 @@ class TrustScript_Compatibility {
 			'TrustScriptCompatibility',
 			array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce' => wp_create_nonce( 'trustscript_compatibility' ),
+				'nonce'    => wp_create_nonce( 'trustscript_compatibility' ),
 			)
 		);
 	}
@@ -116,14 +117,14 @@ class TrustScript_Compatibility {
 			$this->detected_issues = $cached;
 			return;
 		}
-		
+
 		$this->check_review_plugins();
 		$this->check_woocommerce_version();
 		$this->check_wordpress_version();
 		$this->check_php_version();
 		$this->check_required_functions();
 		$this->check_smtp_configuration();
-		
+
 		set_transient( 'trustscript_compatibility_check', $this->detected_issues, YEAR_IN_SECONDS );
 	}
 
@@ -222,29 +223,26 @@ class TrustScript_Compatibility {
 	 */
 	private function check_smtp_configuration() {
 		$email_plugins = array(
-			// Tier 1 — most popular
-			'wp-mail-smtp/wp_mail_smtp.php'                                         => 'WP Mail SMTP',
-			'wp-mail-smtp-pro/wp_mail_smtp.php'                                     => 'WP Mail SMTP Pro',
-			'fluent-smtp/fluent-smtp.php'                                           => 'FluentSMTP',
-			'post-smtp/postman-smtp.php'                                            => 'Post SMTP (Postman SMTP)',
-			'postman-smtp/postman-smtp.php'                                         => 'Postman SMTP (legacy)',
-			'easy-wp-smtp/easy-wp-smtp.php'                                         => 'Easy WP SMTP',
-			'smtp-mailer/main.php'                                                  => 'SMTP Mailer',
-
-			// Tier 2 — provider-specific / newer
-			'mailgun/mailgun.php'                                                   => 'Mailgun',
+			'wp-mail-smtp/wp_mail_smtp.php'             => 'WP Mail SMTP',
+			'wp-mail-smtp-pro/wp_mail_smtp.php'         => 'WP Mail SMTP Pro',
+			'fluent-smtp/fluent-smtp.php'               => 'FluentSMTP',
+			'post-smtp/postman-smtp.php'                => 'Post SMTP (Postman SMTP)',
+			'postman-smtp/postman-smtp.php'             => 'Postman SMTP (legacy)',
+			'easy-wp-smtp/easy-wp-smtp.php'             => 'Easy WP SMTP',
+			'smtp-mailer/main.php'                      => 'SMTP Mailer',
+			'mailgun/mailgun.php'                       => 'Mailgun',
 			'sendgrid-email-delivery-simplified/sendgrid-email-delivery-simplified.php' => 'SendGrid',
-			'suremail/suremail.php'                                                 => 'SureMail',
-			'solid-mail/solid-mail.php'                                             => 'Solid Mail',
-			'gmail-smtp/main.php'                                                   => 'Gmail SMTP (gmailer)',
-			'gmailer/gmailer.php'                                                   => 'GMail SMTP by BestWebSoft',
-			'mailpoet/mailpoet.php'                                                 => 'MailPoet',
-			'sparkpost/sparkpost.php'                                               => 'SparkPost',
-			'elasticmail-sender/elasticmail-sender.php'                             => 'Elastic Email',
-			'wp-amazon-ses/wp-amazon-ses.php'                                       => 'WP Amazon SES',
-			'wordpress-ses/wp-ses.php'                                              => 'WP SES (10Web)',
-			'brevo-woocommerce/brevo.php'                                           => 'Brevo (Sendinblue)',
-			'mailchimp-for-wp/mailchimp-for-wp.php'                                 => 'Mailchimp for WP',
+			'suremail/suremail.php'                     => 'SureMail',
+			'solid-mail/solid-mail.php'                 => 'Solid Mail',
+			'gmail-smtp/main.php'                       => 'Gmail SMTP (gmailer)',
+			'gmailer/gmailer.php'                       => 'GMail SMTP by BestWebSoft',
+			'mailpoet/mailpoet.php'                     => 'MailPoet',
+			'sparkpost/sparkpost.php'                   => 'SparkPost',
+			'elasticmail-sender/elasticmail-sender.php' => 'Elastic Email',
+			'wp-amazon-ses/wp-amazon-ses.php'           => 'WP Amazon SES',
+			'wordpress-ses/wp-ses.php'                  => 'WP SES (10Web)',
+			'brevo-woocommerce/brevo.php'               => 'Brevo (Sendinblue)',
+			'mailchimp-for-wp/mailchimp-for-wp.php'     => 'Mailchimp for WP',
 		);
 
 		$has_email_plugin  = false;
@@ -311,10 +309,8 @@ class TrustScript_Compatibility {
 
 		foreach ( $this->detected_issues as $issue ) {
 			if ( 'email_not_configured' === $issue['type'] && 'high' === $issue['severity'] ) {
-				// This is critical and should be shown on all admin pages since it can cause silent email failures, so admins are aware of the issue even if they don't visit TrustScript settings right away
 				$this->display_notice( $issue );
 			} elseif ( 'email_not_configured' === $issue['type'] && 'info' === $issue['severity'] ) {
-				// mail() is enabled but no SMTP plugin detected — show only on TrustScript pages to avoid confusion for users who may have working email but just no SMTP plugin
 				if ( $is_trustscript_page ) {
 					$this->display_notice( $issue );
 				}
@@ -379,15 +375,30 @@ class TrustScript_Compatibility {
 
 	private function get_severity_icon( $severity ) {
 		$icons = array(
-			'critical' => array( 'emoji' => '🚨', 'label' => __( 'Critical', 'trustscript' ) ),
-			'high'     => array( 'emoji' => '⚠️', 'label' => __( 'Warning', 'trustscript' ) ),
-			'medium'   => array( 'emoji' => '⚡', 'label' => __( 'Caution', 'trustscript' ) ),
-			'info'     => array( 'emoji' => 'ℹ️', 'label' => __( 'Information', 'trustscript' ) ),
+			'critical' => array(
+				'emoji' => '🚨',
+				'label' => __( 'Critical', 'trustscript' ),
+			),
+			'high'     => array(
+				'emoji' => '⚠️',
+				'label' => __( 'Warning', 'trustscript' ),
+			),
+			'medium'   => array(
+				'emoji' => '⚡',
+				'label' => __( 'Caution', 'trustscript' ),
+			),
+			'info'     => array(
+				'emoji' => 'ℹ️',
+				'label' => __( 'Information', 'trustscript' ),
+			),
 		);
-		
-		$default = array( 'emoji' => '⚠️', 'label' => __( 'Warning', 'trustscript' ) );
-		$icon = isset( $icons[ $severity ] ) ? $icons[ $severity ] : $default;
-		
+
+		$default = array(
+			'emoji' => '⚠️',
+			'label' => __( 'Warning', 'trustscript' ),
+		);
+		$icon    = isset( $icons[ $severity ] ) ? $icons[ $severity ] : $default;
+
 		return sprintf(
 			'<span role="img" aria-label="%s">%s</span>',
 			esc_attr( $icon['label'] ),
@@ -410,13 +421,13 @@ class TrustScript_Compatibility {
 
 	public function get_compatibility_report() {
 		return array(
-			'wordpress_version' => get_bloginfo( 'version' ),
+			'wordpress_version'   => get_bloginfo( 'version' ),
 			'woocommerce_version' => defined( 'WC_VERSION' ) ? WC_VERSION : 'Not installed',
-			'php_version'       => PHP_VERSION,
-			'active_theme'      => wp_get_theme()->get( 'Name' ),
-			'active_plugins'    => get_option( 'active_plugins' ),
-			'detected_issues'   => $this->detected_issues,
-			'timestamp'         => current_time( 'mysql' ),
+			'php_version'         => PHP_VERSION,
+			'active_theme'        => wp_get_theme()->get( 'Name' ),
+			'active_plugins'      => get_option( 'active_plugins' ),
+			'detected_issues'     => $this->detected_issues,
+			'timestamp'           => current_time( 'mysql' ),
 		);
 	}
 

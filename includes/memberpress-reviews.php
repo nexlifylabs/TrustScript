@@ -53,12 +53,16 @@ class TrustScript_MemberPress_Reviews extends TrustScript_Frontend_Reviews_Base 
 
 	/**
 	 * Determine if the verification modal should be rendered on this page.
-	  * The modal is only rendered if the shortcode is present on the page or has been rendered,
-	  * to avoid unnecessary DOM bloat and potential confusion for users not leaving reviews.
-	  *
+	 * The modal is only rendered if the shortcode is present on the page or has been rendered,
+	 * to avoid unnecessary DOM bloat and potential confusion for users not leaving reviews.
+	 *
 	 * @return bool
 	 */
 	protected function should_render_modal() {
+		if ( ! (bool) get_option( 'trustscript_enable_verification_modal', true ) ) {
+			return false;
+		}
+		
 		global $post;
 		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, $this->get_shortcode_tag() ) ) {
 			return true;
@@ -244,7 +248,7 @@ class TrustScript_MemberPress_Reviews extends TrustScript_Frontend_Reviews_Base 
 
 
 	/**
-	 * [trustscript_memberpress_reviews id="" count="" layout="" rating="" page=""]
+	 * Shortcode handler for [trustscript_memberpress_reviews]. Renders the reviews block for a given membership product.
 	 */
 	public function render_reviews_shortcode( $atts ) {
 		$default_layout = get_option( 'trustscript_memberpress_default_layout', 'list' );
@@ -397,7 +401,7 @@ class TrustScript_MemberPress_Reviews extends TrustScript_Frontend_Reviews_Base 
 
 
 	/**
-	 * Determine if the current user can view the reviews based on settings and membership status.
+	 * Determine if the current user can view reviews based on the "Who Can See Reviews" setting.
 	 *
 	 * @return bool
 	 */

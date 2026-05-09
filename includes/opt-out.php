@@ -25,7 +25,7 @@ class TrustScript_Opt_Out {
 
 	public static function table_exists() {
 		global $wpdb;
-		$table = esc_sql( self::get_table_name() );
+		$table = self::get_table_name();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) === $table;
 	}
@@ -58,7 +58,7 @@ class TrustScript_Opt_Out {
 	}
 
 	/**
-	 * Check if a given email hash is in the opt-out table, indicating the customer has opted out of review requests.
+	 * Check if a given email hash is opted out by looking it up in the database. Returns true if found, false otherwise.
 	 *
 	 * @param string $email_hash SHA-256 hex string (64 chars).
 	 * @return bool
@@ -74,13 +74,13 @@ class TrustScript_Opt_Out {
 			return false;
 		}
 
-		$table = esc_sql( self::get_table_name() );
+		$table = self::get_table_name();
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$count = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				"SELECT COUNT(*) FROM {$table} WHERE email_hash = %s LIMIT 1",
+				'SELECT COUNT(*) FROM %i WHERE email_hash = %s LIMIT 1',
+				$table,
 				$email_hash
 			)
 		);
@@ -89,7 +89,7 @@ class TrustScript_Opt_Out {
 	}
 
 	/**
-	 * Record a new opt-out by inserting the email hash into the database. Uses INSERT IGNORE to prevent duplicates.
+	 * Record a new opt-out by inserting the email hash into the database. Uses INSERT IGNORE to avoid duplicates. Returns true if a new record was inserted, false if it already existed or on error.
 	 *
 	 * @param string $email_hash SHA-256 hex string (64 chars).
 	 * @return bool True on first insert, false if already present or on error.
@@ -105,13 +105,13 @@ class TrustScript_Opt_Out {
 			return false;
 		}
 
-		$table = esc_sql( self::get_table_name() );
+		$table = self::get_table_name();
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$rows = $wpdb->query(
 			$wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				"INSERT IGNORE INTO {$table} (email_hash, created_at) VALUES (%s, %s)",
+				'INSERT IGNORE INTO %i (email_hash, created_at) VALUES (%s, %s)',
+				$table,
 				$email_hash,
 				current_time( 'mysql', true )
 			)
@@ -122,8 +122,8 @@ class TrustScript_Opt_Out {
 
 	/**
 	 * Backfill existing orders with the opt-out status for a given email hash.
-	 * This is used when a customer opts out via the email link, and we want to
-	 * retroactively mark all their past orders as opted out for review requests.
+	 * This should be called after recording a new opt-out to ensure that any
+	 * pending review requests are not sent out for recent orders. 
 	 * 
 	 * @param string $email_hash SHA-256 hex string (64 chars).
 	 * @return int Number of orders updated with the opt-out status.
@@ -134,18 +134,20 @@ class TrustScript_Opt_Out {
 		}
 
 		$total_updated = 0;
-		$batch_size = 500;
+		$batch_size = 100;
 		$offset = 0;
 		$has_more = true;
+		$date_after = gmdate( 'Y-m-d H:i:s', strtotime( '-30 days' ) );
 
 		while ( $has_more ) {
 			$order_ids = wc_get_orders( array(
-				'status'     => 'any',
-				'return'     => 'ids',
-				'limit'      => $batch_size,
-				'offset'     => $offset,
+				'status'       => 'any',
+				'return'       => 'ids',
+				'limit'        => $batch_size,
+				'offset'       => $offset,
+				'date_created' => '>=' . $date_after,
 				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				'meta_query' => array(
+				'meta_query'   => array(
 					array(
 						'key'     => '_trustscript_email_hash',
 						'value'   => $email_hash,

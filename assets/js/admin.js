@@ -53,144 +53,13 @@
         return xhr.responseJSON.data.message || fallback;
     }
 
-    // Category Search & Filter Functions
-    function initCategorySearch() {
-        const $searchInput = $('#trustscript-category-search');
-        if (!$searchInput.length) return;
 
-        $searchInput.on('keyup', function() {
-            const searchTerm = this.value.toLowerCase().trim();
-            const $categories = $('.trustscript-product-categories-list');
-            const $parentLabels = $categories.find('.trustscript-parent-category');
-            let visibleCount = 0;
-
-            $parentLabels.each(function() {
-                const $parentLabel = $(this);
-                const $checkbox = $parentLabel.find('.trustscript-category-checkbox');
-                const categoryName = $checkbox.attr('data-category-name') || '';
-                const $subcategories = $parentLabel.next('.trustscript-subcategories');
-                let hasVisibleChild = false;
-
-                const parentMatches = categoryName.includes(searchTerm);
-
-                if ($subcategories.length) {
-                    $subcategories.find('.trustscript-category-checkbox').each(function() {
-                        const $child = $(this);
-                        const childName = $child.attr('data-category-name') || '';
-                        const childMatches = childName.includes(searchTerm);
-                        const $childLabel = $child.closest('label');
-
-                        if (childMatches) {
-                            $childLabel.removeClass('hidden');
-                            hasVisibleChild = true;
-                            visibleCount++;
-                        } else {
-                            $childLabel.addClass('hidden');
-                        }
-                    });
-
-                    if (parentMatches || hasVisibleChild) {
-                        $parentLabel.removeClass('hidden');
-                        if (searchTerm !== '') {
-                            $subcategories.addClass('visible').removeClass('hidden');
-                            $parentLabel.find('.trustscript-expand-toggle').text('▼');
-                        } else {
-                            $subcategories.removeClass('visible');
-                            $parentLabel.find('.trustscript-expand-toggle').text('▶');
-                        }
-                        if (parentMatches) visibleCount++;
-                    } else {
-                        $parentLabel.addClass('hidden');
-                        $subcategories.addClass('hidden');
-                    }
-                } else {
-                    if (parentMatches) {
-                        $parentLabel.removeClass('hidden');
-                        visibleCount++;
-                    } else {
-                        $parentLabel.addClass('hidden');
-                    }
-                }
-            });
-
-            const countText = searchTerm === '' 
-                ? TrustscriptAdmin.i18n.allCategories
-                : (visibleCount === 1 ? TrustscriptAdmin.i18n.oneCategory : visibleCount + ' ' + TrustscriptAdmin.i18n.nCategories.replace('%d', '').trim());
-            $('#trustscript-category-count').text(countText);
-        });
-    }
-
-    function initCategoryBulkActions() {
-        $('#trustscript-select-all-categories').on('click', function(e) {
-            e.preventDefault();
-            $('#trustscript-category-search').val('').trigger('keyup');
-            $('.trustscript-product-categories-list').find('.trustscript-category-checkbox:visible').prop('checked', true);
-        });
-
-        $('#trustscript-deselect-all-categories').on('click', function(e) {
-            e.preventDefault();
-            $('#trustscript-category-search').val('').trigger('keyup');
-            $('.trustscript-product-categories-list').find('.trustscript-category-checkbox:visible').prop('checked', false);
-        });
-    }
-
-    function initCategoryToggle() {
-        $(document).on('click', '.trustscript-expand-toggle', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const $toggle = $(this);
-            const $parentLabel = $toggle.closest('.trustscript-parent-category');
-            const $subcats = $parentLabel.next('.trustscript-subcategories');
-
-            if ($subcats.length) {
-                const isVisible = $subcats.hasClass('visible');
-                
-                if (isVisible) {
-                    $subcats.removeClass('visible');
-                    $toggle.text('▶');
-                } else {
-                    $subcats.addClass('visible');
-                    $toggle.text('▼');
-                }
-            }
-        });
-    }
-
-    function initCategoryParentChildLogic() {
-        $(document).on('change', '.trustscript-parent-checkbox', function() {
-            const $checkbox = $(this);
-            const isChecked = $checkbox.is(':checked');
-            const categoryId = $checkbox.val();
-            const $categoryLabel = $checkbox.closest('.trustscript-parent-category');
-            const $immediateSubcats = $categoryLabel.next('.trustscript-subcategories');
-
-            if (isChecked && $immediateSubcats.length) {
-                $immediateSubcats.find('.trustscript-parent-checkbox').prop('checked', false);
-                $immediateSubcats.addClass('visible');
-                $categoryLabel.find('.trustscript-expand-toggle').text('▼');
-            }
-
-            if (isChecked) {
-                $checkbox.closest('.trustscript-subcategories').prevAll('.trustscript-parent-category').each(function() {
-                    const $ancestor = $(this);
-                    const $ancestorCheckbox = $ancestor.find('.trustscript-parent-checkbox').first();
-                    if ($ancestorCheckbox.length && $ancestorCheckbox.is(':checked')) {
-                        $ancestorCheckbox.prop('checked', false);
-                    }
-                });
-            }
-        });
-    }
 
 
     $(document).ready(function(){
-        initCategorySearch();
-        initCategoryBulkActions();
-        initCategoryToggle();
-        initCategoryParentChildLogic();
 
-        $('form').on('submit', function(e){
+
+        $('.trustscript-api-form').on('submit', function(e){
             const $apiKeyInput = $('#trustscript_api_key');
             
             if ($apiKeyInput.length && $apiKeyInput.attr('required') !== undefined) {
@@ -409,240 +278,8 @@
             }
         });
 
-        $('#trustscript-save-service-settings').on('click', function(e) {
-            e.preventDefault();
-            
-            const $button = $(this);
-            const $spinner = $button.next('.spinner');
-            const $message = $('.trustscript-save-message');
-            
-            const formData = {
-                action: 'trustscript_save_service_settings',
-                nonce: TrustscriptAdmin.nonce
-            };
-            
-            $('.trustscript-service-toggle').each(function() {
-                const serviceId = $(this).data('service-id');
-                formData['trustscript_enable_service_' + serviceId] = $(this).is(':checked') ? '1' : '0';
-            });
-            
-            $('.trustscript-service-trigger').each(function() {
-                const serviceId = $(this).data('service-id');
-                formData['trustscript_trigger_status_' + serviceId] = $(this).val();
-            });
-            
-            $button.prop('disabled', true);
-            $spinner.addClass('is-active');
-            $message.removeClass('success error').text('');
-            
-            $.post(TrustscriptAdmin.ajax_url, formData)
-                .done(function(response) {
-                    if (response.success) {
-                        $message.addClass('success').text(response.data.message || TrustscriptAdmin.i18n.saveSuccess);
-                        showNotification(response.data.message || TrustscriptAdmin.i18n.saveSuccess, 'success');
-                    } else {
-                        $message.addClass('error').text(response.data.message || TrustscriptAdmin.i18n.saveFailed);
-                        showNotification(response.data.message || TrustscriptAdmin.i18n.saveFailed, 'error');
-                    }
-                })
-                .fail(function(xhr) {
-                    const errorMsg = getErrorMessage(xhr, TrustscriptAdmin.i18n.networkError);
-                    $message.addClass('error').text(errorMsg);
-                    showNotification(errorMsg, 'error');
-                })
-                .always(function() {
-                    $button.prop('disabled', false);
-                    $spinner.removeClass('is-active');
-                    
-                    setTimeout(function() {
-                        $message.fadeOut(300, function() {
-                            $(this).text('').show();
-                        });
-                    }, 5000);
-                });
-        });
-        
-        $('.trustscript-service-toggle').on('change', function() {
-            const $card = $(this).closest('.trustscript-service-card');
-            const $body = $card.find('.trustscript-service-body');
-            const isEnabled = $(this).is(':checked');
-            
-            if (isEnabled) {
-                $card.removeClass('inactive').addClass('active');
-                $body.css({'opacity': '1', 'pointer-events': 'auto'});
-            } else {
-                $card.removeClass('active').addClass('inactive');
-                $body.css({'opacity': '0.5', 'pointer-events': 'none'});
-            }
-        });
-        
-        $('.trustscript-tab-button').on('click', function() {
-            const $button = $(this);
-            const serviceId = $button.data('service');
-            
-            $('.trustscript-tab-button').removeClass('active');
-            $button.addClass('active');
-            
-            $('.trustscript-tab-panel').removeClass('active');
-            $('#trustscript-service-' + serviceId).addClass('active');
-        });
 
-        $('#trustscript-save-optional-data-settings').on('click', function(e) {
-            e.preventDefault();
-            
-            const $button = $(this);
-            const $spinner = $button.next('.spinner');
-            const $message = $('.trustscript-optional-data-save-message');
-            
-            const formData = {
-                action: 'trustscript_save_optional_data_settings',
-                nonce: TrustscriptAdmin.nonce,
-                trustscript_include_product_names: $('#trustscript-include-product-names').is(':checked') ? '1' : '0',
-                trustscript_include_order_dates: $('#trustscript-include-order-dates').is(':checked') ? '1' : '0'
-            };
-            
-            $button.prop('disabled', true);
-            $spinner.addClass('is-active');
-            $message.removeClass('success error').text('');
-            
-            $.post(TrustscriptAdmin.ajax_url, formData)
-                .done(function(response) {
-                    if (response.success) {
-                        $message.addClass('success').text(response.data.message || TrustscriptAdmin.i18n.saveSuccess);
-                        showNotification(response.data.message || TrustscriptAdmin.i18n.saveSuccess, 'success');
-                    } else {
-                        $message.addClass('error').text(response.data.message || TrustscriptAdmin.i18n.saveFailed);
-                        showNotification(response.data.message || TrustscriptAdmin.i18n.saveFailed, 'error');
-                    }
-                })
-                .fail(function(xhr) {
-                    const errorMsg = getErrorMessage(xhr, TrustscriptAdmin.i18n.networkError);
-                    $message.addClass('error').text(errorMsg);
-                    showNotification(errorMsg, 'error');
-                })
-                .always(function() {
-                    $button.prop('disabled', false);
-                    $spinner.removeClass('is-active');
-                    
-                    setTimeout(function() {
-                        $message.fadeOut(300, function() {
-                            $(this).text('').show();
-                        });
-                    }, 5000);
-                });
-        });
 
-        $('#trustscript-save-review-settings').on('click', function(e) {
-            e.preventDefault();
-            
-            const $button = $(this);
-            const $status = $('#trustscript-review-save-status');
-            
-            const categories = [];
-            $('input[name="trustscript_review_categories[]"]:checked').each(function() {
-                categories.push($(this).val());
-            });
-
-            const memberpress_memberships = [];
-            $('input[name="trustscript_memberpress_memberships[]"]:checked').each(function() {
-                memberpress_memberships.push($(this).val());
-            });
-
-            const keywords = [];
-            $('input[name="trustscript_keywords[]"]:checked').each(function() {
-                keywords.push($(this).val());
-            });
-
-            let delay_hours = $('#trustscript_review_delay_hours').val();
-            if (delay_hours === 'custom') {
-                const customValue = $('#trustscript_custom_delay_value').val() || '0';
-                const customUnit = $('#trustscript_custom_delay_unit').val() || 'days';
-                delay_hours = customUnit === 'hours' ? customValue : (parseInt(customValue) * 24);
-            }
-
-            let intl_delay_hours = $('#trustscript_international_delay_hours').val();
-            if (intl_delay_hours === 'custom') {
-                const customIntlValue = $('#trustscript_custom_intl_delay_value').val() || '0';
-                const customIntlUnit = $('#trustscript_custom_intl_delay_unit').val() || 'days';
-                intl_delay_hours = customIntlUnit === 'hours' ? customIntlValue : (parseInt(customIntlValue) * 24);
-            }
-
-            const formData = {
-                action: 'trustscript_save_review_settings',
-                nonce: TrustscriptAdmin.save_review_nonce,
-                enabled: $('#trustscript_reviews_enabled').is(':checked'),
-                categories: categories,
-                memberpress_memberships: memberpress_memberships,
-                trustscript_review_keywords: keywords,
-                memberpress_delay_days: $('#trustscript_memberpress_delay_days').val(),
-                auto_publish: $('#trustscript_auto_publish').is(':checked'),
-                enable_voting: $('#trustscript_enable_voting').is(':checked'),
-                delay_hours: delay_hours,
-                trigger_status: $('#trustscript_review_trigger_status').val(),
-                auto_sync_enabled: $('#trustscript_auto_sync_enabled').is(':checked'),
-                auto_sync_time: $('#trustscript_auto_sync_time').val(),
-                auto_sync_lookback: $('#trustscript_auto_sync_lookback').val(),
-                trustscript_woocommerce_min_value: $('#trustscript_woocommerce_min_value').val(),
-                trustscript_woocommerce_exclude_free: $('#trustscript_woocommerce_exclude_free').is(':checked') ? '1' : '0',
-                enable_international_handling: $('#trustscript_enable_international_handling').is(':checked') ? 'true' : 'false',
-                international_delay_hours: intl_delay_hours
-            };
-            
-            $button.prop('disabled', true).text('Saving...');
-            $status.removeClass('success error').text('Saving...').show();
-            
-            $.post(TrustscriptAdmin.ajax_url, formData)
-                .done(function(response) {
-                    if (response.success) {
-                        $status.addClass('success').text('✓ ' + TrustscriptAdmin.i18n.saveSuccess);
-                        showNotification(TrustscriptAdmin.i18n.saveSuccess, 'success');
-                    } else {
-                        $status.addClass('error').text('\u2717 ' + ((response.data && response.data.message) ? response.data.message : TrustscriptAdmin.i18n.saveFailed));
-                        showNotification((response.data && response.data.message) ? response.data.message : TrustscriptAdmin.i18n.saveFailed, 'error');
-                    }
-                })
-                .fail(function(xhr) {
-                    const errorMsg = getErrorMessage(xhr, TrustscriptAdmin.i18n.networkError);
-                    $status.addClass('error').text('✗ ' + errorMsg);
-                    showNotification(errorMsg, 'error');
-                })
-                .always(function() {
-                    $button.prop('disabled', false).text(TrustscriptAdmin.i18n.saveButton);
-                    
-                    setTimeout(function() {
-                        $status.fadeOut(300, function() {
-                            $(this).removeClass('success error').text('').hide();
-                        });
-                    }, 3000);
-                });
-        });
-
-        $('#trustscript_review_delay_hours').on('change', function() {
-            const $wrapper = $('#trustscript-custom-delay-wrapper');
-            if ($(this).val() === 'custom') {
-                $wrapper.show();
-            } else {
-                $wrapper.hide();
-            }
-        });
-
-        $('#trustscript_enable_international_handling').on('change', function() {
-            const $section = $('#trustscript-international-delay-section');
-            if ($(this).is(':checked')) {
-                $section.slideDown(300);
-            } else {
-                $section.slideUp(300);
-            }
-        });
-
-        $('#trustscript_international_delay_hours').on('change', function() {
-            const $wrapper = $('#trustscript-custom-intl-delay-wrapper');
-            if ($(this).val() === 'custom') {
-                $wrapper.show();
-            } else {
-                $wrapper.hide();
-            }
-        });
 
         const $consentCheckbox = $('#trustscript-consent-checkbox');
         const $consentCheckboxLabel = $('.trustscript-consent-checkbox');
@@ -887,6 +524,44 @@
             });
         });
 
+        // Trust Strip Settings
+        $('#trustscript-trust-strip-form').on('submit', function(e) {
+            e.preventDefault();
+            var $form = $(this);
+            var $btn = $('#trustscript-trust-strip-save-btn');
+            var $spinner = $form.find('.spinner');
+            var $message = $('.trustscript-trust-strip-message');
+
+            $btn.prop('disabled', true);
+            $spinner.addClass('is-active');
+            $message.text('');
+
+            $.ajax({
+                url: TrustscriptAdmin.ajax_url,
+                method: 'POST',
+                data: {
+                    action: 'trustscript_save_trust_strip_settings',
+                    nonce: TrustscriptAdmin.nonce,
+                    enable_trust_strip: $('#trustscript_enable_trust_strip').is(':checked') ? 'true' : 'false'
+                },
+                success: function(resp) {
+                    if (resp.success) {
+                        $message.text(resp.data.message).css('color', 'green');
+                    } else {
+                        $message.text(resp.data.message || 'Error saving settings').css('color', 'red');
+                    }
+                },
+                error: function() {
+                    $message.text(TrustscriptAdmin.i18n.networkError).css('color', 'red');
+                },
+                complete: function() {
+                    $btn.prop('disabled', false);
+                    $spinner.removeClass('is-active');
+                    setTimeout(function() { $message.text(''); }, 3000);
+                }
+            });
+        });
+
         $( document ).on( 'input', '.trustscript-country-search-input', function () {
             var q     = $( this ).val().toLowerCase();
             var $list = $( this ).closest( '.trustscript-country-picker-container' ).find( '.trustscript-country-grid label' );
@@ -941,6 +616,58 @@
                     .fadeIn();
             } );
         } );
+
+        const $verificationModalForm = $('#trustscript-verification-modal-form');
+        const $verificationModalSaveBtn = $('#trustscript-verification-modal-save-btn');
+        const $verificationModalMessage = $('.trustscript-verification-modal-message');
+        const $verificationModalSpinner = $('#trustscript-verification-modal-form .spinner');
+
+        if ($verificationModalForm.length) {
+            $verificationModalForm.on('submit', function(e) {
+                e.preventDefault();
+
+                const isEnabled = $('#trustscript_enable_verification_modal').is(':checked');
+                $verificationModalSpinner.addClass('is-active');
+                $verificationModalSaveBtn.prop('disabled', true);
+                $verificationModalMessage.html('').removeClass('notice-success notice-error');
+
+                $.ajax({
+                    url: TrustscriptAdmin.ajax_url,
+                    type: 'POST',
+                    data: {
+                        action: 'trustscript_save_verification_modal_settings',
+                        nonce: TrustscriptAdmin.nonce,
+                        enable_verification_modal: isEnabled
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $verificationModalMessage
+                                .html('<span style="color: #46b450;">✓ ' + response.data.message + '</span>')
+                                .addClass('notice-success');
+                        } else {
+                            $verificationModalMessage
+                                .html('<span style="color: #dc3232;">✗ ' + (response.data.message || 'Failed to save') + '</span>')
+                                .addClass('notice-error');
+                        }
+                    },
+                    error: function() {
+                        $verificationModalMessage
+                            .html('<span style="color: #dc3232;">✗ ' + TrustscriptAdmin.i18n.saveFailed + '</span>')
+                            .addClass('notice-error');
+                    },
+                    complete: function() {
+                        $verificationModalSpinner.removeClass('is-active');
+                        $verificationModalSaveBtn.prop('disabled', false);
+
+                        setTimeout(function() {
+                            $verificationModalMessage.fadeOut(300, function() {
+                                $(this).html('').show();
+                            });
+                        }, 3000);
+                    }
+                });
+            });
+        }
 
     });
 

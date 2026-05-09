@@ -6,8 +6,8 @@
  * Requires at least: 6.2
  * Tested up to: 6.9
  * Requires PHP: 8.0
- * Plugin URI: https://nexlifylabs.com
- * Author: NexlifyLabs
+ * Plugin URI: https://trustscript.io
+ * Author: TrustScript
  * License: GPL-2.0+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: trustscript
@@ -22,7 +22,7 @@ define('TRUSTSCRIPT_PLUGIN_FILE', __FILE__);
 define('TRUSTSCRIPT_VERSION', '1.0.0');
 define('TRUSTSCRIPT_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('TRUSTSCRIPT_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('TRUSTSCRIPT_API_BASE_URL', 'https://nexlifylabs.com');
+define('TRUSTSCRIPT_API_BASE_URL', 'https://trustscript.io');
 define('TRUSTSCRIPT_DASHBOARD_URL', TRUSTSCRIPT_API_BASE_URL . '/dashboard');
 define('TRUSTSCRIPT_PRICING_URL', TRUSTSCRIPT_API_BASE_URL . '/pricing');
 define('TRUSTSCRIPT_DOCS_URL', TRUSTSCRIPT_API_BASE_URL . '/docs');
@@ -34,40 +34,46 @@ define('TRUSTSCRIPT_VERIFY_ENDPOINT', TRUSTSCRIPT_API_BASE_URL . '/api/verify-ap
 
 require_once plugin_dir_path(__FILE__) . 'includes/trustscript-helpers.php';
 require_once plugin_dir_path(__FILE__) . 'includes/pricing-config.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-placeholder-mapper.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-service-manager.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-sync-service.php';
+require_once plugin_dir_path(__FILE__) . 'includes/placeholder-mapper.php';
+require_once plugin_dir_path(__FILE__) . 'includes/trustscript-service-manager.php';
+require_once plugin_dir_path(__FILE__) . 'includes/trustscript-sync-service.php';
 require_once plugin_dir_path(__FILE__) . 'includes/consent/privacy-settings.php';
 require_once plugin_dir_path(__FILE__) . 'includes/consent/consent-manager.php';
 require_once plugin_dir_path(__FILE__) . 'includes/admin/settings.php';
 require_once plugin_dir_path(__FILE__) . 'includes/admin/review-setting.php';
 require_once plugin_dir_path(__FILE__) . 'includes/admin/review-request.php';
 require_once plugin_dir_path(__FILE__) . 'includes/admin/pending-queue.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-admin.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-webhook.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-settings-sync.php';
+require_once plugin_dir_path(__FILE__) . 'includes/trustscript-admin.php';
+require_once plugin_dir_path(__FILE__) . 'includes/webhook.php';
+require_once plugin_dir_path(__FILE__) . 'includes/settings-sync.php';
 require_once plugin_dir_path(__FILE__) . 'includes/consent/consent.php';
 require_once plugin_dir_path(__FILE__) . 'includes/consent/consent-block-checkout.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-media-upload.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-auto-sync.php';
+require_once plugin_dir_path(__FILE__) . 'includes/media-upload.php';
+require_once plugin_dir_path(__FILE__) . 'includes/auto-sync.php';
 require_once plugin_dir_path(__FILE__) . 'includes/consent/consent-capture.php';
 require_once plugin_dir_path(__FILE__) . 'includes/consent/consent-confirmation.php';
 require_once plugin_dir_path(__FILE__) . 'includes/consent/review-queue.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-immutability.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-order-status.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-compatibility.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-review-voting.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-order-registry.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-queue.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-opt-out.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-review-query.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-review-renderer.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-woocommerce-reviews.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-shop-display.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-date-formatter.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-frontend-reviews-base.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-memberpress-reviews.php';
-require_once plugin_dir_path(__FILE__) . 'includes/class-trustscript-memberpress-reviews-metabox.php';
+require_once plugin_dir_path(__FILE__) . 'includes/immutability.php';
+require_once plugin_dir_path(__FILE__) . 'includes/order-status.php';
+require_once plugin_dir_path(__FILE__) . 'includes/compatibility.php';
+require_once plugin_dir_path(__FILE__) . 'includes/review-voting.php';
+require_once plugin_dir_path(__FILE__) . 'includes/order-registry.php';
+require_once plugin_dir_path(__FILE__) . 'includes/trustscript-queue.php';
+require_once plugin_dir_path(__FILE__) . 'includes/trustscript-review-requests.php';
+require_once plugin_dir_path(__FILE__) . 'includes/opt-out.php';
+require_once plugin_dir_path(__FILE__) . 'includes/review-query.php';
+require_once plugin_dir_path(__FILE__) . 'includes/review-renderer-eng.php';
+require_once plugin_dir_path(__FILE__) . 'includes/woocommerce-reviews.php';
+require_once plugin_dir_path(__FILE__) . 'includes/simple-review/simple-template-loader.php';
+require_once plugin_dir_path(__FILE__) . 'includes/simple-review/simple-email-sender.php';
+require_once plugin_dir_path(__FILE__) . 'includes/simple-review/rest-simple-review.php';
+require_once plugin_dir_path(__FILE__) . 'includes/simple-review/class-trustscript-simple-review.php';
+require_once plugin_dir_path(__FILE__) . 'includes/ts-simple-email-review.php';
+require_once plugin_dir_path(__FILE__) . 'includes/ts-shop-display.php';
+require_once plugin_dir_path(__FILE__) . 'includes/date-formatter.php';
+require_once plugin_dir_path(__FILE__) . 'includes/frontend-reviews-base.php';
+require_once plugin_dir_path(__FILE__) . 'includes/memberpress-reviews.php';
+require_once plugin_dir_path(__FILE__) . 'includes/memberpress-reviews-metabox.php';
 
 if (file_exists(plugin_dir_path(__FILE__) . 'includes/integration/elementor/class-trustscript-elementor.php')) {
 	require_once plugin_dir_path(__FILE__) . 'includes/integration/elementor/class-trustscript-elementor.php';
@@ -101,8 +107,21 @@ function trustscript_plugin_init() {
 	new TrustScript_Auto_Sync();
 
 	TrustScript_Review_Renderer::boot();
+	TrustScript_Simple_Review::boot();
+	TrustScript_Rest_Simple_Review::boot();
+	TrustScript_Simple_Email_Review::boot();
 
 	TrustScript_Queue::init_cron_hook();
+
+	if ( is_admin() ) {
+		TrustScript_Queue::register_cron_job();
+		TrustScript_Queue::register_cleanup_cron();
+	}
+
+	if ( ! wp_doing_ajax() && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		TrustScript_Review_Requests::create_table();
+	}
+	TrustScript_Review_Requests::init();
 
 	if (!is_admin() && class_exists('WooCommerce')) {
 		new TrustScript_Checkout_Consent();
@@ -112,39 +131,21 @@ function trustscript_plugin_init() {
 }
 add_action('plugins_loaded', 'trustscript_plugin_init');
 
-function trustscript_process_scheduled_queue() {
-	$lock_key = 'trustscript_queue_fallback_lock';
-	if (get_transient($lock_key)) {
-		return;
-	}
-
-	if (!TrustScript_Queue::table_exists()) {
-		return;
-	}
-
-	$ready_count = TrustScript_Queue::count_ready();
-
-	if ($ready_count === 0) {
-		return;
-	}
-
-	set_transient($lock_key, 1, 60);
-
-	TrustScript_Queue::process_batch(10, false);
-}
-add_action('wp_loaded', 'trustscript_process_scheduled_queue', 99);
 
 function trustscript_plugin_activate() {
-	// Initialize persistent encryption key (safe to call multiple times)
 	trustscript_initialize_encryption_key();
 
 	TrustScript_Order_Registry::create_table();
 	TrustScript_Queue::create_table();
+	TrustScript_Review_Requests::create_table();
 	TrustScript_Opt_Out::create_table();
 	TrustScript_Consent_Manager::create_tables();
 	TrustScript_Review_Voting::create_votes_table();
 
+	// Register custom intervals FIRST so they exist when wp_schedule_event() runs.
+	add_filter( 'cron_schedules', array( 'TrustScript_Queue', 'add_custom_cron_intervals' ) );
 	TrustScript_Queue::register_cron_job();
+	TrustScript_Queue::register_cleanup_cron();
 	TrustScript_Auto_Sync::schedule_cron();
 
 	if (!get_option('trustscript_api_key')) {
@@ -155,7 +156,6 @@ function trustscript_plugin_activate() {
 register_activation_hook(TRUSTSCRIPT_PLUGIN_FILE, 'trustscript_plugin_activate');
 
 function trustscript_plugin_deactivate() {
-	// Clear the 6-hourly queue processing cron job on plugin deactivation
 	TrustScript_Queue::unregister_cron_job();
 	TrustScript_Auto_Sync::unschedule_cron();
 }

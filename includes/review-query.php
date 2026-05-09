@@ -25,7 +25,7 @@ class TrustScript_Review_Query {
 		$source_type = sanitize_text_field( $args['source_type'] ?? 'all' );
 
 		if ( $min_rating > 1 ) {
-			$where[]    = "EXISTS (
+			$where[]   = "EXISTS (
 				SELECT 1 FROM {$wpdb->commentmeta} cm
 				WHERE cm.comment_id = c.comment_ID
 				AND cm.meta_key = 'rating'
@@ -62,19 +62,6 @@ class TrustScript_Review_Query {
 	/**
 	 * Get reviews based on filter criteria.
 	 *
-	 * @param array $args {
-	 *     Optional. Query arguments.
-	 *
-	 *     @type int    $max_reviews  Maximum number of reviews to return. Default 10.
-	 *     @type int    $min_rating   Minimum rating (1-5) to include. Default 1.
-	 *     @type string $source_type   Source filter type: 'all', 'specific', or 'category'. Default 'all'.
-	 *     @type array  $product_ids   Array of product IDs to filter by (if source_type is 'specific').
-	 *     @type int    $category_id   Product category ID to filter by (if source_type is 'category').
-	 *     @type string $sort_by       Sort order: 'recent', 'highest_rated', 'oldest', 'random'. Default 'recent'.
-	 *     @type int    $page          Page number for pagination. Default 1.
-	 *     @type int    $per_page      Number of reviews per page (overrides max_reviews if set). Default 0 (no pagination).
-	 * }
-	 *
 	 * @return array Array of review objects with metadata.
 	 */
 	public static function get_reviews( $args = array() ) {
@@ -91,7 +78,7 @@ class TrustScript_Review_Query {
 			'per_page'    => 0,
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args        = wp_parse_args( $args, $defaults );
 		$max_reviews = absint( $args['max_reviews'] ) ?: 10;
 		$min_rating  = absint( $args['min_rating'] ) ?: 1;
 		$source_type = sanitize_text_field( $args['source_type'] );
@@ -179,7 +166,7 @@ class TrustScript_Review_Query {
 			'category_id' => 0,
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args       = wp_parse_args( $args, $defaults );
 		$where_data = self::build_where_clauses( $args );
 		$where      = $where_data['where'];
 		$prepare    = $where_data['prepare'];
@@ -200,18 +187,20 @@ class TrustScript_Review_Query {
 	 * @return array Array of product IDs in the category.
 	 */
 	private static function get_products_by_category( $category_id ) {
-		$products = get_posts( array(
-			'post_type'      => 'product',
-			'posts_per_page' => 500,
-			'fields'         => 'ids',
-			'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		$products = get_posts(
+			array(
+				'post_type'      => 'product',
+				'posts_per_page' => 500,
+				'fields'         => 'ids',
+				'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				array(
 					'taxonomy' => 'product_cat',
 					'field'    => 'term_id',
 					'terms'    => $category_id,
 				),
-			),
-		) );
+				),
+			)
+		);
 
 		return array_map( 'absint', $products );
 	}

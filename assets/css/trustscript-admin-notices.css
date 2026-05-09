@@ -340,3 +340,135 @@
     color: #0c5460;
     border: 1px solid #bee5eb;
 }
+
+/* --- Pending Queue Table --- */
+.trustscript-queue-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    width: auto;
+    min-width: 100%;
+}
+
+.trustscript-queue-table thead th {
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+    font-weight: 600;
+    padding: 14px 16px;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.trustscript-queue-table tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+    font-size: 13px;
+}
+
+.trustscript-queue-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.trustscript-queue-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.trustscript-queue-reason-quota,
+.trustscript-queue-reason-rate-limit,
+.trustscript-queue-reason-network,
+.trustscript-queue-reason-api-error,
+.trustscript-queue-reason-scheduled,
+.trustscript-queue-reason-simple-email {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.trustscript-queue-reason-quota { background: #fee2e2; color: #991b1b; }
+.trustscript-queue-reason-rate-limit { background: #ffedd5; color: #9a3412; }
+.trustscript-queue-reason-network { background: #fef3c7; color: #92400e; }
+.trustscript-queue-reason-api-error { background: #fce7f3; color: #9d174d; }
+.trustscript-queue-reason-scheduled { background: #e0e7ff; color: #3730a3; }
+.trustscript-queue-reason-simple-email { background: #f3f4f6; color: #374151; }
+
+.trustscript-queue-status-pending,
+.trustscript-queue-status-failed,
+.trustscript-queue-status-completed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.trustscript-queue-status-pending { background: #eff6ff; color: #1d4ed8; }
+.trustscript-queue-status-failed { background: #fef2f2; color: #b91c1c; }
+.trustscript-queue-status-completed { background: #ecfdf5; color: #047857; }
+
+code.trustscript-queue-status-scheduled {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+}
+.trustscript-queue-actions {
+    white-space: nowrap;
+}
+
+/* --- Warning Notice (No Services Detected) --- */
+.trustscript-notice-warning {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid #fef3c7;
+}
+
+.trustscript-notice-warning-title {
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    color: #92400e;
+    font-size: 14px;
+}
+
+.trustscript-notice-warning-subtitle {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #b45309;
+}
+
+.trustscript-notice-warning-content {
+    margin: 0;
+    font-size: 13px;
+    color: #d97706;
+    line-height: 1.5;
+}
+
+.trustscript-notice-warning-content a {
+    color: #ea580c;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.trustscript-notice-warning-content a:hover {
+    color: #c2410c;
+}

@@ -35,7 +35,7 @@
 
 .trustscript-marquee-track {
   display: flex;
-  gap: var(--ts-marquee-gap, 24px);
+  gap: var(--trustscript-marquee-gap, 24px);
   width: max-content;
   animation: trustscript-marquee 32s linear infinite;
   pointer-events: auto;
@@ -46,13 +46,23 @@
 }
 
 @keyframes trustscript-marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes trustscript-marquee-rtl {
-  0%   { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .trustscript-marquee-card {
@@ -60,7 +70,7 @@
   border: 1px solid #e8dfd4;
   border-radius: 20px;
   padding: 32px 30px 28px;
-  width: var(--ts-marquee-card-width, 320px);
+  width: var(--trustscript-marquee-card-width, 320px);
   flex-shrink: 0;
   box-shadow: 0 4px 24px rgba(59, 42, 26, 0.055);
   position: relative;
@@ -182,43 +192,30 @@
   color: #8b7355;
 }
 
-/* ─────────────────────────────────────────────
-   Mobile Auto-Swipe Carousel  (≤ 724 px)
-   Replaces the continuous marquee with a
-   one-by-one auto-swipe on small screens.
-───────────────────────────────────────────── */
 @media (max-width: 724px) {
 
-  /* Extra bottom space for dots */
   .trustscript-marquee-slider {
     padding-bottom: 48px;
   }
 
-  /* Hide the edge-fade overlays – they look
-     wrong when only one card is visible */
   .trustscript-marquee-slider::before,
   .trustscript-marquee-slider::after {
     display: none;
   }
 
-  /* Kill the CSS animation; JS controls the
-     transform instead */
   .trustscript-marquee-track {
     gap: 0 !important;
     animation: none !important;
     animation-play-state: paused !important;
-    /* Smooth slide driven by JS goTo() */
     transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
   }
 
-  /* Card hover lift is distracting on touch */
   .trustscript-marquee-card:hover {
     transform: none;
     box-shadow: 0 4px 24px rgba(59, 42, 26, 0.055);
   }
 
-  /* ── Dot indicators ── */
   .trustscript-marquee-dots {
     display: flex !important;
     justify-content: center;
@@ -247,13 +244,12 @@
     line-height: 1 !important;
   }
 
-  .trustscript-marquee-dot.ts-active {
+  .trustscript-marquee-dot.trustscript-active {
     background: #c8813a !important;
     transform: scale(1.5);
   }
 }
 
-/* Always hide dots on desktop */
 @media (min-width: 725px) {
   .trustscript-marquee-dots {
     display: none !important;

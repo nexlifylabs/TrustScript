@@ -13,26 +13,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class TrustScript_Frontend_Reviews_Base {
 
 	/**
-	 * Unique CSS handle for this module's stylesheet.
-	 *
-	 * Used to prevent double-enqueue across modules.
+	 * Get the unique CSS handle for this reviews module, used for enqueuing styles.
 	 *
 	 * @return string e.g. 'trustscript-memberpress-reviews'
 	 */
 	abstract protected function get_css_handle();
 
-	/** 
-	 * @return string e.g. 'assets/css/memberpress-reviews.css' 
+	/**
+	 * @return string e.g. 'assets/css/memberpress-reviews.css'
 	 */
 	abstract protected function get_css_path();
 
-	/** 
-	 * @return string e.g. 'trustscript_memberpress_reviews' 
+	/**
+	 * @return string e.g. 'trustscript_memberpress_reviews'
 	 */
 	abstract protected function get_shortcode_tag();
 
-	/** 
-	 * @return string e.g. 'Verified Purchase' 
+	/**
+	 * @return string e.g. 'Verified Purchase'
 	 */
 	abstract protected function get_verified_label();
 
@@ -47,19 +45,14 @@ abstract class TrustScript_Frontend_Reviews_Base {
 	abstract protected function get_modal_title();
 
 	/**
-	 * Whether to render the verification hash modal HTML in wp_footer.
-	 *
-	 * Subclasses that do not use the modal can return false to skip the output.
+	 * Whether to render the verification hash modal HTML on the page.
 	 *
 	 * @return bool
 	 */
 	abstract protected function should_render_modal();
 
 	/**
-	 * Whether to enqueue the shared verification badge CSS.
-	 *
-	 * Subclasses that bundle the badge styles in their own stylesheet
-	 * can return false to avoid double-enqueue.
+	 * Whether to enqueue the shared CSS for verification badges on this page. 
 	 *
 	 * @return bool
 	 */
@@ -103,7 +96,7 @@ abstract class TrustScript_Frontend_Reviews_Base {
 		);
 	}
 
- 
+
 	/**
 	 * Render a single review as an HTML string, including the verification badge.
 	 *
@@ -135,10 +128,7 @@ abstract class TrustScript_Frontend_Reviews_Base {
 								data-author="<?php echo esc_attr( $review->comment_author ); ?>"
 								data-rating="<?php echo esc_attr( (int) $rating ); ?>"
 								data-verify-url="<?php echo esc_url( $verify_url ); ?>">
-								<svg class="trustscript-shield-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-									<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-									<path d="m9 12 2 2 4-4"/>
-								</svg>
+								<?php echo trustscript_get_badge_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								<span class="trustscript-verify-text"><?php echo esc_html( $this->get_verified_label() ); ?></span>
 							</button>
 						</span>
@@ -152,10 +142,7 @@ abstract class TrustScript_Frontend_Reviews_Base {
 								data-author="<?php echo esc_attr( $review->comment_author ); ?>"
 								data-rating="<?php echo esc_attr( (int) $rating ); ?>"
 								data-verify-url="<?php echo esc_url( $verify_url ); ?>">
-								<svg class="trustscript-shield-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-									<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-									<path d="m9 12 2 2 4-4"/>
-								</svg>
+								<?php echo trustscript_get_badge_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								<span class="trustscript-verify-text"><?php echo esc_html( $this->get_verified_simple_label() ); ?></span>
 							</button>
 						</span>
@@ -219,13 +206,7 @@ abstract class TrustScript_Frontend_Reviews_Base {
 
 
 	/**
-	 * Output the verification hash modal HTML to the page.
-	 *
-	 * Populated and triggered by JS when a user clicks a verification badge.
-	 * Guarded by `should_render_modal()` and a static flag to ensure it is
-	 * output at most once per page load.
-	 *
-	 * Uses the shared utility method from TrustScript_Review_Renderer to avoid code duplication.
+	 * Render the verification hash modal HTML if needed and not already rendered.
 	 *
 	 * @since 1.0.0
 	 */

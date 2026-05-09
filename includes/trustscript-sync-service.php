@@ -2,6 +2,9 @@
 /**
  * TrustScript Sync Service
  * This class handles the synchronization of orders from various service providers (e.g., WooCommerce, MemberPress)
+ * 
+ * @package TrustScript
+ * @since 1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +21,7 @@ class TrustScript_Sync_Service {
 
 		$registry_published_ids = TrustScript_Order_Registry::get_published_order_ids( $service_id );
 
-		$existing_orders = $this->fetch_existing_orders_from_trustscript( $service_id, $days );
+		$existing_orders  = $this->fetch_existing_orders_from_trustscript( $service_id, $days );
 		$api_existing_ids = array();
 
 		if ( is_array( $existing_orders ) ) {
@@ -30,22 +33,26 @@ class TrustScript_Sync_Service {
 						TrustScript_Order_Registry::mark_published( $service_id, $order['sourceOrderId'], null, null, 'api_backfill' );
 						$registry_published_ids[] = (string) $order['sourceOrderId'];
 					}
+					
+					if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+						TrustScript_Review_Requests::process_order_products( (int) $order['sourceOrderId'], 'published' );
+					}
 				}
 			}
 		}
 
 		$all_published_ids = array_unique( array_merge( $registry_published_ids, $api_existing_ids ) );
-		$processed = 0;
-		$skipped   = 0;
-		$total     = 0;
+		$processed         = 0;
+		$skipped           = 0;
+		$total             = 0;
 
 		$sync_trigger = ( defined( 'DOING_CRON' ) && DOING_CRON ) ? 'auto_sync' : 'manual_sync';
 
 		if ( $service_id === 'woocommerce' && function_exists( 'wc_get_orders' ) ) {
 			$trigger_status = get_option( 'trustscript_review_trigger_status', 'delivered' );
 			$wc_status      = ( $trigger_status === 'delivered' ) ? 'delivered' : 'completed';
-			$per_page = 50;
-			$page     = 1;
+			$per_page       = 50;
+			$page           = 1;
 
 			do {
 				$args = array(
@@ -65,7 +72,7 @@ class TrustScript_Sync_Service {
 				foreach ( $order_ids as $order_id ) {
 
 					if ( in_array( (string) $order_id, $all_published_ids, true ) ) {
-						$skipped++;
+						++$skipped;
 						continue;
 					}
 
@@ -76,23 +83,30 @@ class TrustScript_Sync_Service {
 						$existing_token = $order->get_meta( '_trustscript_order_token' );
 					}
 
-					if ( empty( $existing_token ) ) {
+					$already_processed = $order ? $order->get_meta( "_trustscript_processed_{$service_id}" ) : '';
+
+					if ( empty( $existing_token ) && empty( $already_processed ) ) {
 						$sent = $provider->handle_status_change( $order_id, $wc_status, '', true );
 						if ( $sent ) {
-							$processed++;
+							++$processed;
 						}
 					} else {
 						TrustScript_Order_Registry::mark_published( $service_id, $order_id, null, null, $sync_trigger );
 						$all_published_ids[] = (string) $order_id;
-						$skipped++;
+						
+						if ( class_exists( 'TrustScript_Review_Requests' ) && $order ) {
+							$initial_status = $order->get_meta( '_trustscript_review_published' ) ? 'published' : 'sent';
+							TrustScript_Review_Requests::process_order_products( $order_id, $initial_status );
+						}
+						
+						++$skipped;
 					}
 				}
 
-				$page++;
+				++$page;
 			} while ( count( $order_ids ) === $per_page );
 
-		}
-		elseif ( $service_id === 'memberpress' && class_exists( 'MeprTransaction' ) ) {
+		} elseif ( $service_id === 'memberpress' && class_exists( 'MeprTransaction' ) ) {
 			global $wpdb;
 			$table = esc_sql( $wpdb->prefix . 'mepr_transactions' );
 
@@ -129,21 +143,33 @@ class TrustScript_Sync_Service {
 				foreach ( $transaction_ids as $txn_id ) {
 
 					if ( in_array( (string) $txn_id, $all_published_ids, true ) ) {
-						$skipped++;
+						++$skipped;
 						continue;
 					}
 
 					$existing_token = get_post_meta( $txn_id, '_trustscript_review_token', true );
 
 					if ( empty( $existing_token ) ) {
+						$existing_token = get_post_meta( $txn_id, '_trustscript_order_token', true );
+					}
+
+					$already_processed = get_post_meta( $txn_id, "_trustscript_processed_{$service_id}", true );
+
+					if ( empty( $existing_token ) && empty( $already_processed ) ) {
 						$sent = $provider->handle_status_change( $txn_id, $trigger_status, '', true );
 						if ( $sent ) {
-							$processed++;
+							++$processed;
 						}
 					} else {
 						TrustScript_Order_Registry::mark_published( $service_id, $txn_id, null, null, $sync_trigger );
 						$all_published_ids[] = (string) $txn_id;
-						$skipped++;
+						
+						if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+							$initial_status = get_post_meta( $txn_id, '_trustscript_review_published', true ) ? 'published' : 'sent';
+							TrustScript_Review_Requests::process_order_products( $txn_id, $initial_status );
+						}
+						
+						++$skipped;
 					}
 				}
 
@@ -151,7 +177,7 @@ class TrustScript_Sync_Service {
 			} while ( count( $transaction_ids ) === $per_page );
 
 		}
-		
+
 		return array(
 			'processed' => $processed,
 			'skipped'   => $skipped,
@@ -160,56 +186,57 @@ class TrustScript_Sync_Service {
 	}
 
 	/**
-	 * Fetch existing orders for the given service from the TrustScript API, 
-	 * within the specified lookback period. This is used to avoid duplicates 
-	 * when syncing.
+	 * Fetch existing orders from TrustScript for a given service and time frame. 
 	 *
-	 * @param string $service_id The service ID
+	 * @param string     $service_id The service ID
 	 * @param int|string $days Number of days to look back, or 'all'
 	 * @return array|false Array of existing orders, or false on failure
 	 */
 	private function fetch_existing_orders_from_trustscript( $service_id, $days ) {
-		$api_key = trustscript_get_api_key();
+		$api_key  = trustscript_get_api_key();
 		$base_url = trustscript_get_base_url();
-		
+
 		if ( empty( $api_key ) || empty( $base_url ) ) {
 			return false;
 		}
-		
-		$wordpress_orders_url = add_query_arg( array(
-			'source' => rawurlencode( $service_id ),
-			'days'   => $days !== 'all' ? intval( $days ) : 'all',
-		), trailingslashit( $base_url ) . 'api/wordpress-orders' );
-		
+
+		$wordpress_orders_url = add_query_arg(
+			array(
+				'source' => rawurlencode( $service_id ),
+				'days'   => $days !== 'all' ? intval( $days ) : 'all',
+			),
+			trailingslashit( $base_url ) . 'api/wordpress-orders'
+		);
+
 		$args = array(
 			'headers' => array(
 				'Authorization' => 'Bearer ' . $api_key,
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json',
-				'X-Site-URL' => get_site_url(),
+				'Content-Type'  => 'application/json',
+				'Accept'        => 'application/json',
+				'X-Site-URL'    => get_site_url(),
 			),
 			'timeout' => 15,
 		);
-		
+
 		$response = wp_remote_get( $wordpress_orders_url, $args );
-		
+
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
-		
+
 		$code = wp_remote_retrieve_response_code( $response );
 		$body = wp_remote_retrieve_body( $response );
-		
+
 		if ( $code !== 200 ) {
 			return false;
 		}
-		
+
 		$data = json_decode( $body, true );
-		
+
 		if ( ! isset( $data['orders'] ) || ! is_array( $data['orders'] ) ) {
 			return false;
 		}
-		
+
 		return $data['orders'];
 	}
 }

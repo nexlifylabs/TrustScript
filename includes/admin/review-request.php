@@ -2,6 +2,8 @@
 /**
  * Review Requests Management Page
  *
+ * Reads from trustscript_review_requests (per-product tracking table).
+ *
  * @package TrustScript
  * @since 1.0.0
  */
@@ -15,7 +17,8 @@ class TrustScript_Review_Request_Page {
 	const PER_PAGE = 20;
 
 	public function __construct() {
-		add_action( 'wp_ajax_trustscript_fetch_review_requests', array( $this, 'handle_fetch_requests' ) );
+		add_action( 'wp_ajax_trustscript_fetch_review_requests',    array( $this, 'handle_fetch_requests' ) );
+		add_action( 'wp_ajax_trustscript_send_simple_review_email', array( $this, 'handle_send_simple_email' ) );
 	}
 
 	public static function render() {
@@ -27,28 +30,28 @@ class TrustScript_Review_Request_Page {
 			<h1 class="screen-reader-text"><?php esc_html_e( 'Review Requests', 'trustscript' ); ?></h1>
 
 			<div class="trustscript-card">
-				<h2><?php esc_html_e( 'Track Synced Orders', 'trustscript' ); ?></h2>
+				<h2><?php esc_html_e( 'Track Review Requests', 'trustscript' ); ?></h2>
 				<p>
-					<?php esc_html_e( 'View orders synced with your TrustScript account, including pending, scheduled, published, and opt-out statuses.', 'trustscript' ); ?>
-					<?php esc_html_e( 'For deeper insights such as review request activity, link open rates, and conversion tracking, explore the', 'trustscript' ); ?>
-					<a href="<?php echo esc_url( TRUSTSCRIPT_DASHBOARD_URL . '/analytics' ); ?>" target="_blank" rel="noopener noreferrer">
-						<?php esc_html_e( 'TrustScript Analytics Dashboard', 'trustscript' ); ?>
-					</a>.
+					<?php esc_html_e( 'View per-product review tracking for every processed order. Products the customer has already reviewed appear as "Already Reviewed" — no action needed.', 'trustscript' ); ?>
 				</p>
 			</div>
 
-			<div id="review-requests-stats" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:16px;margin-bottom:32px;">
+			<div id="review-requests-stats" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:16px;margin-bottom:32px;">
 				<div class="trustscript-stat-card trustscript-stat-card-primary">
-					<div class="trustscript-stat-label"><?php esc_html_e( 'Total Requests', 'trustscript' ); ?></div>
+					<div class="trustscript-stat-label"><?php esc_html_e( 'Total', 'trustscript' ); ?></div>
 					<div id="rr-stat-total" class="trustscript-stat-value">-</div>
+				</div>
+				<div class="trustscript-stat-card trustscript-stat-card-info">
+					<div class="trustscript-stat-label"><?php esc_html_e( 'Pending', 'trustscript' ); ?></div>
+					<div id="rr-stat-pending" class="trustscript-stat-value">-</div>
 				</div>
 				<div class="trustscript-stat-card trustscript-stat-card-warning">
 					<div class="trustscript-stat-label"><?php esc_html_e( 'Scheduled', 'trustscript' ); ?></div>
 					<div id="rr-stat-scheduled" class="trustscript-stat-value">-</div>
 				</div>
-				<div class="trustscript-stat-card trustscript-stat-card-info">
-					<div class="trustscript-stat-label"><?php esc_html_e( 'Pending', 'trustscript' ); ?></div>
-					<div id="rr-stat-pending" class="trustscript-stat-value">-</div>
+				<div class="trustscript-stat-card trustscript-stat-card-success">
+					<div class="trustscript-stat-label"><?php esc_html_e( 'Sent', 'trustscript' ); ?></div>
+					<div id="rr-stat-sent" class="trustscript-stat-value">-</div>
 				</div>
 				<div class="trustscript-stat-card trustscript-stat-card-success">
 					<div class="trustscript-stat-label"><?php esc_html_e( 'Published', 'trustscript' ); ?></div>
@@ -59,8 +62,12 @@ class TrustScript_Review_Request_Page {
 					<div id="rr-stat-optout" class="trustscript-stat-value">-</div>
 				</div>
 				<div class="trustscript-stat-card trustscript-stat-card-warning">
-					<div class="trustscript-stat-label"><?php esc_html_e( 'Awaiting Consent', 'trustscript' ); ?></div>
-					<div id="rr-stat-consent-pending" class="trustscript-stat-value">-</div>
+					<div class="trustscript-stat-label"><?php esc_html_e( 'Already Reviewed', 'trustscript' ); ?></div>
+					<div id="rr-stat-already-published" class="trustscript-stat-value">-</div>
+				</div>
+				<div class="trustscript-stat-card trustscript-stat-card-danger">
+					<div class="trustscript-stat-label"><?php esc_html_e( 'Cancelled', 'trustscript' ); ?></div>
+					<div id="rr-stat-cancelled" class="trustscript-stat-value">-</div>
 				</div>
 			</div>
 
@@ -69,33 +76,26 @@ class TrustScript_Review_Request_Page {
 					<h3 class="trustscript-review-requests-filters-title"><?php esc_html_e( 'All Review Requests', 'trustscript' ); ?></h3>
 					<div class="trustscript-review-requests-filters-grid">
 						<div class="trustscript-review-requests-filter-group">
-							<label for="rr-search">
-								<?php esc_html_e( 'Search', 'trustscript' ); ?>
-							</label>
-							<input
-								type="text"
-								id="rr-search"
-								class="trustscript-review-requests-filter-input"
-								placeholder="<?php esc_attr_e( 'Order # or customer...', 'trustscript' ); ?>"
-							>
+							<label for="rr-search"><?php esc_html_e( 'Search', 'trustscript' ); ?></label>
+							<input type="text" id="rr-search" class="trustscript-review-requests-filter-input"
+								placeholder="<?php esc_attr_e( 'Order #', 'trustscript' ); ?>">
 						</div>
 						<div class="trustscript-review-requests-filter-group">
-							<label for="rr-status-filter">
-								<?php esc_html_e( 'Status', 'trustscript' ); ?>
-							</label>
+							<label for="rr-status-filter"><?php esc_html_e( 'Status', 'trustscript' ); ?></label>
 							<select id="rr-status-filter" class="trustscript-review-requests-filter-select">
 								<option value=""><?php esc_html_e( 'All Statuses', 'trustscript' ); ?></option>
+								<option value="pending"><?php esc_html_e( 'Pending', 'trustscript' ); ?></option>
 								<option value="scheduled"><?php esc_html_e( 'Scheduled', 'trustscript' ); ?></option>
-								<option value="pending"><?php esc_html_e( 'Pending Review', 'trustscript' ); ?></option>
+								<option value="sent"><?php esc_html_e( 'Sent', 'trustscript' ); ?></option>
 								<option value="published"><?php esc_html_e( 'Published', 'trustscript' ); ?></option>
 								<option value="opt-out"><?php esc_html_e( 'Opt-Out', 'trustscript' ); ?></option>
-								<option value="consent_pending"><?php esc_html_e( 'Awaiting Consent', 'trustscript' ); ?></option>
+								<option value="already_published"><?php esc_html_e( 'Already Reviewed', 'trustscript' ); ?></option>
+								<option value="ineligible"><?php esc_html_e( 'Ineligible', 'trustscript' ); ?></option>
+								<option value="cancelled"><?php esc_html_e( 'Cancelled', 'trustscript' ); ?></option>
 							</select>
 						</div>
 						<div class="trustscript-review-requests-filter-group">
-							<label for="rr-date-filter">
-								<?php esc_html_e( 'Date Range', 'trustscript' ); ?>
-							</label>
+							<label for="rr-date-filter"><?php esc_html_e( 'Date Range', 'trustscript' ); ?></label>
 							<select id="rr-date-filter" class="trustscript-review-requests-filter-select">
 								<option value="0"><?php esc_html_e( 'All Time', 'trustscript' ); ?></option>
 								<option value="7"><?php esc_html_e( 'Last 7 Days', 'trustscript' ); ?></option>
@@ -110,7 +110,7 @@ class TrustScript_Review_Request_Page {
 				</div>
 
 				<div id="review-requests-loading" class="trustscript-review-requests-loading">
-					<div><?php esc_html_e( 'Loading orders...', 'trustscript' ); ?></div>
+					<div><?php esc_html_e( 'Loading...', 'trustscript' ); ?></div>
 				</div>
 
 				<div id="review-requests-list" class="trustscript-review-requests-list" style="display:none;">
@@ -122,7 +122,6 @@ class TrustScript_Review_Request_Page {
 								<th><?php esc_html_e( 'Customer', 'trustscript' ); ?></th>
 								<th><?php esc_html_e( 'Product', 'trustscript' ); ?></th>
 								<th><?php esc_html_e( 'Order Date', 'trustscript' ); ?></th>
-								<th><?php esc_html_e( 'Sent', 'trustscript' ); ?></th>
 								<th><?php esc_html_e( 'Consent', 'trustscript' ); ?></th>
 								<th><?php esc_html_e( 'Status', 'trustscript' ); ?></th>
 								<th><?php esc_html_e( 'Action', 'trustscript' ); ?></th>
@@ -142,7 +141,6 @@ class TrustScript_Review_Request_Page {
 				</div>
 			</div>
 
-			<!-- Action Button -->
 			<div class="trustscript-review-requests-action-buttons">
 				<button type="button" id="refresh-review-requests" class="trustscript-review-requests-refresh-btn">
 					<?php esc_html_e( 'Refresh', 'trustscript' ); ?>
@@ -157,380 +155,246 @@ class TrustScript_Review_Request_Page {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => 'Unauthorized' ), 401 );
+			return;
 		}
 
-		$page          = max( 1, absint( isset( $_POST['page'] )       ? $_POST['page']       : 1 ) );
-		$search        = sanitize_text_field( wp_unslash( isset( $_POST['search'] )     ? $_POST['search']     : '' ) );
-		$status_filter = sanitize_key( isset( $_POST['status'] )       ? $_POST['status']     : '' );
-		$date_days     = absint( isset( $_POST['date_range'] )         ? $_POST['date_range'] : 0 );
-		$date_after    = $date_days > 0 ? gmdate( 'Y-m-d', strtotime( "-{$date_days} days" ) ) : null;
+		$page          = max( 1, absint( wp_unslash( $_POST['page'] ?? 1 ) ) );
+		$search        = sanitize_text_field( wp_unslash( $_POST['search'] ?? '' ) );
+		$status_filter = sanitize_key( wp_unslash( $_POST['status'] ?? '' ) );
+		$date_days     = absint( wp_unslash( $_POST['date_range'] ?? 0 ) );
 		$per_page      = self::PER_PAGE;
 
-		$base = array(
-			'status'  => 'any',
-			'return'  => 'ids',
-			'limit'   => -1,
-			'orderby' => 'date',
-			'order'   => 'DESC',
+		if ( ! class_exists( 'TrustScript_Review_Requests' ) || ! TrustScript_Review_Requests::table_exists() ) {
+			wp_send_json_success( array(
+				'stats'        => array( 'pending' => 0, 'sent' => 0, 'already_published' => 0, 'total' => 0 ),
+				'orders'       => array(),
+				'total'        => 0,
+				'pages'        => 1,
+				'page'         => 1,
+				'perPage'      => $per_page,
+				'canSendSimple' => false,
+			) );
+			return; 
+		}
+
+		global $wpdb;
+		$table = TrustScript_Review_Requests::get_table_name();
+		$count_sql  = $wpdb->prepare( 'SELECT COUNT(*) FROM %i rr WHERE 1=1', $table );
+		$select_sql = $wpdb->prepare(
+			'SELECT rr.order_id, rr.product_id, rr.status, rr.created_at FROM %i rr WHERE 1=1',
+			$table
 		);
-		if ( $date_after ) {
-			$base['date_after'] = $date_after;
+
+		if ( ! empty( $status_filter ) ) {
+			$segment     = $wpdb->prepare( ' AND rr.status = %s', $status_filter );
+			$count_sql  .= $segment;
+			$select_sql .= $segment;
 		}
 
-		$entries  = array();
-		$seen_ids = array();
-
-		if ( '' === $status_filter || 'published' === $status_filter ) {
-			$ids = wc_get_orders( array_merge( $base, array(
-				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				'meta_query' => array(
-					array(
-						'key'     => '_trustscript_review_published',
-						'value'   => 'yes',
-						'compare' => '=',
-					),
-					array(
-						'key'     => '_trustscript_customer_opted_out',
-						'compare' => 'NOT EXISTS',
-					),
-					array(
-						'relation' => 'OR',
-						array(
-							'key'     => '_trustscript_consent_status',
-							'compare' => 'NOT EXISTS',
-						),
-						array(
-							'key'     => '_trustscript_consent_status',
-							'value'   => array( 'confirmed', 'not_required' ),
-							'compare' => 'IN',
-						),
-					),
-				),
-				'meta_relation' => 'AND',
-			) ) );
-			foreach ( $ids as $id ) {
-				$published_at = get_post_meta( $id, '_trustscript_review_published_at', true );
-				$status_time  = $published_at ? strtotime( $published_at ) : time();
-				$seen_ids[ $id ] = true;
-				$entries[]       = array(
-					'order_id'    => (int) $id,
-					'status'      => 'published',
-					'scheduled_for' => null,
-					'status_time' => $status_time,
-				);
-			}
+		if ( $date_days > 0 ) {
+			$after = gmdate( 'Y-m-d 00:00:00', strtotime( "-{$date_days} days" ) );
+			$segment     = $wpdb->prepare( ' AND rr.created_at >= %s', $after );
+			$count_sql  .= $segment;
+			$select_sql .= $segment;
 		}
-
-		if ( '' === $status_filter || 'opt-out' === $status_filter ) {
-			$ids = wc_get_orders( array_merge( $base, array(
-				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-				'meta_key'   => '_trustscript_customer_opted_out',
-				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-				'meta_value' => '1',
-			) ) );
-			foreach ( $ids as $id ) {
-				if ( isset( $seen_ids[ $id ] ) ) { continue; }
-				$sent_at     = get_post_meta( (int) $id, '_trustscript_review_sent_at', true );
-				$status_time = $sent_at ? strtotime( $sent_at ) : time();
-				$seen_ids[ $id ] = true;
-				$entries[]       = array(
-					'order_id'      => (int) $id,
-					'status'        => 'opt-out',
-					'scheduled_for' => null,
-					'status_time'   => $status_time,
-				);
-			}
-		}
-
-		if ( '' === $status_filter || 'pending' === $status_filter ) {
-			$ids = wc_get_orders( array_merge( $base, array(
-				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				'meta_query' => array(
-					array(
-						'key'     => '_trustscript_email_sent',
-						'value'   => '1',
-						'compare' => '=',
-					),
-					array(
-						'key'     => '_trustscript_customer_opted_out',
-						'compare' => 'NOT EXISTS',
-					),
-					array(
-						'relation' => 'OR',
-						array(
-							'key'     => '_trustscript_consent_status',
-							'compare' => 'NOT EXISTS',
-						),
-						array(
-							'key'     => '_trustscript_consent_status',
-							'value'   => array( 'confirmed', 'not_required' ),
-							'compare' => 'IN',
-						),
-					),
-				),
-				'meta_relation' => 'AND',
-			) ) );
-			foreach ( $ids as $id ) {
-				if ( isset( $seen_ids[ $id ] ) ) { continue; }
-				$sent_at      = get_post_meta( $id, '_trustscript_review_sent_at', true );
-				$status_time  = $sent_at ? strtotime( $sent_at ) : time();
-				$seen_ids[ $id ] = true;
-				$entries[]       = array(
-					'order_id'    => (int) $id,
-					'status'      => 'pending',
-					'scheduled_for' => null,
-					'status_time' => $status_time,
-				);
-			}
-		}
-
-		if ( '' === $status_filter || 'scheduled' === $status_filter ) {
-			if ( TrustScript_Queue::table_exists() ) {
-				$queue_result = TrustScript_Queue::get_items( 1, 9999, 'pending' );
-				foreach ( $queue_result['items'] as $item ) {
-					$id = absint( $item['order_id'] );
-					if ( isset( $seen_ids[ $id ] ) ) { continue; }
-
-					if ( $date_after && ! empty( $item['queued_at'] ) ) {
-						if ( strtotime( $item['queued_at'] ) < strtotime( $date_after ) ) {
-							continue;
-						}
-					}
-
-					$status_time = ! empty( $item['queued_at'] ) ? strtotime( $item['queued_at'] ) : time();
-					$seen_ids[ $id ] = true;
-					$entries[]       = array(
-						'order_id'      => $id,
-						'status'        => 'scheduled',
-						'scheduled_for' => $item['scheduled_for'],
-						'status_time'   => $status_time,
-					);
-				}
-			}
-		}
-
-		if ( '' === $status_filter || 'consent_pending' === $status_filter ) {
-			$consent_pending_ids = wc_get_orders( array_merge( $base, array(
-				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				'meta_query' => array(
-					array(
-						'key'     => '_trustscript_consent_status',
-						'value'   => 'pending',
-						'compare' => '=',
-					),
-					array(
-						'key'     => '_trustscript_consent_deferred_service',
-						'compare' => 'EXISTS',
-					),
-				),
-			) ) );
-			foreach ( $consent_pending_ids as $id ) {
-				if ( isset( $seen_ids[ $id ] ) ) { continue; }
-
-				if ( $date_after ) {
-					$cp_order  = wc_get_order( $id );
-					$created   = $cp_order ? $cp_order->get_date_created() : null;
-					if ( $created && $created->getTimestamp() < strtotime( $date_after ) ) {
-						continue;
-					}
-				}
-
-				$status_time     = time();
-				$seen_ids[ $id ] = true;
-				$entries[]       = array(
-					'order_id'      => (int) $id,
-					'status'        => 'consent_pending',
-					'scheduled_for' => null,
-					'status_time'   => $status_time,
-				);
-			}
-		}
-
-		usort( $entries, function ( $a, $b ) {
-			if ( $b['order_id'] !== $a['order_id'] ) {
-				return $b['order_id'] - $a['order_id'];
-			}
-			$time_a = isset( $a['status_time'] ) ? (int) $a['status_time'] : 0;
-			$time_b = isset( $b['status_time'] ) ? (int) $b['status_time'] : 0;
-			return $time_b - $time_a;
-		} );
 
 		if ( ! empty( $search ) ) {
-			$clean        = ltrim( $search, '#' );
-			$search_ids   = wc_get_orders( array(
-				's'      => $clean,
-				'status' => 'any',
-				'return' => 'ids',
-				'limit'  => -1,
-			) );
-			$search_map = array_flip( $search_ids );
-			$entries    = array_values( array_filter( $entries, static function ( $e ) use ( $search_map ) {
-				return isset( $search_map[ $e['order_id'] ] );
-			} ) );
+			$clean = ltrim( $search, '#' );
+			if ( is_numeric( $clean ) ) {
+				$segment     = $wpdb->prepare( ' AND rr.order_id = %d', (int) $clean );
+				$count_sql  .= $segment;
+				$select_sql .= $segment;
+			}
 		}
 
-		$stats = self::compute_global_stats();
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$total = (int) $wpdb->get_var( $count_sql );
 
-		$total       = count( $entries );
 		$total_pages = max( 1, (int) ceil( $total / $per_page ) );
 		$page        = min( $page, $total_pages );
-		$paged       = array_slice( $entries, ( $page - 1 ) * $per_page, $per_page );
+		$offset      = ( $page - 1 ) * $per_page;
+		$select_sql .= $wpdb->prepare(
+			' ORDER BY rr.created_at DESC, rr.order_id DESC LIMIT %d OFFSET %d',
+			$per_page,
+			$offset
+		);
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$rows = $wpdb->get_results( $select_sql, ARRAY_A ) ?: array();
 
 		$orders_data = array();
-		foreach ( $paged as $entry ) {
-			$order = wc_get_order( $entry['order_id'] );
+		foreach ( $rows as $row ) {
+			$order = wc_get_order( (int) $row['order_id'] );
 			if ( ! $order ) {
 				continue;
 			}
 
-			$product_name = '';
-			$product_url  = '';
-			foreach ( $order->get_items() as $item ) {
-				$product_name = $item->get_name();
-				$pid          = $item->get_product_id();
-				$product_url  = $pid ? (string) get_permalink( $pid ) : '';
-				break;
-			}
+			$product_id   = (int) $row['product_id'];
+			$product      = $product_id ? wc_get_product( $product_id ) : null;
+			$product_name = $product ? $product->get_name() : __( 'Unknown product', 'trustscript' );
+			$product_url  = $product ? (string) get_permalink( $product_id ) : '';
+			$date_created = $order->get_date_created();
+			$processed_by_any_service = (bool) $order->get_meta( '_trustscript_email_sent' );
+			$consent_status = class_exists( 'TrustScript_Consent_Manager' )
+				? TrustScript_Consent_Manager::get_order_consent_status( (int) $row['order_id'] )
+				: 'not_required';
+			
+			$billing_country = class_exists( 'TrustScript_Consent_Manager' )
+				? TrustScript_Consent_Manager::get_order_billing_country( (int) $row['order_id'] )
+				: '';
+			
+			$consent_type = class_exists( 'TrustScript_Consent_Manager' )
+				? TrustScript_Consent_Manager::get_consent_type_for_country( $billing_country )
+				: 'not_required';
 
-			$date_created  = $order->get_date_created();
-			$sent_raw      = $order->get_meta( '_trustscript_review_sent_at' );
-			$published_raw = $order->get_meta( '_trustscript_review_published_at' );
+			$display_consent_status = 'N/A';
+			$consent_given_at = null;
+			$consent_confirmed_at = null;
 
-			$consent_status = $order->get_meta( '_trustscript_consent_status' );
-			$consent_country = $order->get_meta( '_trustscript_consent_country' );
-			$consent_confirmed_at = $order->get_meta( '_trustscript_consent_confirmed_at' );
-
-			$consent_display = 'N/A';
-			$consent_class   = 'consent-na';
-			$consent_subtext = '';
-
-			if ( 'not_required' !== $consent_status ) {
-				if ( 'declined' === $consent_status ) {
-					$consent_display = esc_html__( 'Opted Out', 'trustscript' );
-					$consent_class   = 'consent-declined';
-				} elseif ( 'pending' === $consent_status ) {
-					$consent_display = esc_html__( 'Pending', 'trustscript' );
-					$consent_class   = 'consent-pending';
-					$consent_subtext = 'Pending from customer';
-				} else {
-					$consent_display = esc_html__( 'Opted In', 'trustscript' );
-					$consent_class   = 'consent-confirmed';
-					if ( ! empty( $consent_confirmed_at ) ) {
-						// stored via current_time('mysql') = local site time.
-						$consent_subtext = 'Approved on ' . TrustScript_Date_Formatter::format( $consent_confirmed_at, 'short' );
+			if ( 'not_required' === $consent_status ) {
+				$display_consent_status = esc_html__( 'Not Required', 'trustscript' );
+			} elseif ( 'declined' === $consent_status ) {
+				$display_consent_status = esc_html__( 'Not Given', 'trustscript' );
+			} elseif ( 'confirmed' === $consent_status ) {
+				$display_consent_status = esc_html__( 'Confirmed', 'trustscript' );
+				$consent_confirmed_at = $order->get_meta( '_trustscript_consent_confirmed_at' );
+			} elseif ( 'pending' === $consent_status ) {
+				if ( 'double_optin' === $consent_type ) {
+					$consent_given_at = $order->get_meta( '_trustscript_consent_given_at' );
+					if ( ! empty( $consent_given_at ) ) {
+						$given_timestamp = strtotime( $consent_given_at );
+						if ( false !== $given_timestamp && ( time() - $given_timestamp ) > ( 7 * DAY_IN_SECONDS ) ) {
+							$display_consent_status = esc_html__( 'Expired', 'trustscript' );
+						} else {
+							$display_consent_status = esc_html__( 'Waiting', 'trustscript' );
+						}
+					} else {
+						$display_consent_status = esc_html__( 'Waiting', 'trustscript' );
 					}
+				} else {
+					$display_consent_status = esc_html__( 'Pending', 'trustscript' );
 				}
 			}
 
-			$sent_date = null;
-			if ( 'scheduled' !== $entry['status'] && $sent_raw ) {
-				// Stored as site-local time — use the formatter which parses via wp_timezone().
-				$sent_date = TrustScript_Date_Formatter::format( $sent_raw, 'datetime' );
-			}
-
 			$orders_data[] = array(
-				'orderId'       => '#' . $order->get_order_number(),
-				'orderAdminUrl' => (string) get_edit_post_link( $order->get_id(), '' ),
-				'customerName'  => $order->get_formatted_billing_full_name() ?: esc_html__( 'Guest', 'trustscript' ),
-				'productName'   => $product_name ?: esc_html__( 'Unknown product', 'trustscript' ),
-				'productUrl'    => $product_url,
-				'orderDate'     => $date_created ? wp_date( 'M j, Y', $date_created->getTimestamp() ) : '—',
-				'sentDate'      => $sent_date,
-				'scheduledFor'  => ! empty( $entry['scheduled_for'] )
-					? TrustScript_Date_Formatter::format( $entry['scheduled_for'], 'datetime' )
-					: null,
-				'publishedDate' => $published_raw ? TrustScript_Date_Formatter::format( $published_raw, 'short' ) : null,
-				'status'        => $entry['status'],
-				'consentStatus' => $consent_status ?: 'unknown',
-				'consentCountry' => $consent_country ?: '',
-				'consentDisplay' => $consent_display,
-				'consentClass'  => $consent_class,
-				'consentSubtext' => $consent_subtext,
-
+				'rawOrderId'          => $order->get_id(),
+				'orderId'             => '#' . $order->get_order_number(),
+				'orderAdminUrl'       => (string) get_edit_post_link( $order->get_id(), '' ),
+				'customerName'        => $order->get_formatted_billing_full_name() ?: esc_html__( 'Guest', 'trustscript' ),
+				'productName'         => $product_name,
+				'productUrl'          => $product_url,
+				'orderDate'           => $date_created ? wp_date( 'M j, Y', $date_created->getTimestamp() ) : '—',
+				'sentDate'            => 'sent' === $row['status'] ? TrustScript_Date_Formatter::format( $row['created_at'], 'datetime' ) : null,
+				'status'              => $row['status'],
+				'ineligibleReason'    => $row['ineligible_reason'] ?? null,
+				'emailSent'           => 'sent' === $row['status'] || $processed_by_any_service,
+				'consentStatus'       => $consent_status,
+				'consentType'         => $consent_type,
+				'displayConsentStatus' => $display_consent_status,
 			);
 		}
 
+		$stats         = TrustScript_Review_Requests::compute_stats();
+		$can_send_simple = empty( get_option( 'trustscript_api_review_collection_enabled' ) ) && ! empty( get_option( 'trustscript_simple_review_enabled' ) );
+
 		wp_send_json_success( array(
-			'stats'   => $stats,
-			'orders'  => $orders_data,
-			'total'   => $total,
-			'pages'   => $total_pages,
-			'page'    => $page,
-			'perPage' => $per_page,
+			'stats'         => $stats,
+			'orders'        => $orders_data,
+			'total'         => $total,
+			'pages'         => $total_pages,
+			'page'          => $page,
+			'perPage'       => $per_page,
+			'canSendSimple' => $can_send_simple,
 		) );
 	}
 
-	/**
-	 * Compute aggregate stats for all tracked orders, categorized by their current review request status.
-	 *
-	 * @return array { total, published, optOut, pending, scheduled }
-	 */
-	private static function compute_global_stats() {
-		$published_ids = wc_get_orders( array(
-			'status'     => 'any',
-			'return'     => 'ids',
-			'limit'      => -1,
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-			'meta_key'   => '_trustscript_review_published',
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-			'meta_value' => 'yes',
-		) );
+	public function handle_send_simple_email() {
+		check_ajax_referer( 'trustscript_admin', 'nonce' );
 
-		$optout_ids = wc_get_orders( array(
-			'status'     => 'any',
-			'return'     => 'ids',
-			'limit'      => -1,
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-			'meta_key'   => '_trustscript_customer_opted_out',
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-			'meta_value' => '1',
-		) );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unauthorized', 'trustscript' ) ), 401 );
+			return;
+		}
 
-		$email_sent_ids = wc_get_orders( array(
-			'status'     => 'any',
-			'return'     => 'ids',
-			'limit'      => -1,
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-			'meta_key'   => '_trustscript_email_sent',
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
-			'meta_value' => '1',
-		) );
+		$order_id = isset( $_POST['order_id'] ) ? intval( wp_unslash( $_POST['order_id'] ) ) : 0;
+		if ( ! $order_id ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid order ID', 'trustscript' ) ) );
+		}
 
-		$consent_pending_ids = wc_get_orders( array(
-			'status'     => 'any',
-			'return'     => 'ids',
-			'limit'      => -1,
-			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'meta_query' => array(
-				array(
-					'key'     => '_trustscript_consent_status',
-					'value'   => 'pending',
-				),
-				array(
-					'key'     => '_trustscript_consent_deferred_service',
-					'compare' => 'EXISTS',
-				),
-			),
-		) );
+		if ( class_exists( 'TrustScript_Opt_Out' ) ) {
+			$order = wc_get_order( $order_id );
+			if ( $order ) {
+				$customer_email = $order->get_billing_email();
+				if ( ! empty( $customer_email ) ) {
+					$email_hash = hash( 'sha256', strtolower( trim( $customer_email ) ) );
+					if ( TrustScript_Opt_Out::is_opted_out( $email_hash ) ) {
+						if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+							TrustScript_Review_Requests::mark_by_order( $order_id, 'opt-out' );
+						}
+						wp_send_json_error( array( 'message' => __( 'Customer has opted out of review requests.', 'trustscript' ) ) );
+						return;
+					}
+				}
+			}
+		}
 
-		$pub_map  = array_flip( $published_ids );
-		$opt_map  = array_flip( $optout_ids );
-		$pending  = count( array_filter( $email_sent_ids, static function ( $id ) use ( $pub_map, $opt_map ) {
-			return ! isset( $pub_map[ $id ] ) && ! isset( $opt_map[ $id ] );
-		} ) );
+		if ( class_exists( 'TrustScript_Review_Requests' ) && TrustScript_Review_Requests::table_exists() ) {
+			global $wpdb;
+			$table = TrustScript_Review_Requests::get_table_name();
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+			$non_cancelled = (int) $wpdb->get_var( $wpdb->prepare(
+				"SELECT COUNT(*) FROM %i WHERE order_id = %d AND status != 'cancelled'",
+				$table,
+				$order_id
+			) );
+			if ( 0 === $non_cancelled ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+				$has_any = (int) $wpdb->get_var( $wpdb->prepare(
+					'SELECT COUNT(*) FROM %i WHERE order_id = %d',
+					$table,
+					$order_id
+				) );
+				if ( $has_any > 0 ) {
+					wp_send_json_error( array( 'message' => __( 'All products in this order have been cancelled or refunded. No review request was sent.', 'trustscript' ) ) );
+					return;
+				}
+			}
+		}
 
-		$scheduled       = TrustScript_Queue::count_pending();
-		$published       = count( $published_ids );
-		$opt_out         = count( $optout_ids );
-		$consent_pending = count( $consent_pending_ids );
+		if ( class_exists( 'TrustScript_Review_Queue_Gating' ) ) {
+			if ( ! TrustScript_Review_Queue_Gating::can_send_review_request( $order_id ) ) {
+				$blocking_reason = TrustScript_Review_Queue_Gating::get_blocking_reason( $order_id );
+				if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+					TrustScript_Review_Requests::process_order_products( $order_id, 'opt-out' );
+				}
+				wp_send_json_error( array( 'message' => __( 'Cannot send review request due to customer consent restrictions.', 'trustscript' ) ) );
+				return;
+			}
+		}
 
-		return array(
-			'total'          => $published + $opt_out + $pending + $scheduled + $consent_pending,
-			'published'      => $published,
-			'optOut'         => $opt_out,
-			'pending'        => $pending,
-			'scheduled'      => $scheduled,
-			'consentPending' => $consent_pending,
-		);
+		if ( class_exists( 'TrustScript_Simple_Email_Review' ) ) {
+			$sent = TrustScript_Simple_Email_Review::send_review_request( $order_id );
+			if ( $sent ) {
+				TrustScript_Queue::remove_by_order( $order_id, 'simple' );
+
+				if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+					TrustScript_Review_Requests::mark_sent( $order_id );
+				}
+
+				$order = wc_get_order( $order_id );
+				if ( $order ) {
+					$order->update_meta_data( '_trustscript_email_sent', '1' );
+					$order->update_meta_data( '_trustscript_review_sent_at', current_time( 'mysql' ) );
+					$order->update_meta_data( '_trustscript_service_type', 'simple' );
+					$order->save_meta_data();
+					$order->add_order_note( __( 'TrustScript Simple Review request emailed to customer (Manual).', 'trustscript' ) );
+				}
+				wp_send_json_success( array( 'message' => __( 'Email sent successfully.', 'trustscript' ) ) );
+			} else {
+				wp_send_json_error( array( 'message' => __( 'Failed to send email. Check plugin settings or all products may be refunded.', 'trustscript' ) ) );
+			}
+		} else {
+			wp_send_json_error( array( 'message' => __( 'Simple review component not active.', 'trustscript' ) ) );
+		}
 	}
 }

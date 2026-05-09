@@ -99,14 +99,8 @@
     font-size: 90%;
   }
 }
-/**
- * Hide default WooCommerce star ratings on shop/archive/product-listing pages,
- * including hover cards and related/upsell/cross-sell blocks, since we're
- * replacing them with our own TrustScript ratings.
- *
- * This also hides theme implementations that render default rating spans inside
- * the loop output, while leaving the single product rating intact.
- */
+
+/* Hide default WooCommerce star ratings to avoid confusion with our custom display */
 .products .star-rating,
 .products .star-rating span,
 .woocommerce ul.products .star-rating,

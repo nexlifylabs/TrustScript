@@ -37,10 +37,7 @@ class TrustScript_Auto_Sync {
 	}
 
 	/**
-	 * Schedule the daily auto-sync cron event based on the configured run time.
-	 *
-	 * Does nothing if auto-sync is disabled. Unschedules any existing event before
-	 * registering a fresh one.
+	 * Schedule the auto-sync cron event based on the current settings.
 	 *
 	 * @since 1.0.0
 	 */
@@ -82,10 +79,7 @@ class TrustScript_Auto_Sync {
 	}
 
 	/**
-	 * Calculate the next Unix timestamp for a given HH:MM time string.
-	 *
-	 * Returns a timestamp for today if the time has not yet passed, otherwise
-	 * returns tomorrow's timestamp at the same time.
+	 * Calculate the Unix timestamp for the next scheduled run based on a given time string.
 	 *
 	 * @since 1.0.0
 	 * @param string $time_string Time in HH:MM format. Defaults to 02:00 on parse failure.
@@ -121,6 +115,10 @@ class TrustScript_Auto_Sync {
 	public function run_auto_sync() {
 
 		if ( ! get_option( 'trustscript_auto_sync_enabled', false ) ) {
+			return;
+		}
+
+		if ( empty( get_option( 'trustscript_api_review_collection_enabled' ) ) ) {
 			return;
 		}
 
@@ -249,19 +247,8 @@ class TrustScript_Auto_Sync {
 	}
 
 	/**
-	 * Validate and publish a single review payload as a WordPress comment.
-	 *
-	 * Runs a chain of guards in order:
-	 * - `uniqueToken` present and a string
-	 * - Project status is active
-	 * - Review text is non-empty after sanitisation
-	 * - Source service is in the allow-list (`woocommerce`, `memberpress`)
-	 * - Token-to-order ID ownership verified via meta lookup
-	 * - HMAC verification hash matches the stored hash
-	 * - WooCommerce order is not cancelled, refunded, or failed
-	 *
-	 * On success, marks the order in the registry and persists publishing
-	 * metadata to order/post meta.
+	 * Publish a single review from the TrustScript API as a WordPress comment.
+	 * Performs multiple validation checks to ensure the review is eligible for publication:
 	 *
 	 * @since 1.0.0
 	 * @param array $review Decoded review payload from the TrustScript API.
@@ -365,7 +352,11 @@ class TrustScript_Auto_Sync {
 
 		if ( $result ) {
 			TrustScript_Order_Registry::mark_published( $source_service, $source_order_id, null, null, 'auto_sync' );
-			
+
+			if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+				TrustScript_Review_Requests::mark_by_order( (int) $source_order_id, 'published' );
+			}
+
 			if ( $source_service === 'woocommerce' && function_exists( 'wc_get_order' ) ) {
 				if ( ! $order ) {
 					$order = wc_get_order( $source_order_id );
@@ -547,13 +538,8 @@ class TrustScript_Auto_Sync {
 	}
 
 	/**
-	 * Push recent orders from all active service providers to the TrustScript API.
-	 *
-	 * Iterates each active provider, syncing orders from the last 2 days to
-	 * cover any missed during downtime. Stops early if the remaining execution
-	 * time drops below 30 seconds. Pauses 500ms between providers to reduce
-	 * server load. Persists run timestamp and aggregate stats to options on
-	 * completion.
+	 * Sync recent orders from active providers to the TrustScript API. Processes each provider 
+	 * sequentially, respecting the max execution time and API rate limits.
 	 *
 	 * @since 1.0.0
 	 */

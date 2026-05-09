@@ -18,11 +18,6 @@ class TrustScript_Order_Consent_Capture {
 		add_action( 'woocommerce_checkout_order_created', array( __CLASS__, 'capture_consent_on_order_created' ), 10, 1 );
 	}
 
-	/**
-	 * Capture consent decision when order is created.
-	 *
-	 * @param WC_Order $order The WooCommerce order object.
-	 */
 	public static function capture_consent_on_order_created( $order ) {
 		// Nonce is optional -- only present when the checkout form includes the TrustScript consent block.
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce presence is checked on the next line; absence is a valid non-WC flow.
@@ -73,10 +68,6 @@ class TrustScript_Order_Consent_Capture {
 			}
 		}
 
-		// REMOTE_ADDR is the client's IP as set by the server at the TCP level (not a user-submitted
-		// form value). It is hashed for the audit trail only - never stored or output raw.
-		// Note: behind a proxy, this will be the proxy IP; HTTP_X_FORWARDED_FOR is not used here
-		// as it is user-spoofable.
 		$ip_hash = hash( 'sha256', sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) ) );
 
 		TrustScript_Consent_Manager::log_consent_event(
@@ -87,12 +78,10 @@ class TrustScript_Order_Consent_Capture {
 			$ip_hash
 		);
 
-		// If double opt-in and consent given, send confirmation email immediately.
 		if ( 'double_optin' === $consent_type && $consent_given ) {
 			TrustScript_Consent_Manager::send_confirmation_email( $order_id );
 		}
 
-		// Mark order metadata to indicate consent has been processed.
 		$order->update_meta_data( '_trustscript_consent_processed', 'yes' );
 		$order->save();
 	}
@@ -118,11 +107,9 @@ class TrustScript_Order_Consent_Capture {
 			hash( 'sha256', sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) ) )
 		);
 
-		// Mark as processed
 		$order->update_meta_data( '_trustscript_consent_processed', 'yes' );
 		$order->save();
 	}
 }
 
-// Initialize the consent capture integration if WooCommerce is active.
 add_action( 'plugins_loaded', array( 'TrustScript_Order_Consent_Capture', 'init' ) );

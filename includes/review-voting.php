@@ -31,7 +31,7 @@ class TrustScript_Review_Voting {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'trustscript_votes';
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
-		return $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name ) ) === $table_name;
+		return $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) === $table_name;
 	}
 
 	/**
@@ -197,7 +197,7 @@ class TrustScript_Review_Voting {
 	}
 
 	/**
-	 * Handle GET request to fetch current vote counts and user vote status for a comment. 
+	 * Handle GET request to fetch current vote counts and user vote status for a comment.
 	 *
 	 * @param WP_REST_Request $request
 	 * @return WP_REST_Response|WP_Error
@@ -222,14 +222,14 @@ class TrustScript_Review_Voting {
 				'comment_id'     => $comment_id,
 				'upvotes'        => $counts['upvotes'],
 				'downvotes'      => $counts['downvotes'],
-				'has_voted'      => $user_vote !== false,   // true boolean for JS
-				'user_vote_type' => $user_vote ?: null,     // 'upvote'|'downvote'|null
+				'has_voted'      => $user_vote !== false,
+				'user_vote_type' => $user_vote ?: null,
 			)
 		);
 	}
 
 	/**
-	 * Cast or update a vote atomically using an INSERT...ON DUPLICATE KEY UPDATE query. 
+	 * Cast or update a vote atomically using an INSERT...ON DUPLICATE KEY UPDATE query.
 	 *
 	 * @param int    $comment_id
 	 * @param string $vote_type  'upvote'|'downvote'
@@ -304,13 +304,13 @@ class TrustScript_Review_Voting {
 		);
 
 		return array(
-			'upvotes'   => (int) ( $row->upvotes   ?? 0 ),
+			'upvotes'   => (int) ( $row->upvotes ?? 0 ),
 			'downvotes' => (int) ( $row->downvotes ?? 0 ),
 		);
 	}
 
 	/**
-	 * Public static wrapper to fetch vote counts for a comment. Allows other 
+	 * Public static wrapper to fetch vote counts for a comment. Allows other
 	 * classes (like the renderer) to get current counts without instantiation.
 	 *
 	 * @param int $comment_id
@@ -332,15 +332,14 @@ class TrustScript_Review_Voting {
 		);
 
 		return array(
-			'upvotes'   => (int) ( $row->upvotes   ?? 0 ),
+			'upvotes'   => (int) ( $row->upvotes ?? 0 ),
 			'downvotes' => (int) ( $row->downvotes ?? 0 ),
 		);
 	}
 
 	/**
-	 * Public static wrapper to check if the current user has voted on a comment 
-	 * and return the vote type. Allows the renderer to show the user's vote state 
-	 * on page load.
+	 * Public static wrapper to check if the current user has voted on a comment and return the vote type.
+	 * Allows other classes (like the renderer) to check user vote status without instantiation.
 	 *
 	 * @param int $comment_id
 	 * @return string|false  Vote type string ('upvote'|'downvote'), or false if not voted or not logged in.

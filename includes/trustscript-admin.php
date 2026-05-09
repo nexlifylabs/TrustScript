@@ -79,10 +79,15 @@ class TrustScript_Plugin_Admin
 		add_action('wp_ajax_trustscript_save_service_settings', array($this, 'handle_save_service_settings'));
 		add_action('wp_ajax_trustscript_save_optional_data_settings', array($this, 'handle_save_optional_data_settings'));
 		add_action('wp_ajax_trustscript_dismiss_notice', array($this, 'handle_dismiss_notice'));
+		add_action('wp_ajax_trustscript_save_trust_strip_settings', array($this, 'handle_save_trust_strip_settings'));
 		add_action('wp_ajax_trustscript_save_uninstall_preference', array($this, 'handle_save_uninstall_preference'));
 		add_action('wp_ajax_trustscript_save_privacy_settings',    array( new TrustScript_Privacy_Settings_Page(), 'handle_save_privacy_settings' ) );
+		add_action('wp_ajax_trustscript_clear_logs', array($this, 'handle_clear_logs'));
 		add_action('update_option_trustscript_api_key', array($this, 'on_api_key_updated'), 10, 2);
 		add_action('admin_init', array($this, 'maybe_redirect_after_api_key_save'));
+		add_action('wp_ajax_trustscript_save_verification_modal_settings', array($this, 'handle_save_verification_modal_settings'));
+		add_action('transition_comment_status', array($this, 'handle_edit_approval'), 10, 3);
+		add_filter('comment_text', array($this, 'modify_admin_comment_text'), 10, 2);
 	}
 
 	/**
@@ -105,6 +110,96 @@ class TrustScript_Plugin_Admin
 		exit;
 	}
 
+	/**
+	 * Handle approval of a shadow review edit.
+	 */
+	public function handle_edit_approval( $new_status, $old_status, $comment ) {
+		if ( $new_status === 'approved' && $old_status !== 'approved' && $comment->comment_type === 'review' ) {
+			$original_id = get_comment_meta( $comment->comment_ID, '_trustscript_edit_of', true );
+			if ( $original_id ) {
+				$original = get_comment( $original_id );
+				if ( $original ) {
+					$update_data = array(
+						'comment_ID'      => $original_id,
+						'comment_content' => $comment->comment_content,
+					);
+					wp_update_comment( $update_data );
+					
+					$rating = get_comment_meta( $comment->comment_ID, 'rating', true );
+					if ( $rating ) {
+						update_comment_meta( $original_id, 'rating', $rating );
+						update_comment_meta( $original_id, '_trustscript_rating', $rating );
+					}
+					
+					$photos = get_comment_meta( $comment->comment_ID, '_trustscript_media_urls', true );
+					if ( $photos ) {
+						update_comment_meta( $original_id, '_trustscript_media_urls', $photos );
+					}
+					
+					wp_trash_comment( $comment->comment_ID );
+
+					if ( class_exists( 'TrustScript_Review_Renderer' ) ) {
+						TrustScript_Review_Renderer::flush_stats_cache( $comment->comment_post_ID );
+					}
+					if ( class_exists( 'TrustScript_Shop_Display' ) ) {
+						TrustScript_Shop_Display::clear_product_rating_cache( $comment->comment_post_ID );
+					}
+				}
+			}
+		}
+	}
+
+	public function modify_admin_comment_text( $comment_text, $comment ) {
+		if ( ! is_admin() || $comment->comment_type !== 'review' ) {
+			return $comment_text;
+		}
+
+		$append = '';
+		$media_json = get_comment_meta( $comment->comment_ID, '_trustscript_media_urls', true );
+		if ( ! empty( $media_json ) ) {
+			$media = json_decode( $media_json, true );
+			if ( is_array( $media ) && ! empty( $media ) ) {
+				$append .= '<div style="margin-top: 10px;">';
+				$append .= '<strong>' . esc_html__( 'Attached Photos:', 'trustscript' ) . '</strong><br>';
+				foreach ( $media as $url ) {
+					$append .= '<a href="' . esc_url( $url ) . '" target="_blank"><img src="' . esc_url( $url ) . '" style="max-width: 80px; max-height: 80px; border-radius: 4px; margin-right: 8px; margin-top: 5px; border: 1px solid #ddd;" /></a>';
+				}
+				$append .= '</div>';
+			}
+		}
+
+		if ( $comment->comment_approved === '0' ) {
+			$original_id = get_comment_meta( $comment->comment_ID, '_trustscript_edit_of', true );
+			if ( $original_id ) {
+				$original = get_comment( $original_id );
+				if ( $original ) {
+					$old_rating = get_comment_meta( $original_id, '_trustscript_rating', true ) ?: get_comment_meta( $original_id, 'rating', true );
+					$new_rating = get_comment_meta( $comment->comment_ID, 'rating', true );
+					
+					$append .= '<div style="margin-top: 15px; padding: 10px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px;">';
+					$append .= '<strong style="color: #1e3a8a;">' . esc_html__( '✏️ This is an EDIT of an existing review.', 'trustscript' ) . '</strong><br><br>';
+					$append .= '<strong>' . esc_html__( 'Original Rating:', 'trustscript' ) . '</strong> ' . esc_html( $old_rating ) . ' ★<br>';
+					$append .= '<strong>' . esc_html__( 'New Rating:', 'trustscript' ) . '</strong> ' . esc_html( $new_rating ) . ' ★<br><br>';
+					$append .= '<strong>' . esc_html__( 'Original Text:', 'trustscript' ) . '</strong><br><blockquote style="margin: 5px 0 0 0; padding-left: 10px; border-left: 4px solid #93c5fd; color: #4b5563;">' . wp_kses_post( $original->comment_content ) . '</blockquote>';
+					
+					$old_media_json = get_comment_meta( $original_id, '_trustscript_media_urls', true );
+					if ( ! empty( $old_media_json ) ) {
+						$old_media = json_decode( $old_media_json, true );
+						if ( is_array( $old_media ) && ! empty( $old_media ) ) {
+							$append .= '<br><strong>' . esc_html__( 'Original Photos:', 'trustscript' ) . '</strong><br>';
+							foreach ( $old_media as $url ) {
+								$append .= '<a href="' . esc_url( $url ) . '" target="_blank"><img src="' . esc_url( $url ) . '" style="max-width: 60px; max-height: 60px; border-radius: 4px; margin-right: 8px; margin-top: 5px; opacity: 0.7; border: 1px solid #bfdbfe;" /></a>';
+							}
+						}
+					}
+
+					$append .= '</div>';
+				}
+			}
+		}
+
+		return $comment_text . $append;
+	}
 	private function __clone()
 	{
 		// Singleton pattern - do not allow cloning
@@ -117,44 +212,60 @@ class TrustScript_Plugin_Admin
 
 	public function add_admin_menu()
 	{
-		// Main Menu
+		// Main Menu — Analytics is the landing page
 		add_menu_page(
-			__('TrustScript Settings', 'trustscript'),
+			__('Analytics', 'trustscript'),
 			__('TrustScript', 'trustscript'),
 			'manage_options',
-			'trustscript-settings',
-			array('TrustScript_Settings_Page', 'render'),
+			'trustscript-reviews',
+			array('TrustScript_Review_Request_Page', 'render'),
 			'dashicons-star-filled',
 			58
 		);
 
 		add_submenu_page(
-			'trustscript-settings',
+			'trustscript-reviews',
+			__('Analytics', 'trustscript'),
+			__('Analytics', 'trustscript'),
+			'manage_options',
+			'trustscript-reviews',
+			array('TrustScript_Review_Request_Page', 'render')
+		);
+
+		add_submenu_page(
+			'trustscript-reviews',
 			__('Review Settings', 'trustscript'),
 			__('Review Settings', 'trustscript'),
 			'manage_options',
-			'trustscript-reviews',
+			'trustscript-review-settings',
 			array('TrustScript_Reviews_Page', 'render')
 		);
 
 		add_submenu_page(
-			'trustscript-settings',
-			__('Analytics', 'trustscript'),
-			__('Analytics', 'trustscript'),
+			'trustscript-reviews',
+			__('API Settings', 'trustscript'),
+			__('API Settings', 'trustscript'),
 			'manage_options',
-			'trustscript-review-requests',
-			array('TrustScript_Review_Request_Page', 'render')
+			'trustscript-settings',
+			array('TrustScript_Settings_Page', 'render')
 		);
 
-
-
 		add_submenu_page(
-			'trustscript-settings',
+			'trustscript-reviews',
 			__('Privacy & Compliance', 'trustscript'),
 			__('Privacy & Compliance', 'trustscript'),
 			'manage_options',
 			'trustscript-privacy',
 			array('TrustScript_Privacy_Settings_Page', 'render')
+		);
+
+		add_submenu_page(
+			'trustscript-reviews',
+			__('Review Form Setup', 'trustscript'),
+			__('Review Form', 'trustscript'),
+			'manage_options',
+			'trustscript-review-form-setup',
+			array( __CLASS__, 'render_review_form_setup_page' )
 		);
 
 		$queue_count = absint( TrustScript_Queue::count_pending() );
@@ -163,13 +274,28 @@ class TrustScript_Plugin_Admin
 			$queue_label .= ' <span class="update-plugins count-' . $queue_count . '"><span class="plugin-count">' . $queue_count . '</span></span>';
 		}
 		add_submenu_page(
-			'trustscript-settings',
+			'trustscript-reviews', 
 			__('Pending Queue', 'trustscript'),
 			$queue_label,
 			'manage_options',
 			'trustscript-queue',
 			array('TrustScript_Pending_Queue_Page', 'render')
 		);
+
+	}
+
+	/**
+	 * Render the Review Form Setup admin page.
+	 */
+	public static function render_review_form_setup_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'trustscript' ) );
+		}
+		wp_enqueue_editor();
+		echo '<div class="wrap">';
+		echo '<h1>' . esc_html__( 'Review Form Setup', 'trustscript' ) . '</h1>';
+		require_once plugin_dir_path( __FILE__ ) . 'admin/review-form.php';
+		echo '</div>';
 	}
 
 	/**
@@ -194,7 +320,7 @@ class TrustScript_Plugin_Admin
 
 		?>
 		<div class="notice notice-error is-dismissible trustscript-dismissible-notice" data-notice="api_key_invalid">
-			<h3>🔑 <?php esc_html_e('API Key Invalid or Expired', 'trustscript'); ?></h3>
+			<h3><?php esc_html_e('API Key Invalid or Expired', 'trustscript'); ?></h3>
 			<p><?php esc_html_e('Your TrustScript API key is no longer valid. This might be because:', 'trustscript'); ?></p>
 			<ul>
 				<li><?php esc_html_e('The key has expired (development keys expire after 24 hours)', 'trustscript'); ?></li>
@@ -276,7 +402,7 @@ class TrustScript_Plugin_Admin
 
 		?>
 		<div class="notice notice-warning is-dismissible trustscript-dismissible-notice" data-notice="quota_exceeded">
-			<h3>📊 <?php esc_html_e('Review Quota Limit Reached', 'trustscript'); ?></h3>
+			<h3><?php esc_html_e('Review Quota Limit Reached', 'trustscript'); ?></h3>
 			<p><?php echo wp_kses_post($upgrade_message); ?></p>
 			<p>
 				<a href="<?php echo esc_url( TRUSTSCRIPT_PRICING_URL ); ?>" target="_blank" class="button button-primary">
@@ -302,6 +428,26 @@ class TrustScript_Plugin_Admin
 			'sanitize_callback' => 'sanitize_text_field',
 			'default' => '',
 		));
+		register_setting( 'trustscript_options', 'trustscript_enable_trust_strip', array(
+			'type'              => 'boolean',
+			'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
+			'default'           => true,
+		) );
+		register_setting('trustscript_options', 'trustscript_enable_verification_modal', array(
+			'type' => 'boolean',
+			'sanitize_callback' => array($this, 'sanitize_checkbox'),
+			'default' => true,
+		));
+		register_setting('trustscript_options', 'trustscript_simple_review_enabled', array(
+			'type' => 'boolean',
+			'sanitize_callback' => array($this, 'sanitize_checkbox'),
+			'default' => true,
+		));
+		register_setting('trustscript_options', 'trustscript_api_review_collection_enabled', array(
+			'type' => 'boolean',
+			'sanitize_callback' => array($this, 'sanitize_checkbox'),
+			'default' => false,
+		));
 	}
 
 	/**
@@ -317,6 +463,9 @@ class TrustScript_Plugin_Admin
 	 */
 	public function sanitize_webhook_secret($value)
 	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified by settings_fields() / options.php handler.
+		$is_api_key_form = ! empty( $_POST['trustscript_api_key_form_intent'] );
+
 		$value = sanitize_text_field($value);
 		if (empty($value)) {
 			$existing = get_option('trustscript_webhook_secret', '');
@@ -326,8 +475,11 @@ class TrustScript_Plugin_Admin
 			return '';
 		}
 
+		if ( ! $is_api_key_form ) {
+			return $value;
+		}
+
 		if (!preg_match('/^TSS-[A-F0-9-]+$/i', $value)) {
-			// Check if this is an encrypted blob round-tripping through the settings form
 			$decrypted = trustscript_decrypt_data($value);
 			if (!empty($decrypted) && preg_match('/^TSS-[A-F0-9-]+$/i', $decrypted)) {
 				return $value;
@@ -360,6 +512,9 @@ class TrustScript_Plugin_Admin
 	 */
 
 	public function sanitize_api_key($value)	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified by settings_fields() / options.php handler.
+		$is_api_key_form = ! empty( $_POST['trustscript_api_key_form_intent'] );
+
 		$value = sanitize_text_field($value);
 
 		if (empty($value)) {
@@ -367,12 +522,17 @@ class TrustScript_Plugin_Admin
 			if (!empty($existing)) {
 				return $existing;
 			}
-			delete_transient('trustscript_base_url');
+			if ( $is_api_key_form ) {
+				delete_transient('trustscript_base_url');
+			}
 			return '';
 		}
 
+		if ( ! $is_api_key_form ) {
+			return $value;
+		}
+
 		if (!preg_match('/^TSK-[A-F0-9-]+$/i', $value)) {
-			// Check if this is an encrypted blob round-tripping through the settings form
 			$decrypted = trustscript_decrypt_data($value);
 			if (!empty($decrypted) && preg_match('/^TSK-[A-F0-9-]+$/i', $decrypted)) {
 				return $value;
@@ -643,8 +803,8 @@ class TrustScript_Plugin_Admin
 		}
 
 		// Enqueue CSS & JS & Media Library
-		$base_url = plugin_dir_url(__DIR__);
-		$base_dir = plugin_dir_path(__DIR__);
+		$base_url = TRUSTSCRIPT_PLUGIN_URL;
+		$base_dir = TRUSTSCRIPT_PLUGIN_PATH;
 		$admin_css_ver = file_exists($base_dir . 'assets/css/trustscript-admin.css') ? filemtime($base_dir . 'assets/css/trustscript-admin.css') : '0.2.0';
 		$admin_notices_css_ver = file_exists($base_dir . 'assets/css/trustscript-admin-notices.css') ? filemtime($base_dir . 'assets/css/trustscript-admin-notices.css') : '0.2.0';
 		$admin_js_ver = file_exists($base_dir . 'assets/js/admin.js') ? filemtime($base_dir . 'assets/js/admin.js') : '0.2.0';
@@ -652,17 +812,15 @@ class TrustScript_Plugin_Admin
 		wp_enqueue_style('trustscript-admin-notices', $base_url . 'assets/css/trustscript-admin-notices.css', array(), $admin_notices_css_ver);
 		wp_enqueue_script('trustscript-admin-js', $base_url . 'assets/js/admin.js', array('jquery'), $admin_js_ver, true);
 
-		if (strpos($hook, 'trustscript-reviews') !== false) {
+		if (strpos($hook, 'trustscript-reviews-list') !== false || strpos($hook, 'trustscript-review-form-setup') !== false || strpos($hook, 'trustscript-review-settings') !== false) {
 			$reviews_js_ver = file_exists($base_dir . 'assets/js/reviews.js') ? filemtime($base_dir . 'assets/js/reviews.js') : '0.2.0';
 			wp_enqueue_script('trustscript-reviews-js', $base_url . 'assets/js/reviews.js', array('jquery'), $reviews_js_ver, true);
 		}
 
-		if (strpos($hook, 'trustscript-review-requests') !== false) {
+		if (strpos($hook, 'trustscript-review-requests') !== false || ( strpos($hook, 'trustscript-reviews') !== false && strpos($hook, 'trustscript-reviews-list') === false ) ) {
 			$review_requests_js_ver = file_exists($base_dir . 'assets/js/review-requests.js') ? filemtime($base_dir . 'assets/js/review-requests.js') : '0.2.0';
 			wp_enqueue_script('trustscript-review-requests-js', $base_url . 'assets/js/review-requests.js', array('jquery'), $review_requests_js_ver, true);
 		}
-
-
 
 		// Localize the script with settings and translation strings.
 		wp_localize_script('trustscript-admin-js', 'TrustscriptAdmin', array(
@@ -752,6 +910,54 @@ class TrustScript_Plugin_Admin
 	}
 
 	/**
+	 * Handle AJAX request to save verification modal settings
+	 */
+	public function handle_save_verification_modal_settings()
+	{
+		check_ajax_referer('trustscript_admin', 'nonce');
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array('message' => esc_html__('Permission denied', 'trustscript')));
+		}
+
+		$is_enabled = isset($_POST['enable_verification_modal']) 
+			&& 'true' === sanitize_text_field(wp_unslash($_POST['enable_verification_modal']));
+
+		update_option('trustscript_enable_verification_modal', $is_enabled);
+
+		wp_send_json_success(array(
+			'message' => esc_html__('Verification modal settings saved successfully!', 'trustscript'),
+			'enabled' => $is_enabled,
+		));
+	}
+
+	/**
+	 * Handle AJAX request to save trust strip settings
+	 */
+	public function handle_save_trust_strip_settings() {
+		check_ajax_referer( 'trustscript_admin', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'trustscript' ) ) );
+		}
+
+		$is_enabled = isset( $_POST['enable_trust_strip'] ) && 'true' === sanitize_text_field( wp_unslash( $_POST['enable_trust_strip'] ) );
+
+		$updated = update_option( 'trustscript_enable_trust_strip', $is_enabled );
+
+		if ( $updated ) {
+			wp_send_json_success( array(
+				'message' => esc_html__( 'Trust strip settings saved successfully!', 'trustscript' ),
+				'enabled' => $is_enabled,
+			) );
+		} else {
+			wp_send_json_error( array(
+				'message' => esc_html__( 'Failed to save setting – option may not have changed or database error occurred.', 'trustscript' ),
+			) );
+		}
+	}
+
+	/**
 	 * Save uninstall preference via AJAX
 	 */
 	public function handle_save_uninstall_preference()
@@ -812,22 +1018,55 @@ class TrustScript_Plugin_Admin
 		}
 
 		// Boolean values 
-		$enabled = isset($_POST['enabled'])
-			&& 'true' === sanitize_text_field(wp_unslash($_POST['enabled']));
+		$enabled = isset( $_POST['enabled'] )
+			&& in_array(
+				sanitize_text_field( wp_unslash( $_POST['enabled'] ) ),
+				array( '1', 'true' ),
+				true
+			);
 
-		$auto_publish = isset($_POST['auto_publish'])
-			&& 'true' === sanitize_text_field(wp_unslash($_POST['auto_publish']));
+		$simple_review_enabled = !empty($_POST['simple_review_enabled'])
+			&& in_array(
+				sanitize_text_field(wp_unslash($_POST['simple_review_enabled'])),
+				array('1', 'true'),
+				true
+			);
 
-		$enable_voting = isset($_POST['enable_voting'])
-			&& 'true' === sanitize_text_field(wp_unslash($_POST['enable_voting']));
+		$api_review_collection_enabled = !empty($_POST['api_review_collection_enabled'])
+			&& in_array(
+				sanitize_text_field(wp_unslash($_POST['api_review_collection_enabled'])),
+				array('1', 'true'),
+				true
+			);
 
-		$auto_sync_enabled = isset($_POST['auto_sync_enabled'])
-			&& 'true' === sanitize_text_field(wp_unslash($_POST['auto_sync_enabled']));
+		$auto_publish = isset( $_POST['auto_publish'] )
+			&& in_array(
+				sanitize_text_field( wp_unslash( $_POST['auto_publish'] ) ),
+				array( '1', 'true' ),
+				true
+			);
 
-		$enable_international_handling = isset($_POST['enable_international_handling'])
-			&& 'true' === sanitize_text_field(wp_unslash($_POST['enable_international_handling']));
+		$enable_voting = isset( $_POST['enable_voting'] )
+			&& in_array(
+				sanitize_text_field( wp_unslash( $_POST['enable_voting'] ) ),
+				array( '1', 'true' ),
+				true
+			);
 
-		// Integer values
+		$auto_sync_enabled = isset( $_POST['auto_sync_enabled'] )
+			&& in_array(
+				sanitize_text_field( wp_unslash( $_POST['auto_sync_enabled'] ) ),
+				array( '1', 'true' ),
+				true
+			);
+
+		$enable_international_handling = isset( $_POST['enable_international_handling'] )
+			&& in_array(
+				sanitize_text_field( wp_unslash( $_POST['enable_international_handling'] ) ),
+				array( '1', 'true' ),
+				true
+			);
+
 		$delay_hours = isset($_POST['delay_hours'])
 			? absint(wp_unslash($_POST['delay_hours']))
 			: 1;
@@ -840,22 +1079,18 @@ class TrustScript_Plugin_Admin
 			? absint(wp_unslash($_POST['international_delay_hours']))
 			: 336;
 
-		// Trigger status (string value)
 		$trigger_status = isset($_POST['trigger_status'])
 			? sanitize_text_field(wp_unslash($_POST['trigger_status']))
 			: 'delivered';
 
-		// Time value (HH:MM)
 		$auto_sync_time = isset($_POST['auto_sync_time'])
 			? sanitize_text_field(wp_unslash($_POST['auto_sync_time']))
 			: '02:00';
 
-		// Validate time format (basic check for HH:MM)
 		if (!preg_match('/^\d{2}:\d{2}$/', $auto_sync_time)) {
 			$auto_sync_time = '02:00';
 		}
 
-		// Categories - ensure it's an array of valid category IDs, and remove child categories if their parent is also selected to avoid redundancy
 		$categories = array();
 		if (isset($_POST['categories']) && is_array($_POST['categories'])) {
 			$all_valid_categories = get_terms(array(
@@ -888,7 +1123,6 @@ class TrustScript_Plugin_Admin
 			}
 		}
 
-		// MemberPress settings
 		$memberpress_memberships = array();
 		if (isset($_POST['trustscript_memberpress_memberships']) && is_array($_POST['trustscript_memberpress_memberships'])) {
 			$memberpress_memberships = array_map('absint', wp_unslash($_POST['trustscript_memberpress_memberships']));
@@ -902,7 +1136,6 @@ class TrustScript_Plugin_Admin
 			}
 		}
 
-		// WooCommerce settings
 		$woocommerce_min_value = 0;
 		if (isset($_POST['trustscript_woocommerce_min_value'])) {
 			$woocommerce_min_value = floatval(wp_unslash($_POST['trustscript_woocommerce_min_value']));
@@ -939,7 +1172,24 @@ class TrustScript_Plugin_Admin
 			$trigger_status = 'delivered';
 		}
 
+		if ( isset( $_POST['trustscript_review_page_id'] ) ) {
+			$review_page_id = absint( wp_unslash( $_POST['trustscript_review_page_id'] ) );
+			update_option( 'trustscript_review_page_id', $review_page_id );
+		}
+
+		if ( isset( $_POST['trustscript_simple_email_subject'] ) ) {
+			$simple_email_subject = sanitize_text_field( wp_unslash( $_POST['trustscript_simple_email_subject'] ) );
+			update_option( 'trustscript_simple_email_subject', $simple_email_subject );
+		}
+
+		if ( isset( $_POST['trustscript_simple_email_body'] ) ) {
+			$simple_email_body = wp_kses_post( wp_unslash( $_POST['trustscript_simple_email_body'] ) );
+			update_option( 'trustscript_simple_email_body', $simple_email_body );
+		}
+
 		// Save options
+		update_option('trustscript_simple_review_enabled', $simple_review_enabled ? 1 : 0);
+		update_option('trustscript_api_review_collection_enabled', $api_review_collection_enabled ? 1 : 0);
 		update_option('trustscript_reviews_enabled', $enabled);
 		update_option('trustscript_review_categories', $categories);
 		update_option('trustscript_memberpress_memberships', $memberpress_memberships);
@@ -957,7 +1207,6 @@ class TrustScript_Plugin_Admin
 		update_option('trustscript_international_delay_hours', $international_delay_hours);
 		update_option('trustscript_review_keywords', $keywords);
 
-		// Schedule or unschedule auto-sync cron job based on the setting
 		if (class_exists('TrustScript_Auto_Sync')) {
 			if ($auto_sync_enabled) {
 				TrustScript_Auto_Sync::schedule_cron();
@@ -1011,7 +1260,7 @@ class TrustScript_Plugin_Admin
 		if ($days !== 'all') {
 			$days = max(1, min(2, intval($days)));
 		} else {
-			$days = 2; // Max lookback is 2 days to avoid performance issues
+			$days = 2;
 		}
 
 		$reviews_published = $this->fetch_and_publish_approved_reviews();
@@ -1316,183 +1565,9 @@ class TrustScript_Plugin_Admin
 	}
 
 	/**
-	 * Render the service detection and configuration UI in the admin dashboard
-	 */
-	public function render_service_detection_ui()
-	{
-		$service_manager = TrustScript_Service_Manager::get_instance();
-		$active_services = $service_manager->get_active_providers();
-
-		if (empty($active_services)) {
-			?>
-			<div class="notice notice-warning" style="border-left-color: #f59e0b; background: #fffbeb; padding: 16px;">
-				<p style="margin: 0 0 8px 0; font-weight: 600; color: #92400e;">
-					<strong>🔍<?php esc_html_e('No Supported Services Detected', 'trustscript'); ?></strong>
-				</p>
-				<p style="margin: 0 0 8px 0; font-size: 14px; color: #b45309;">
-					<?php esc_html_e('TrustScript works with WooCommerce, MemberPress, and more.', 'trustscript'); ?>
-				</p>
-				<p style="margin: 0; font-size: 13px; color: #d97706;">
-					<?php esc_html_e('Install and activate a supported plugin to start collecting reviews.', 'trustscript'); ?>
-					<a href="<?php echo esc_url(trustscript_get_app_url() . '/docs/wordpress/supported-platforms'); ?>"
-						target="_blank" style="color: #ea580c; text-decoration: underline;">
-						<?php esc_html_e('View Supported Platforms', 'trustscript'); ?>
-					</a>
-				</p>
-			</div>
-			<?php
-			return;
-		}
-
-		?>
-		<div class="trustscript-card" style="margin-top: 24px;">
-			<h2>
-				<strong>🔌<?php esc_html_e('Detected Services', 'trustscript'); ?></strong>
-			</h2>
-			<p class="description" style="margin-bottom: 20px;">
-				<?php esc_html_e('TrustScript has detected the following services on your site. Configure trigger statuses for each service to automatically collect reviews.', 'trustscript'); ?>
-			</p>
-
-			<div class="trustscript-services-grid">
-				<?php foreach ($active_services as $service_id => $provider):
-					$service_name = $provider->get_service_name();
-					$service_icon = $this->get_service_icon($service_id);
-					$all_statuses = $provider->get_available_statuses();
-					$current_trigger = get_option('trustscript_trigger_status_' . $service_id, '');
-					$is_enabled = get_option('trustscript_enable_service_' . $service_id, '0') === '1';
-
-					if (empty($current_trigger) && !empty($all_statuses)) {
-						$current_trigger = array_key_first($all_statuses);
-					}
-					?>
-					<div class="trustscript-service-card <?php echo $is_enabled ? 'active' : 'inactive'; ?>"
-						data-service-id="<?php echo esc_attr($service_id); ?>">
-						<div class="trustscript-service-header">
-							<div class="trustscript-service-title">
-								<span class="trustscript-service-icon"><?php echo esc_html($service_icon); ?></span>
-								<h3><?php echo esc_html($service_name); ?></h3>
-							</div>
-							<label class="trustscript-toggle">
-								<input type="checkbox" name="trustscript_enable_service_<?php echo esc_attr($service_id); ?>"
-									value="1" <?php checked($is_enabled, true); ?> class="trustscript-service-toggle"
-									data-service-id="<?php echo esc_attr($service_id); ?>" />
-								<span class="trustscript-toggle-slider"></span>
-							</label>
-						</div>
-
-						<div
-							class="trustscript-service-body<?php echo !$is_enabled ? ' trustscript-service-body-disabled' : ''; ?>">
-							<div class="trustscript-service-setting">
-								<label for="trustscript_trigger_status_<?php echo esc_attr($service_id); ?>">
-									<strong><?php esc_html_e('Trigger Status:', 'trustscript'); ?></strong>
-									<span
-										class="description"><?php esc_html_e('Send review request when order reaches this status', 'trustscript'); ?></span>
-								</label>
-								<select name="trustscript_trigger_status_<?php echo esc_attr($service_id); ?>"
-									id="trustscript_trigger_status_<?php echo esc_attr($service_id); ?>"
-									class="trustscript-service-trigger" data-service-id="<?php echo esc_attr($service_id); ?>">
-									<?php foreach ($all_statuses as $status_key => $status_label): ?>
-										<option value="<?php echo esc_attr($status_key); ?>" <?php selected($current_trigger, $status_key); ?>>
-											<?php echo esc_html($status_label); ?>
-										</option>
-									<?php endforeach; ?>
-								</select>
-							</div>
-
-							<div class="trustscript-service-stats">
-								<small class="description">
-									<?php
-									printf(
-										/* translators: %s is the number of available statuses */
-										esc_html__('%d status options available', 'trustscript'),
-										count($all_statuses)
-									);
-									?>
-								</small>
-							</div>
-						</div>
-					</div>
-				<?php endforeach; ?>
-			</div>
-
-			<div style="margin-top: 20px;">
-				<button type="button" id="trustscript-save-service-settings" class="button button-primary button-large">
-					<?php esc_html_e('Save Service Settings', 'trustscript'); ?>
-				</button>
-				<span class="spinner" style="float: none; margin: 4px 10px 0;"></span>
-				<span class="trustscript-save-message" style="margin-left: 10px;"></span>
-			</div>
-		</div>
-
-		<div class="trustscript-card" style="margin-top: 24px;">
-			<h2>
-				<strong>🔒<?php esc_html_e('Optional Data Collection', 'trustscript'); ?></strong>
-			</h2>
-			<p class="description" style="margin-bottom: 20px;">
-				<?php esc_html_e('Enhance review requests with additional context. You can disable these options for privacy-sensitive products (e.g., medical, adult content).', 'trustscript'); ?>
-			</p>
-
-			<div
-				style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 250, 251, 0.98) 100%); border: 2px solid var(--trustscript-gray-200); border-radius: var(--trustscript-radius); padding: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
-				<div class="trustscript-form-group" style="margin-bottom: 24px;">
-					<label class="trustscript-checkbox-label"
-						style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; transition: all 0.2s ease; cursor: pointer;">
-						<input type="checkbox" id="trustscript-include-product-names" name="trustscript_include_product_names"
-							value="1" <?php checked(get_option('trustscript_include_product_names', '1'), '1'); ?>
-							class="trustscript-optional-data-toggle"
-							style="width: 18px; height: 18px; cursor: pointer; margin: 0;">
-						<div>
-							<strong style="color: var(--trustscript-gray-900);">📦
-								<?php esc_html_e('Include Product Names', 'trustscript'); ?></strong>
-							<p class="description"
-								style="margin: 4px 0 0 0; color: var(--trustscript-gray-600); line-height: 1.6;">
-								<?php esc_html_e('Show specific product names in review requests (e.g., "Blue Wireless Headphones"). If disabled, customers will see generic text like "your recent purchase" instead. Disable this for privacy-sensitive products.', 'trustscript'); ?>
-							</p>
-
-							<div
-								style="margin-top: 8px; padding: 10px 12px; background: #f0f9ff; border-left: 3px solid #0284c7; border-radius: 4px;">
-								<p style="margin: 0; font-size: 13px; color: #0c4a6e; line-height: 1.5;">
-									<strong>💡 <?php esc_html_e('Why this matters:', 'trustscript'); ?></strong><br>
-									<?php esc_html_e('Specific product names help customers write better, more relevant reviews. However, for sensitive items (health, personal care, gifts), you may want to keep purchases private.', 'trustscript'); ?>
-								</p>
-							</div>
-						</div>
-					</label>
-				</div>
-
-				<div class="trustscript-form-group" style="margin-bottom: 0;">
-					<label class="trustscript-checkbox-label"
-						style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; transition: all 0.2s ease; cursor: pointer;">
-						<input type="checkbox" id="trustscript-include-order-dates" name="trustscript_include_order_dates"
-							value="1" <?php checked(get_option('trustscript_include_order_dates', '1'), '1'); ?>
-							class="trustscript-optional-data-toggle"
-							style="width: 18px; height: 18px; cursor: pointer; margin: 0;">
-						<div>
-							<strong
-								style="color: var(--trustscript-gray-900);">📅<?php esc_html_e('Include Order Dates', 'trustscript'); ?></strong>
-							<p class="description" style="margin: 4px 0 0 0; color: var(--trustscript-gray-600);">
-								<?php esc_html_e('Share the purchase date with customers. This helps with timing review requests and adds context to their feedback.', 'trustscript'); ?>
-							</p>
-						</div>
-					</label>
-				</div>
-			</div>
-
-			<div style="margin-top: 20px;">
-				<button type="button" id="trustscript-save-optional-data-settings" class="button button-primary button-large">
-					<?php esc_html_e('Save Privacy Settings', 'trustscript'); ?>
-				</button>
-				<span class="spinner" style="float: none; margin: 4px 10px 0;"></span>
-				<span class="trustscript-optional-data-save-message" style="margin-left: 10px;"></span>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Get icon for services
 	 */
-	private function get_service_icon($service_id)
+	public static function get_service_icon($service_id)
 	{
 		$icons = array(
 			'woocommerce' => '🛒',
@@ -1502,67 +1577,6 @@ class TrustScript_Plugin_Admin
 		return isset($icons[$service_id]) ? $icons[$service_id] : '⚙️';
 	}
 
-	public function render_service_specific_settings($service_id, $provider, $categories = array())
-	{
-		switch ($service_id) {
-			case 'woocommerce':
-				$this->render_woocommerce_settings($categories);
-				break;
-			case 'memberpress':
-				$this->render_memberpress_settings();
-				break;
-			default:
-				echo '<p class="description">' . esc_html__('No additional filters available for this service. All orders/bookings will be processed.', 'trustscript') . '</p>';
-				break;
-		}
-	}
-
-	/**
-	 * Build a recursive category tree supporting unlimited nesting levels
-	 */
-	private function build_recursive_category_tree($categories_by_id, $parent_id = 0)
-	{
-		$tree = array();
-
-		foreach ($categories_by_id as $term_id => $term) {
-			if ((int) $term->parent === (int) $parent_id) {
-				$children = $this->build_recursive_category_tree($categories_by_id, $term_id);
-				
-				$total_count = $term->count;
-				if (!empty($children)) {
-					foreach ($children as $child) {
-						$total_count += $child['term']->count;
-					}
-				}
-				
-				$tree[$term_id] = array(
-					'term' => $term,
-					'children' => $children,
-					'total_count' => $total_count,
-				);
-			}
-		}
-
-		return $tree;
-	}
-
-	/**
-	 * Filter category tree to only show categories with products or children with products
-	 */
-	private function filter_category_tree($tree)
-	{
-		$filtered = array();
-
-		foreach ($tree as $term_id => $node) {
-			$filtered_children = $this->filter_category_tree($node['children']);
-			if ($node['term']->count > 0 || !empty($filtered_children)) {
-				$node['children'] = $filtered_children;
-				$filtered[$term_id] = $node;
-			}
-		}
-
-		return $filtered;
-	}
 
 	/**
 	 * Check if a category is an ancestor of another category
@@ -1590,197 +1604,6 @@ class TrustScript_Plugin_Admin
 			$current_id = $parent_id;
 		}
 		return false;
-	}
-
-	/**
-	 * Recursively render category tree with proper nesting and expand/collapse support
-	 */
-	private function render_category_tree_recursive($tree, $selected_categories, $depth = 0)
-	{
-		foreach ($tree as $term_id => $node) {
-			$term = $node['term'];
-			$children = $node['children'];
-			$is_checked = in_array($term->term_id, (array) $selected_categories);
-			$has_children = !empty($children);
-			$indent_style = $depth > 0 ? 'margin-left: ' . ($depth * 24) . 'px;' : '';
-			?>
-
-			<!-- Category Level -->
-			<label class="trustscript-checkbox-label trustscript-parent-category" 
-				data-parent-id="<?php echo esc_attr($term->term_id); ?>" style="<?php echo esc_attr($indent_style); ?>">
-				<input type="checkbox" name="trustscript_review_categories[]"
-					value="<?php echo esc_attr($term->term_id); ?>" class="trustscript-category-checkbox trustscript-parent-checkbox"
-					data-category-name="<?php echo esc_attr(strtolower($term->name)); ?>"
-					data-has-children="<?php echo $has_children ? '1' : '0'; ?>"
-					data-depth="<?php echo esc_attr($depth); ?>" <?php checked($is_checked); ?>>
-				<span>
-					<?php echo esc_html($term->name); ?>
-					<span class="trustscript-product-categories-label-count">
-						(<?php echo esc_html($node['total_count']); ?>)
-					</span>
-				</span>
-				<?php if ($has_children): ?>
-					<span class="trustscript-expand-toggle">▶</span>
-				<?php endif; ?>
-			</label>
-
-			<!-- Nested Children -->
-			<?php if ($has_children): ?>
-				<div class="trustscript-subcategories" data-parent-id="<?php echo esc_attr($term->term_id); ?>" data-depth="<?php echo esc_attr($depth); ?>">
-					<?php $this->render_category_tree_recursive($children, $selected_categories, $depth + 1); ?>
-				</div>
-			<?php endif; ?>
-			<?php
-		}
-	}
-
-	private function render_woocommerce_settings($categories = array())
-	{
-		$wc_categories = get_terms(array(
-			'taxonomy' => 'product_cat',
-			'hide_empty' => false,
-		));
-
-		$category_tree = array();
-		$categories_by_id = array();
-
-		if (!is_wp_error($wc_categories) && !empty($wc_categories)) {
-			foreach ($wc_categories as $term) {
-				$categories_by_id[$term->term_id] = $term;
-			}
-
-			$category_tree = $this->build_recursive_category_tree($categories_by_id, 0);
-			$category_tree = $this->filter_category_tree($category_tree);
-		}
-
-		$min_order_value = get_option('trustscript_woocommerce_min_value', '0');
-		$exclude_free = get_option('trustscript_woocommerce_exclude_free', '0');
-
-		?>
-		<div class="trustscript-service-settings-section">
-			<h3>📦<?php esc_html_e('Product Category Filtering', 'trustscript'); ?></h3>
-			<p class="description">
-				<?php esc_html_e('Select specific product categories to collect reviews for. Leave all unchecked to include all products.', 'trustscript'); ?>
-				<br><em><?php esc_html_e('Note: When you select a parent category, all products in that category tree are included. Child categories should not be selected alongside their parent.', 'trustscript'); ?></em>
-			</p>
-
-			<?php if (!empty($category_tree)): ?>
-				<div class="trustscript-category-search-toolbar">
-					<input type="text" id="trustscript-category-search" class="trustscript-category-search-input"
-						placeholder="<?php esc_attr_e('Search categories...', 'trustscript'); ?>">
-					<button type="button" id="trustscript-select-all-categories"
-						class="button button-secondary trustscript-category-button">
-						✓ <?php esc_html_e('Select All', 'trustscript'); ?>
-					</button>
-					<button type="button" id="trustscript-deselect-all-categories"
-						class="button button-secondary trustscript-category-button">
-						✕ <?php esc_html_e('Deselect All', 'trustscript'); ?>
-					</button>
-					<span id="trustscript-category-count" class="trustscript-category-count">
-						<?php
-						/* translators: %d: number of categories */
-						printf(esc_html__('%d categories', 'trustscript'), count($category_tree));
-						?>
-					</span>
-				</div>
-
-				<div class="trustscript-product-categories-list">
-					<?php $this->render_category_tree_recursive($category_tree, $categories, 0); ?>
-				</div>
-			<?php else: ?>
-				<p class="description"><?php esc_html_e('No product categories found.', 'trustscript'); ?></p>
-			<?php endif; ?>
-			<hr style="margin: 24px 0;">
-
-			<h3>💰<?php esc_html_e('Order Value Filtering', 'trustscript'); ?></h3>
-			<div class="trustscript-form-group">
-				<label for="trustscript_woocommerce_min_value">
-					<?php
-					$currency_symbol = function_exists('get_woocommerce_currency_symbol') ? get_woocommerce_currency_symbol() : '$';
-					/* translators: %s: store currency symbol */
-					printf(esc_html__('Minimum Order Value (%s):', 'trustscript'), esc_html($currency_symbol));
-					?>
-				</label>
-				<input type="number" id="trustscript_woocommerce_min_value" name="trustscript_woocommerce_min_value"
-					value="<?php echo esc_attr($min_order_value); ?>" min="0" step="0.01" class="trustscript-form-input"
-					style="max-width: 200px;">
-				<p class="description">
-					<?php esc_html_e('Only send review requests for orders above this amount. Set to 0 to disable.', 'trustscript'); ?>
-				</p>
-			</div>
-
-			<div class="trustscript-form-group">
-				<label class="trustscript-checkbox-label">
-					<input type="checkbox" id="trustscript_woocommerce_exclude_free" name="trustscript_woocommerce_exclude_free"
-						value="1" <?php checked($exclude_free, '1'); ?>>
-					<?php
-					$currency_symbol = function_exists('get_woocommerce_currency_symbol') ? get_woocommerce_currency_symbol() : '$';
-					/* translators: %s: store currency symbol */
-					printf(esc_html__('Exclude free products and %s0 orders', 'trustscript'), esc_html($currency_symbol));
-					?>
-				</label>
-			</div>
-		</div>
-		<?php
-	}
-
-	private function render_memberpress_settings()
-	{
-		if (!class_exists('MeprProduct')) {
-			echo '<p class="description">' . esc_html__('MemberPress is not properly loaded.', 'trustscript') . '</p>';
-			return;
-		}
-
-		$memberships = \MeprProduct::get_all();
-		$selected_memberships = (array) get_option('trustscript_memberpress_memberships', array());
-		$delay_days = get_option('trustscript_memberpress_delay_days', '0');
-
-		?>
-		<div class="trustscript-service-settings-section">
-			<h3>👥<?php esc_html_e('Membership Tier Filtering', 'trustscript'); ?></h3>
-			<p class="description">
-				<?php esc_html_e('Select which membership tiers should trigger review requests. Leave all unchecked to include all memberships.', 'trustscript'); ?>
-			</p>
-
-			<?php if (!empty($memberships)): ?>
-				<div class="trustscript-product-categories-list">
-					<?php foreach ($memberships as $membership): ?>
-						<label class="trustscript-checkbox-label">
-							<input type="checkbox" name="trustscript_memberpress_memberships[]"
-								value="<?php echo esc_attr($membership->ID); ?>" <?php checked(in_array($membership->ID, $selected_memberships)); ?>>
-							<?php echo esc_html($membership->post_title); ?>
-						</label>
-					<?php endforeach; ?>
-				</div>
-			<?php else: ?>
-				<p class="description"><?php esc_html_e('No memberships found.', 'trustscript'); ?></p>
-			<?php endif; ?>
-
-			<hr style="margin: 24px 0;">
-
-			<h3>⏰<?php esc_html_e('Review Request Timing', 'trustscript'); ?></h3>
-			<div class="trustscript-form-group">
-				<label for="trustscript_memberpress_delay_days">
-					<?php esc_html_e('Send review request after:', 'trustscript'); ?>
-				</label>
-				<select id="trustscript_memberpress_delay_days" name="trustscript_memberpress_delay_days"
-					class="trustscript-form-input" style="max-width: 200px;">
-					<option value="0" <?php selected($delay_days, '0'); ?>>
-						<?php esc_html_e('Immediately', 'trustscript'); ?>
-					</option>
-					<option value="7" <?php selected($delay_days, '7'); ?>><?php esc_html_e('7 days', 'trustscript'); ?>
-					</option>
-					<option value="14" <?php selected($delay_days, '14'); ?>><?php esc_html_e('14 days', 'trustscript'); ?>
-					</option>
-					<option value="30" <?php selected($delay_days, '30'); ?>><?php esc_html_e('30 days', 'trustscript'); ?>
-					</option>
-				</select>
-				<p class="description">
-					<?php esc_html_e('Allow members time to experience your content before requesting a review.', 'trustscript'); ?>
-				</p>
-			</div>
-		</div>
-		<?php
 	}
 
 	/**

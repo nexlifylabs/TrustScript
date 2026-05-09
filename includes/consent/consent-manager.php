@@ -1,7 +1,6 @@
 <?php
 /**
- * Handles consent tracking, type detection, token generation,
- * confirmation emails, and review request permission gating.
+ * Handles consent tracking, logging, and double opt-in confirmation for review requests.
  *
  * @package TrustScript
  * @since 1.0.0
@@ -14,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TrustScript_Consent_Manager {
 
 	/**
-     * Consent log table slug (without prefix).
-     *
-     * @since 1.0.0
-     */
+	 * Consent log table slug (without prefix).
+	 *
+	 * @since 1.0.0
+	 */
 	const CONSENT_LOG_TABLE_SLUG = 'trustscript_consent_log';
 
 	/**
@@ -27,7 +26,7 @@ class TrustScript_Consent_Manager {
 
 	/**
 	 * Check if the consent log table exists.
-	 * 
+	 *
 	 * @since 1.0.0
 	 * @return bool
 	 */
@@ -35,14 +34,14 @@ class TrustScript_Consent_Manager {
 		global $wpdb;
 		$table = self::get_log_table_name();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
-		return $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table ) ) === $table;
+		return $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) === $table;
 	}
 
 	/**
 	 * Get the full consent log table name with prefix.
-	 * 
+	 *
 	 * @since 1.0.0
-     * @return string
+	 * @return string
 	 */
 	public static function get_log_table_name() {
 		global $wpdb;
@@ -51,8 +50,8 @@ class TrustScript_Consent_Manager {
 
 	/**
 	 * Create or upgrade consent tables on plugin activation.
-     *
-     * @since 1.0.0
+	 *
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public static function create_tables() {
@@ -68,8 +67,11 @@ class TrustScript_Consent_Manager {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$log_table = esc_sql( self::get_log_table_name() );
+		$log_table = self::get_log_table_name();
 
+		// dbDelta() does not support parameterised queries; table name from internal
+		// method is safe (derived from $wpdb->prefix + plugin constant).
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$sql = "CREATE TABLE {$log_table} (
 			id                BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 			order_id          BIGINT(20) UNSIGNED NOT NULL COMMENT 'WooCommerce order ID',
@@ -92,19 +94,19 @@ class TrustScript_Consent_Manager {
 	}
 
 	/**
-     * Check if a column exists in a given table.
-     *
-     * @since 1.0.0
-     * @param string $table_name  Table name.
-     * @param string $column_name Column name.
-     * @return bool
-     */
+	 * Check if a column exists in a given table.
+	 *
+	 * @since 1.0.0
+	 * @param string $table_name  Table name.
+	 * @param string $column_name Column name.
+	 * @return bool
+	 */
 	private static function column_exists( $table_name, $column_name ) {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$result = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s AND COLUMN_NAME = %s",
+				'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s AND COLUMN_NAME = %s',
 				$table_name,
 				$column_name
 			)
@@ -125,10 +127,10 @@ class TrustScript_Consent_Manager {
 
 	/**
 	 * Check if the consent checkbox should be shown for a given country.
-	*
-	* @since 1.0.0
-	* @param string $country_code ISO 3166-1 alpha-2 country code.
-	* @return bool
+	 *
+	 * @since 1.0.0
+	 * @param string $country_code ISO 3166-1 alpha-2 country code.
+	 * @return bool
 	 */
 	public static function should_show_checkbox( $country_code ) {
 		$consent_type = self::get_consent_type_for_country( $country_code );
@@ -137,9 +139,9 @@ class TrustScript_Consent_Manager {
 
 	/**
 	 * Generate a secure 64-char hex token for double opt-in confirmation links.
-	*
-	* @since 1.0.0
-	* @return string
+	 *
+	 * @since 1.0.0
+	 * @return string
 	 */
 	public static function generate_consent_token() {
 		return bin2hex( random_bytes( 32 ) );
@@ -181,11 +183,11 @@ class TrustScript_Consent_Manager {
 
 	/**
 	 * Get the billing country stored on the order at checkout.
-	* Falls back to the order's billing country if meta is empty.
-	*
-	* @since 1.0.0
-	* @param int $order_id WooCommerce order ID.
-	* @return string ISO 3166-1 alpha-2 country code, or empty string on failure.
+	 * Falls back to the order's billing country if meta is empty.
+	 *
+	 * @since 1.0.0
+	 * @param int $order_id WooCommerce order ID.
+	 * @return string ISO 3166-1 alpha-2 country code, or empty string on failure.
 	 */
 	public static function get_order_billing_country( $order_id ) {
 		$order = wc_get_order( $order_id );
@@ -198,7 +200,6 @@ class TrustScript_Consent_Manager {
 			return $country;
 		}
 
-		// Fallback to the order's billing country if stored metadata is empty
 		return $order->get_billing_country();
 	}
 
@@ -371,13 +372,13 @@ class TrustScript_Consent_Manager {
 			return array();
 		}
 
-		$table = esc_sql( self::get_log_table_name() );
+		$table = self::get_log_table_name();
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				"SELECT * FROM {$table} WHERE order_id = %d ORDER BY created_at DESC LIMIT %d",
+				'SELECT * FROM %i WHERE order_id = %d ORDER BY created_at DESC LIMIT %d',
+				$table,
 				absint( $order_id ),
 				absint( $limit )
 			)
@@ -423,7 +424,7 @@ class TrustScript_Consent_Manager {
 	 *
 	 * @since 1.0.0
 	 * @param int $order_id WooCommerce order ID.
-	 * @return bool	True if sent successfully, false otherwise.
+	 * @return bool True if sent successfully, false otherwise.
 	 */
 	public static function send_confirmation_email( $order_id ) {
 		$order = wc_get_order( $order_id );
@@ -431,7 +432,7 @@ class TrustScript_Consent_Manager {
 			return false;
 		}
 
-		$country = self::get_order_billing_country( $order_id );
+		$country      = self::get_order_billing_country( $order_id );
 		$consent_type = self::get_consent_type_for_country( $country );
 
 		if ( 'double_optin' !== $consent_type ) {
@@ -463,9 +464,9 @@ class TrustScript_Consent_Manager {
 
 		$confirm_url = add_query_arg(
 			array(
-				'trustscript_action'	=> 'confirm_consent',
-				'token'					=> $token,
-				'trustscript_order'		=> $order_id,
+				'trustscript_action' => 'confirm_consent',
+				'token'              => $token,
+				'trustscript_order'  => $order_id,
 			),
 			home_url( '/' )
 		);
@@ -554,7 +555,7 @@ class TrustScript_Consent_Manager {
 
 							<tr>
 								<td align="center"
-									style="background-color:#667eea;padding:32px 30px;border-radius:8px 8px 0 0;">
+									style="background-color:#4F46E5;padding:32px 30px;border-radius:8px 8px 0 0;">
 									<h1 style="margin:0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Oxygen-Sans,Ubuntu,Cantarell,\'Helvetica Neue\',sans-serif;font-size:24px;font-weight:600;color:#ffffff;line-height:1.3;">
 										' . esc_html( $store_name ) . '
 									</h1>
@@ -579,7 +580,7 @@ class TrustScript_Consent_Manager {
 													style="height:48px;v-text-anchor:middle;width:220px;"
 													arcsize="13%"
 													stroke="f"
-													fillcolor="#667eea">
+													fillcolor="#4338CA">
 													<w:anchorlock/>
 													<center style="color:#ffffff;font-family:sans-serif;font-size:15px;font-weight:600;">
 														' . $tpl_button . '
@@ -589,7 +590,7 @@ class TrustScript_Consent_Manager {
 												<a href="' . $confirm_url_escaped . '"
 													target="_blank"
 													rel="noopener noreferrer"
-													style="display:inline-block;background-color:#667eea;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Oxygen-Sans,Ubuntu,Cantarell,\'Helvetica Neue\',sans-serif;font-size:15px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:6px;mso-hide:all;">
+													style="display:inline-block;background-color:#4338CA;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Oxygen-Sans,Ubuntu,Cantarell,\'Helvetica Neue\',sans-serif;font-size:15px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:6px;mso-hide:all;">
 													' . $tpl_button . '
 												</a>
 											</td>
@@ -599,7 +600,7 @@ class TrustScript_Consent_Manager {
 									<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
 										style="border-collapse:collapse;margin:24px 0;">
 										<tr>
-											<td style="background-color:#f0f7ff;border-left:4px solid #667eea;border-radius:0 4px 4px 0;padding:14px 16px;">
+											<td style="background-color:#f0f7ff;border-left:4px solid #4338CA;border-radius:0 4px 4px 0;padding:14px 16px;">
 												<p style="margin:0 0 4px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Oxygen-Sans,Ubuntu,Cantarell,\'Helvetica Neue\',sans-serif;font-size:13px;font-weight:600;color:#333333;line-height:1.5;">
 													' . $tpl_note_heading . '
 												</p>
@@ -645,10 +646,8 @@ class TrustScript_Consent_Manager {
 	}
 
 	/**
-	 * Verify and process a double opt-in confirmation link click.
-	 *
-	 * Validates the token, checks expiry (7 days), and updates consent status to 'confirmed'.
-	 * Also schedules any deferred review request queued at checkout.
+	 * Process the confirmation link click for double opt-in consent. 
+	 * Validates the token, updates consent status, logs the event, and checks for link expiration.
 	 *
 	 * @since 1.0.0
 	 * @param string $token    Consent token from the confirmation URL.
@@ -675,7 +674,6 @@ class TrustScript_Consent_Manager {
 			return new WP_Error( 'already_confirmed', __( 'This preference has already been confirmed.', 'trustscript' ) );
 		}
 
-		// Check if the confirmation link has expired (7 days after consent was given)
 		$given_at = self::get_order_consent_given_at( $order_id );
 		if ( ! empty( $given_at ) ) {
 			$given_timestamp = strtotime( $given_at );
@@ -687,19 +685,9 @@ class TrustScript_Consent_Manager {
 		self::set_order_consent_status( $order_id, 'confirmed' );
 		self::set_order_consent_confirmed_at( $order_id, current_time( 'mysql' ) );
 
-		$deferred_service = $order->get_meta( '_trustscript_consent_deferred_service' );
-		$deferred_delay   = (int) $order->get_meta( '_trustscript_consent_deferred_delay' );
-
-		if ( ! empty( $deferred_service ) && class_exists( 'TrustScript_Queue' ) ) {
-			TrustScript_Queue::add( $order_id, $deferred_service, 'delay', $deferred_delay );
-
-			$order->delete_meta_data( '_trustscript_consent_deferred_delay' );
-			$order->delete_meta_data( '_trustscript_consent_deferred_service' );
-			$order->save();
-		}
-
 		$country = self::get_order_billing_country( $order_id );
-		$client_ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) );
+		$raw_ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$client_ip = filter_var( $raw_ip, FILTER_VALIDATE_IP ) ? $raw_ip : '';
 		$ip_hash   = ! empty( $client_ip ) ? hash( 'sha256', $client_ip ) : null;
 		self::log_consent_event(
 			$order_id,

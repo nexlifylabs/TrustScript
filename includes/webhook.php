@@ -77,7 +77,6 @@ class TrustScript_Webhook {
 			),
 		) );
 
-		// Optional endpoint for handling opt-out requests, allowing customers to opt out. 
 		register_rest_route( 'trustscript/v1', '/opt-out', array(
 			'methods'             => 'POST',
 			'callback'            => array( $this, 'handle_opt_out' ),
@@ -96,8 +95,8 @@ class TrustScript_Webhook {
 	}
 
 	/**
-	 * Helper function to retrieve order meta for both HPOS and legacy orders, 
-	 * ensuring compatibility across different WooCommerce versions.
+	 * Helper function to get order meta for HPOS or legacy orders, abstracting away 
+	 * the differences in how meta is stored and accessed.
 	 *
 	 * @param int $order_id Order ID
 	 * @param string $meta_key Metadata key
@@ -129,10 +128,12 @@ class TrustScript_Webhook {
 
 		if ( $bypass_spam ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.wp_insert_comment
-			return wp_insert_comment( $comment_data );
+			$comment_id = wp_insert_comment( $comment_data );
 		} else {
-			return wp_new_comment( wp_filter_comment( $comment_data ) );
+			$comment_id = wp_new_comment( wp_filter_comment( $comment_data ) );
 		}
+
+		return $comment_id;
 	}
 
 	public function verify_request( $request ) {
@@ -210,7 +211,6 @@ class TrustScript_Webhook {
 		if ( is_wp_error( $signature_validation ) ) {
 			return $signature_validation;
 		}
-
 		return true;
 	}
 
@@ -350,6 +350,7 @@ class TrustScript_Webhook {
 			return new WP_Error( 'missing_review', __( 'Missing reviewText', 'trustscript' ), array( 'status' => 400 ) );
 		}
 
+
 		$api_key      = $request->get_header( 'X-API-Key' );
 		$api_key_hash = hash( 'sha256', (string) $api_key );
 
@@ -391,6 +392,14 @@ class TrustScript_Webhook {
 
 			list( $order_id, $item_id, $product_id ) = $lookup;
 
+			$comment_product_id = (int) $product_id;
+			if ( function_exists( 'wc_get_product' ) ) {
+				$_product_obj = wc_get_product( $comment_product_id );
+				if ( $_product_obj && $_product_obj->get_parent_id() > 0 ) {
+					$comment_product_id = $_product_obj->get_parent_id();
+				}
+			}
+
 			$registry_service_id = null;
 			$found_provider      = null;
 			$service_manager     = TrustScript_Service_Manager::get_instance();
@@ -411,7 +420,7 @@ class TrustScript_Webhook {
 			$customer_info = $found_provider->get_customer_info( $order_id );
 
 			$comment_data = array(
-				'comment_post_ID'      => $product_id,
+				'comment_post_ID'      => $comment_product_id,
 				'comment_author'       => $customer_info['name'],
 				'comment_author_email' => $customer_info['email'],
 				'comment_content'      => $review_text,
@@ -424,7 +433,7 @@ class TrustScript_Webhook {
 			$comment_id = $this->insert_review_comment( $comment_data );
 
 			if ( ! $comment_id ) {
-				return new WP_Error( 'comment_failed', __( 'Failed to insert review comment for product #', 'trustscript' ) . $product_id, array( 'status' => 500 ) );
+				return new WP_Error( 'comment_failed', __( 'Failed to insert review comment for product #', 'trustscript' ) . $comment_product_id, array( 'status' => 500 ) );
 			}
 
 			add_comment_meta( $comment_id, 'rating',                       $rating );
@@ -444,10 +453,12 @@ class TrustScript_Webhook {
 				add_comment_meta( $comment_id, '_trustscript_media_urls', wp_json_encode( $media_urls ) );
 			}
 
+			// Clear transients for the parent product (where the review is posted).
 			if ( function_exists( 'wc_delete_product_transients' ) ) {
-				wc_delete_product_transients( $product_id );
+				wc_delete_product_transients( $comment_product_id );
 			}
 
+			// Registry and tracker keep the original $product_id (variation-level granularity is correct).
 			TrustScript_Order_Registry::mark_published(
 				$registry_service_id,
 				$order_id,
@@ -456,17 +467,21 @@ class TrustScript_Webhook {
 				'webhook'
 			);
 
+			// Update per-product tracker.
+			if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+				TrustScript_Review_Requests::mark_published( $order_id, $comment_product_id );
+			}
+
 			$found_provider->save_order_meta( $order_id, '_trustscript_review_published', 'yes' );
 			$found_provider->save_order_meta( $order_id, '_trustscript_review_published_at', current_time( 'mysql' ) );
 			$found_provider->save_order_meta( $order_id, '_trustscript_publishing_mode', $publishing_mode );
 
-			// Clear any relevant caches to ensure the new review appears on the frontend immediately.
-			// This includes WooCommerce product review counts and any custom caches used by TrustScript.
+			// Clear caches for the parent product (where ratings are displayed).
 			if ( class_exists( 'TrustScript_Review_Renderer' ) ) {
-				TrustScript_Review_Renderer::flush_stats_cache( $product_id );
+				TrustScript_Review_Renderer::flush_stats_cache( $comment_product_id );
 			}
 			if ( class_exists( 'TrustScript_Shop_Display' ) && method_exists( 'TrustScript_Shop_Display', 'clear_product_rating_cache' ) ) {
-				TrustScript_Shop_Display::clear_product_rating_cache( $product_id );
+				TrustScript_Shop_Display::clear_product_rating_cache( $comment_product_id );
 			}
 
 			$status_text = $auto_publish ? __( 'published', 'trustscript' ) : __( 'submitted for moderation', 'trustscript' );
@@ -581,6 +596,15 @@ class TrustScript_Webhook {
 				continue;
 			}
 
+			// ── Resolve variation ID → parent product ID for review placement ────
+			$comment_product_id = (int) $product_id;
+			if ( function_exists( 'wc_get_product' ) ) {
+				$_product_obj = wc_get_product( $comment_product_id );
+				if ( $_product_obj && $_product_obj->get_parent_id() > 0 ) {
+					$comment_product_id = $_product_obj->get_parent_id();
+				}
+			}
+
 			// Check cache for duplicate token + product combination to avoid redundant database queries on retries.
 			// Cache key includes API key hash to ensure separation between different API keys.
 			$product_cache_key     = 'trustscript_duplicate_check_product_' . hash( 'sha256', $unique_token . '|' . $api_key_hash . '|' . $product_id );
@@ -632,7 +656,7 @@ class TrustScript_Webhook {
 			);
 
 			$comment_data = array(
-				'comment_post_ID'      => $product_id,
+				'comment_post_ID'      => $comment_product_id,
 				'comment_author'       => $review_data['customer_name'],
 				'comment_author_email' => $review_data['customer_email'],
 				'comment_content'      => $review_data['review_text'],
@@ -647,6 +671,7 @@ class TrustScript_Webhook {
 			if ( ! $comment_id ) {
 				$errors[] = 'Failed to insert comment for product #' . $product_id;
 			} else {
+				
 				add_comment_meta( $comment_id, 'rating',                       $rating );
 				add_comment_meta( $comment_id, '_trustscript_rating',          $rating );
 				add_comment_meta( $comment_id, 'verified',                     1 );
@@ -665,7 +690,11 @@ class TrustScript_Webhook {
 				}
 
 				if ( function_exists( 'wc_delete_product_transients' ) ) {
-					wc_delete_product_transients( $product_id );
+					wc_delete_product_transients( $comment_product_id );
+				}
+
+				if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+					TrustScript_Review_Requests::mark_published( $order_id, $comment_product_id );
 				}
 
 				$published_count++;
@@ -686,6 +715,11 @@ class TrustScript_Webhook {
 			TrustScript_Order_Registry::mark_published( $registry_service_id, $order_id, null, null, 'webhook' );
 		}
 
+		// Update per-product tracker — mark all sent/pending products as published.
+		if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+			TrustScript_Review_Requests::mark_by_order( $order_id, 'published' );
+		}
+
 		$found_provider->save_order_meta( $order_id, '_trustscript_review_published', 'yes' );
 		$found_provider->save_order_meta( $order_id, '_trustscript_review_published_at', current_time( 'mysql' ) );
 		$found_provider->save_order_meta( $order_id, '_trustscript_publishing_mode', $publishing_mode );
@@ -696,7 +730,6 @@ class TrustScript_Webhook {
 				if ( class_exists( 'TrustScript_Review_Renderer' ) ) {
 					TrustScript_Review_Renderer::flush_stats_cache( $prod_id );
 				}
-				// Clear product rating cache if the method exists, to ensure updated ratings are shown after review publication.
 				if ( class_exists( 'TrustScript_Shop_Display' ) && method_exists( 'TrustScript_Shop_Display', 'clear_product_rating_cache' ) ) {
 					TrustScript_Shop_Display::clear_product_rating_cache( $prod_id );
 				}
@@ -742,11 +775,10 @@ class TrustScript_Webhook {
 	}
 	
 	/**
-	 * Find an order by looking up the product token in order item meta, then retrieving 
-	 * the associated order and product IDs.
+	 * Find order and product information based on a given product token.
 	 *
 	 * @param string $product_token SHA256 hash stored in _trustscript_product_token item meta.
-	 * @return array|false [ order_id, item_id, product_id ] or false if not found.
+	 * @return array|false [ order_id, item_id|null, product_id ] or false if not found.
 	 */
 	private function find_order_by_product_token( $product_token ) {
 		global $wpdb;
@@ -761,40 +793,50 @@ class TrustScript_Webhook {
 			return $cached_data;
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transient caching implemented for both positive and negative results.
+		if ( class_exists( 'TrustScript_Order_Registry' ) ) {
+			$registry_result = TrustScript_Order_Registry::find_by_product_token( $product_token );
+
+			if ( $registry_result ) {
+				$result = array( $registry_result[0], null, $registry_result[1] );
+				set_transient( $cache_key, $result, DAY_IN_SECONDS );
+				return $result;
+			}
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transient caching applied above.
 		$order_item_id = $wpdb->get_var( $wpdb->prepare(
 			"SELECT order_item_id FROM {$wpdb->prefix}woocommerce_order_itemmeta
-			 WHERE meta_key = %s AND meta_value = %s LIMIT 1",
+			  WHERE meta_key = %s AND meta_value = %s LIMIT 1",
 			'_trustscript_product_token',
 			$product_token
 		) );
 
 		if ( ! $order_item_id ) {
-			set_transient( $cache_key, 'not_found', 3600 );
+			set_transient( $cache_key, 'not_found', HOUR_IN_SECONDS );
 			return false;
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transient caching implemented for both positive and negative results.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transient caching applied above.
 		$row = $wpdb->get_row( $wpdb->prepare(
 			"SELECT oi.order_id, oim.meta_value AS product_id
-			 FROM {$wpdb->prefix}woocommerce_order_items oi
-			 JOIN {$wpdb->prefix}woocommerce_order_itemmeta oim
-				  ON oim.order_item_id = oi.order_item_id AND oim.meta_key = '_product_id'
+			  FROM {$wpdb->prefix}woocommerce_order_items oi
+			  JOIN {$wpdb->prefix}woocommerce_order_itemmeta oim
+			       ON oim.order_item_id = oi.order_item_id AND oim.meta_key = '_product_id'
 			 WHERE oi.order_item_id = %d LIMIT 1",
 			$order_item_id
 		) );
 
 		if ( ! $row || ! $row->order_id ) {
-			set_transient( $cache_key, 'not_found', 3600 );
+			set_transient( $cache_key, 'not_found', HOUR_IN_SECONDS );
 			return false;
 		}
 
 		$result = array( intval( $row->order_id ), intval( $order_item_id ), intval( $row->product_id ) );
-		
 		set_transient( $cache_key, $result, DAY_IN_SECONDS );
 
 		return $result;
 	}
+
 
 	private function find_order_by_token( $service_id, $unique_token, $api_key_hash ) {
 		
@@ -833,6 +875,7 @@ class TrustScript_Webhook {
 	 * @return string Local WordPress URL, or original URL on failure.
 	 */
 	private function localise_media_url( $remote_media_url ) {
+
 		$site_host = wp_parse_url( get_site_url(), PHP_URL_HOST );
 		$url_host  = wp_parse_url( $remote_media_url, PHP_URL_HOST );
 
@@ -1056,6 +1099,23 @@ class TrustScript_Webhook {
 
 		$recorded   = TrustScript_Opt_Out::record_opt_out( $email_hash );
 		$backfilled = TrustScript_Opt_Out::backfill_pending_orders( $email_hash );
+
+		// Update per-product tracker for any orders belonging to this email hash.
+		if ( class_exists( 'TrustScript_Review_Requests' ) && function_exists( 'wc_get_orders' ) ) {
+			$opt_out_order_ids = wc_get_orders( array(
+				'limit'      => -1,
+				'return'     => 'ids',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_key'   => '_trustscript_email_hash',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				'meta_value' => $email_hash,
+			) );
+			foreach ( $opt_out_order_ids as $oo_id ) {
+				TrustScript_Review_Requests::mark_by_order( absint( $oo_id ), 'opt-out', 'pending' );
+				TrustScript_Review_Requests::mark_by_order( absint( $oo_id ), 'opt-out', 'sent' );
+				TrustScript_Review_Requests::mark_by_order( absint( $oo_id ), 'opt-out', 'scheduled' );
+			}
+		}
 
 		return rest_ensure_response( array(
 			'success'    => true,

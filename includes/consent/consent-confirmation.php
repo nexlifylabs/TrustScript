@@ -47,7 +47,6 @@ class TrustScript_Consent_Confirmation_Link {
 			exit;
 		}
 
-		// Process the confirmation
 		$result = TrustScript_Consent_Manager::process_confirmation_link( $token, $order_id );
 
 		if ( is_wp_error( $result ) ) {
@@ -55,7 +54,6 @@ class TrustScript_Consent_Confirmation_Link {
 			exit;
 		}
 
-		// Success!
 		self::display_success();
 		exit;
 	}
