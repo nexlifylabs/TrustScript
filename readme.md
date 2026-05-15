@@ -236,6 +236,9 @@ The showcase stays fresh on its own. Every time a new review is approved, it joi
 * **Auto or Manual Publish** — Choose whether submitted reviews go live immediately or require admin approval
 * **CSV Export** — Download all review data at any time
 * **Custom "Delivered" Order Status** — Ensures requests go out only after delivery
+* **MemberPress Support** — Collect reviews from membership and course purchases (API mode)
+* **Three-Layer Keyword Blocklist** — Reviews containing blocked words are automatically held for moderation before going live; works alongside WordPress's built-in Disallowed Comment Keys and Comment Moderation Keywords filters
+* **Privacy & Compliance Tools** — Auto consent checkbox by billing country, double opt-in for Germany and Austria (UWG §7), CAN-SPAM physical address support
 
 ***
 
@@ -286,7 +289,7 @@ directly by TrustScript's review form and returned to your site via webhook afte
 
 *Security & Verification:*
 - ✅ Unique token format validated (32+ alphanumeric characters)
-- ✅ Webhook timestamp verified (must be within 60 minutes to prevent replay attacks)
+- ✅ Webhook timestamp verified (must be within 5 minutes (±300 seconds) to prevent replay attacks)
 - ✅ API key authentication via Bearer token with timing-safe comparison
 - ✅ Domain validation ensures API key only works for the registered WordPress site
 - ✅ Duplicate prevention: reviews cannot be published twice with the same token
@@ -342,14 +345,13 @@ if the customer chooses to use it, and their original words are always
 preserved and shown on the verification page.
 
 = Are photo and video reviews supported? =
-Yes. Customers can attach up to 5 photos or videos directly to their 
-review. TrustScript automatically compresses images before upload — so 
-even large photos taken on a phone or camera (which are often 5–10MB+) 
-upload quickly without any errors or file size warnings.
+Yes — though the media options vary depending on which collection mode you're using.
 
-Supported formats: JPG, PNG, and WebP images (compressed automatically); 
-MP4 videos up to 100MB. All media is displayed in a lightbox gallery 
-on your product page.
+Simple Mode: Customers can attach up to 3 photos to their review. Supported formats are JPG, PNG, and WebP. Photos are uploaded directly to your WordPress site without compression, so keep that in mind for storage (Go Pro to get the images compressed).
+
+API Mode: Customers can attach up to 5 photos or videos. Images are automatically compressed on TrustScript's servers before being sent to your site — so even large photos taken on a phone or camera (often 5–10MB+) upload quickly without file size errors. Supported formats include JPG, PNG, and WebP images and MP4 videos up to 100MB.
+
+All media is displayed in a lightbox gallery on your product page.
 
 = Does TrustScript store personal customer data? =
 No. TrustScript follows a strict Zero PII policy. The only data 
@@ -420,6 +422,29 @@ If an order is marked as refunded or cancelled in WooCommerce, the
 review link expires automatically. For partial refunds on multi-
 product orders, only the refunded products are removed from the review 
 form — the rest of the link stays active.
+
+= What happens if a customer already left a review directly on the product page? =
+If a customer submits a review directly on your WooCommerce product page before using their review request link, TrustScript detects this automatically. When they open the review link from the email, it is voided and they see a clear message: "You have already reviewed this product." No duplicate reviews can be submitted through the link.
+
+= Does TrustScript filter spam or unwanted reviews? =
+Yes. TrustScript applies a three-layer moderation check to every submitted review, in this order:
+
+1. WordPress's Disallowed Comment Keys — a match moves the review to Spam.
+2. WordPress's Comment Moderation Keywords — a match holds the review for manual approval.
+3. TrustScript's own Keyword Blocklist — a match also holds the review for manual approval.
+
+Store owners manage their blocklist under TrustScript → Block Keywords. One keyword or phrase per line. Matching is case-insensitive and applies to the review text, author name, and email address. This list is separate from WordPress's own moderation settings.
+
+= Does TrustScript show a consent checkbox at checkout? =
+It depends on the customer's billing country. TrustScript's Auto mode detects the billing country and applies the correct consent flow automatically — no configuration needed.
+
+- **USA and most other countries** — no checkbox shown. Prior consent is not legally required.
+- **EU and UK** — an unchecked opt-in checkbox appears at checkout (single opt-in). No review request is sent if the customer doesn't tick it.
+- **Germany and Austria** — a checkbox appears at checkout, and after the order is placed the customer receives a confirmation email with a Confirm button (double opt-in). The review request is only sent after both steps are completed. This is required under German marketing law (UWG §7). The confirmation link expires in 7 days.
+
+If a German or Austrian customer does not click Confirm within 7 days, the order is marked Ineligible and no review request is ever sent.
+
+You can also set consent to Always Show Checkbox (for uniform global treatment) or Disabled — Opt-Out Link Only (for stores exclusively serving markets where prior consent is not required). Custom country rules can be configured under TrustScript → Privacy & Compliance.
 
 = Can customers verify that a review is real? =
 Yes. Every API-collected review includes a Verified Purchase badge. 
@@ -497,6 +522,7 @@ Review Verification:
 * Elementor widget — slider, grid, and masonry layouts
 * Custom "Delivered" WooCommerce order status
 * CSV export for all review data
+* Three-layer keyword blocklist — reviews containing blocked words held for manual approval; works alongside WordPress's Disallowed Comment Keys and Comment Moderation Keywords
 
 == Upgrade Notice ==
 
@@ -538,7 +564,7 @@ This plugin connects to the TrustScript service
 - ✅ Opt-out link included in every review request email — customers can remove themselves from future requests with one click
 - ✅ One-way hashed email address used only for opt-out tracking — cannot be reversed or decoded
 - ✅ No third-party data sharing — not possible by design, since no personal data is ever received by TrustScript
-- ✅ No consent checkbox required — because no personal data is collected, GDPR consent popups and checkout opt-ins are not necessary
+- ✅ Consent management built in — auto consent checkbox by billing country; double opt-in for Germany and Austria (UWG §7); CAN-SPAM physical address support
 - ✅ Review deletion requests can be submitted via the store owner or by contacting support at support@trustscript.io
 
 By using this plugin, you agree to TrustScript's Privacy Policy:

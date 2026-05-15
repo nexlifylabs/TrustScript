@@ -2,7 +2,6 @@
 
 > This offer is available to the first 100 annual subscribers only. 
 > Once 100 spots are claimed, this deal closes permanently. 
-
 ---
 
 ## What Is TrustScript?
@@ -12,8 +11,8 @@ entire review collection process — with photo & video support,
 verified purchase badges, an optional AI writing assistant, and zero 
 personal data collection.
 
-→ Full details: https://nexlifylabs.com  
-→ Plugin: https://wordpress.org/plugins/trustscript  
+→ Full details: https://trustscript.io  
+→ Plugin: https://github.com/nexlifylabs/TrustScript  
 
 ---
 
@@ -27,7 +26,6 @@ your monthly review collection cap is removed — permanently.
 | ♾️ Unlimited review collection | No monthly cap — ever, as long as you stay annual |
 | ✨ AI enhancement quota | 250 / 500 / 2,000 per month depending on plan |
 | 🧪 Beta feature access | Try new features before public launch |
-| ⚡ Priority support | Dedicated early-access support queue |
 | ⚡ Priority support | Dedicated early-access support queue |
 | 🏅 Founder badge | Permanent status on your account profile |
 | 🚀 Free access to future plugins | Includes upcoming plugins such as **Live Order Tracking** (currently in development) |
@@ -48,7 +46,7 @@ your monthly review collection cap is removed — permanently.
 
 ## How to Claim
 
-1. Visit https://nexlifylabs.com/early-access
+1. Visit https://trustscript.io/early-access
 2. Choose any annual plan
 3. Your account is automatically flagged as a Founder
 4. Unlimited collection is applied immediately
@@ -70,8 +68,8 @@ your monthly review collection cap is removed — permanently.
 
 ## Questions?
 
-Open an issue in this repo or email: support@nexlifylabs.com
+Open an issue in this repo or email: support@trustscript.io
 
 ---
 
-*Built by NexlifyLabs — https://nexlifylabs.com*
+*Built by TrustScript — https://trustscript.io*
