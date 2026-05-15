@@ -8,9 +8,10 @@ License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 8.0
 
-Collect, verify, and showcase WooCommerce product reviews with photos and videos. 
-TrustScript helps you turn real customer feedback into high-impact social proof with 
-a clean review UI, built-in verification, and a rich media gallery — no account required.
+Collect, verify, and showcase WooCommerce product reviews with photos and videos.
+Simple Mode works free with no account required. API Mode automates the full review
+lifecycle — requests, reminders, and publishing — with zero customer data leaving
+your server.
 
 == Description ==
 
@@ -79,6 +80,7 @@ API mode features:
 * Smart void handling - review links auto-expire on cancellation, refund, or partial
   cancellation, with per-product eligibility checks
 * Opt-out link included in every review request email
+* MemberPress integration - review collection for membership and course-based purchases
 
 A free plan is available with 25 review requests per month. The limit resets on the
 1st of each month.
@@ -156,10 +158,13 @@ Key Features at a Glance:
 * Helpful Voting - optional thumbs up/down voting on reviews (logged-in users only)
 * Review Count on Product Cards - ratings and counts on shop, category, and search pages
 * Elementor Widget - slider, grid, and masonry layouts
-* Smart Refund Handling - review links auto-expire when orders are refunded or cancelled
+* Three-Layer Keyword Blocklist - reviews containing blocked words are automatically
+  held for moderation before going live; works alongside WordPress's built-in
+  Disallowed Comment Keys and Comment Moderation Keywords filters
 * CSV Export - download all review data at any time
 * Custom "Delivered" Order Status - ensures requests go out only after delivery
 * Trust Strip - store rating summary bar on all product pages (both modes)
+* MemberPress Support - collect reviews from membership and course purchases (API mode)
 
 ---
 
@@ -312,6 +317,15 @@ before the review request is sent, no email is triggered. If cancelled or refund
 the email is sent, the review link expires immediately. For partial cancellations on
 multi-product orders, only eligible products remain visible in the review form.
 
+= Does TrustScript filter spam or unwanted reviews? =
+Yes. TrustScript applies a three-layer moderation check to every submitted review.
+First, WordPress's Disallowed Comment Keys are checked - a match moves the review to
+Spam. Second, WordPress's Comment Moderation Keywords are checked - a match holds the
+review for approval. Third, TrustScript's own Keyword Blocklist is checked - any match
+also holds the review for approval. Store owners can manage their blocklist under
+TrustScript → Block Keywords. One keyword or phrase per line; matching is
+case-insensitive and applies to the review text, author name, and email address.
+
 = Does TrustScript store personal customer data? =
 No. TrustScript follows a strict Zero PII policy. The only data handled is the order
 number (for verification) and a one-way hashed email address (for opt-out tracking).
@@ -330,7 +344,7 @@ View all plans at https://trustscript.io/pricing
 = Can I customize the review request email? =
 Yes. In Simple mode, the email template is configured directly from TrustScript → Review
 Form using the available placeholder tags. In API mode, email templates are managed from
-your NexlifyLabs dashboard at trustscript.io with additional branding and customization
+your TrustScript dashboard at trustscript.io with additional branding and customization
 options.
 
 Available placeholder tags (Simple mode):
@@ -346,6 +360,15 @@ unchecked opt-in checkbox at checkout. German and Austrian customers go through 
 opt-in flow (checkbox + confirmation email) because German courts have classified review
 request emails as marketing emails under UWG §7. The correct flow is applied
 automatically based on billing country. Consent records are stored with timestamps.
+
+For German and Austrian customers (double opt-in), a confirmation email is sent
+immediately after checkout. The customer must click Confirm in that email before any
+review request is sent. The confirmation link expires in 7 days. If the customer does
+not confirm, the order is marked Ineligible and no review request is ever sent.
+
+Note: Consent management applies to both Simple and API modes. In Simple mode, the
+Send Email button in Analytics will remain disabled until consent is confirmed for
+customers in countries that require it.
 
 = What happens if a customer doesn't tick the consent box? =
 No review request email is sent. The order is marked as consent declined in TrustScript's
@@ -422,7 +445,10 @@ or masonry layouts with automatic updates.
 * Full analytics dashboard with per-order Review Insights
 * Elementor widget - slider, grid, and masonry layouts
 * Custom "Delivered" WooCommerce order status
-* CSV export for all review data (From Backend Dashboard)
+* CSV export for all review data
+* Three-layer keyword blocklist - reviews containing blocked words are held for manual
+  approval before publishing; works alongside WordPress's Disallowed Comment Keys and
+  Comment Moderation Keywords
 
 == Upgrade Notice ==
 
