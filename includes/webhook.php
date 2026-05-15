@@ -113,27 +113,23 @@ class TrustScript_Webhook {
 	}
 
 	/**
-	 * Insert a review comment with spam check bypass filter.
+	 * Insert a review comment after running all moderation checks.
 	 *
-	 * Applies the trustscript_bypass_spam_check filter to allow bypassing spam/flood checks
-	 * for webhook reviews. Defaults to true (bypasses checks) because these are authenticated
-	 * webhook requests for verified purchases, not public user submissions.
+	 * Every review - including authenticated webhook reviews from verified
+	 * purchasers - is passed through TrustScript_Review_Guard before being
+	 * written to the database.
+	 * All reviews are moderated regardless of submission path.
 	 *
 	 * @param array $comment_data The comment data array.
 	 * @return int|false Comment ID on success, false on failure.
 	 */
 	private function insert_review_comment( $comment_data ) {
-		// Allow bypassing spam checks for webhook reviews, since these are authenticated requests for verified purchases.
-		$bypass_spam = apply_filters( 'trustscript_bypass_spam_check', true, $comment_data );
-
-		if ( $bypass_spam ) {
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.wp_insert_comment
-			$comment_id = wp_insert_comment( $comment_data );
-		} else {
-			$comment_id = wp_new_comment( wp_filter_comment( $comment_data ) );
+		if ( class_exists( 'TrustScript_Review_Guard' ) ) {
+			$comment_data = TrustScript_Review_Guard::apply_to_comment_data( $comment_data );
 		}
 
-		return $comment_id;
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.wp_insert_comment
+		return wp_insert_comment( $comment_data );
 	}
 
 	public function verify_request( $request ) {

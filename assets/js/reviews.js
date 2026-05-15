@@ -157,6 +157,7 @@
 		bindServiceToggle();
 		bindTabButton();
 		bindOptionalDataSettings();
+		bindModerationSettings();
 		updateDelayDescription();
 
 		initCategorySearch();
@@ -600,6 +601,47 @@
 				})
 				.fail(function(xhr) {
 					const errorMsg = (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) ? xhr.responseJSON.data.message : TrustscriptAdmin.i18n.networkError;
+					$message.append(createStatusBadge(errorMsg, 'danger'));
+				})
+				.always(function() {
+					$button.prop('disabled', false).text(originalText);
+					
+					setTimeout(function() {
+						$message.fadeOut(300, function() {
+							$(this).empty().show();
+						});
+					}, 5000);
+				});
+		});
+	}
+
+	function bindModerationSettings() {
+		$('#trustscript-save-moderation-settings').on('click', function(e) {
+			e.preventDefault();
+			
+			const $button = $(this);
+			const $message = $('#trustscript-moderation-save-status');
+			const originalText = $button.text().trim();
+			
+			const formData = {
+				action: 'trustscript_save_moderation_settings',
+				nonce: TrustscriptAdmin.nonce || TrustscriptAdmin.save_review_nonce,
+				trustscript_review_blocked_words: $('#trustscript_review_blocked_words').val()
+			};
+			
+			$button.prop('disabled', true).text(TrustscriptAdmin.i18n.saving || 'Saving...');
+			$message.empty();
+			
+			$.post(TrustscriptAdmin.ajax_url, formData)
+				.done(function(response) {
+					if (response.success) {
+						$message.append(createStatusBadge(response.data.message || TrustscriptAdmin.i18n.saveSuccess || 'Saved successfully', 'success'));
+					} else {
+						$message.append(createStatusBadge(response.data.message || TrustscriptAdmin.i18n.saveFailed || 'Failed to save', 'danger'));
+					}
+				})
+				.fail(function(xhr) {
+					const errorMsg = (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) ? xhr.responseJSON.data.message : (TrustscriptAdmin.i18n.networkError || 'Network error');
 					$message.append(createStatusBadge(errorMsg, 'danger'));
 				})
 				.always(function() {

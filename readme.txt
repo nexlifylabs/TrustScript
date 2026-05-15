@@ -14,15 +14,19 @@ a clean review UI, built-in verification, and a rich media gallery — no accoun
 
 == Description ==
 
-TrustScript is a modern WooCommerce review system designed to make reviews more 
-trustworthy, visual, and conversion-focused.
+TrustScript is a modern WooCommerce review system that gives your store rich, 
+conversion-focused social proof — photo reviews, video reviews, verified purchase 
+badges, and a gallery UI — without sending a single byte of your customer data to 
+an external server. Everything lives on your own WordPress installation, always.
 
-Unlike basic review plugins, TrustScript goes beyond text reviews by enabling customers 
-to share photos and videos, while giving store owners full control over how reviews are 
-collected, displayed, and verified.
+Most review plugins trade your customer data for convenience. TrustScript doesn't. 
+Your customers' personal information — names, emails, order history — never leaves 
+your server, whether you're running in offline mode or connected to the TrustScript 
+API. Full data ownership is not a paid feature. It's the foundation.
 
-Start instantly with **Simple Mode** — no account, no setup — or switch to **API Mode** 
-to automate review collection, reminders, and workflows.
+Choose **Simple Mode** to start collecting better reviews instantly with zero 
+configuration, or activate **API Mode** to automate review requests, reminders, 
+and post-purchase workflows at scale.
 
 ---
 

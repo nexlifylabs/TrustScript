@@ -17,6 +17,7 @@ $trustscript_star_labels     = (array) $data['star_labels'];
 $trustscript_min_text_length = (int) $data['min_text_length'];
 $trustscript_max_text_length = (int) $data['max_text_length'];
 $trustscript_max_photos      = (int) $data['max_photos'];
+$trustscript_is_verified_buyer = isset( $data['is_verified_buyer'] ) ? (bool) $data['is_verified_buyer'] : false;
 ?>
 <div class="trustscript-review-modal-overlay"
 	id="trustscript-review-modal"
@@ -35,6 +36,7 @@ $trustscript_max_photos      = (int) $data['max_photos'];
 					aria-label="<?php echo esc_attr( $trustscript_str['close'] ); ?>">&times;</button>
 		</div>
 
+		<?php if ( $trustscript_is_verified_buyer ) : ?>
 		<div class="trustscript-review-modal-steps">
 			<div class="trustscript-step-indicator">
 				<span class="trustscript-step-dot trustscript-step-active" data-step="1">1</span>
@@ -42,6 +44,7 @@ $trustscript_max_photos      = (int) $data['max_photos'];
 				<span class="trustscript-step-dot" data-step="2">2</span>
 			</div>
 		</div>
+		<?php endif; ?>
 
 		<form id="trustscript-review-form" enctype="multipart/form-data" novalidate>
 			<div class="trustscript-review-step" id="trustscript-step-1" data-step="1">
@@ -132,16 +135,30 @@ $trustscript_max_photos      = (int) $data['max_photos'];
 				</div>
 
 				<div class="trustscript-form-actions">
+					<?php if ( $trustscript_is_verified_buyer ) : ?>
 					<button type="button" class="trustscript-btn-next" id="trustscript-step-next">
 						<?php echo esc_html( $trustscript_str['btn_next'] ); ?>
 						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
 						</svg>
 					</button>
+					<?php else : ?>
+					<button type="submit" class="trustscript-btn-next" id="trustscript-submit-review-direct">
+						<span class="trustscript-btn-text"><?php echo esc_html( $trustscript_str['btn_submit'] ); ?></span>
+						<span class="trustscript-btn-loading" style="display:none;">
+							<svg class="trustscript-spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="12" cy="12" r="10" opacity=".25"/>
+								<path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+							</svg>
+							<?php echo esc_html( $trustscript_str['btn_submitting'] ); ?>
+						</span>
+					</button>
+					<?php endif; ?>
 				</div>
 
 			</div>
 
+			<?php if ( $trustscript_is_verified_buyer ) : ?>
 			<div class="trustscript-review-step" id="trustscript-step-2" data-step="2" style="display:none;">
 
 				<div class="trustscript-form-group">
@@ -190,6 +207,7 @@ $trustscript_max_photos      = (int) $data['max_photos'];
 				</div>
 
 			</div>
+			<?php endif; ?>
 
 		</form>
 	</div>

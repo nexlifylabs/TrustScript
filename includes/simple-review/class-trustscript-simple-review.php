@@ -18,7 +18,7 @@ class TrustScript_Simple_Review {
 	const MAX_TEXT_LENGTH   = 5000;
 	const ALLOWED_MIMES     = array( 'image/jpeg', 'image/png', 'image/webp' );
 	const RATE_LIMIT_WINDOW = 300;
-	const RATE_LIMIT_MAX    = 25;
+	const RATE_LIMIT_MAX    = 10;
 
 	/**
 	 * Initialize hooks for the simple review feature.
@@ -37,7 +37,9 @@ class TrustScript_Simple_Review {
 	 * @return bool
 	 */
 	public static function is_enabled() {
-		return (bool) get_option( 'trustscript_simple_review_enabled', true );
+		$simple = (bool) get_option( 'trustscript_simple_review_enabled', true );
+		$api    = (bool) get_option( 'trustscript_api_review_collection_enabled', false );
+		return $simple || $api;
 	}
 
 	/**
@@ -74,6 +76,12 @@ class TrustScript_Simple_Review {
 				'wp_rest_nonce' => wp_create_nonce( 'wp_rest' ),
 				'is_logged_in'  => is_user_logged_in(),
 			)
+		);
+
+		wp_localize_script(
+			'trustscript-review-form',
+			'trustscriptStrings',
+			self::get_js_strings()
 		);
 	}
 
@@ -159,16 +167,26 @@ class TrustScript_Simple_Review {
 	 *
 	 * @return string HTML string, empty string if reviews disabled.
 	 */
-	public static function render_review_form_modal() {
+	public static function render_review_form_modal( $product_id = 0 ) {
 		if ( ! self::is_enabled() ) {
 			return '';
 		}
 
+		if ( ! $product_id && function_exists( 'is_product' ) && is_product() ) {
+			$product_id = get_the_ID();
+		}
+
 		$is_logged_in = is_user_logged_in();
 		$needs_name   = true;
+		$is_verified_buyer = false;
+
 		if ( $is_logged_in ) {
 			$user       = wp_get_current_user();
 			$needs_name = empty( trim( $user->display_name ) );
+			
+			if ( $product_id && function_exists( 'wc_customer_bought_product' ) ) {
+				$is_verified_buyer = wc_customer_bought_product( $user->user_email, $user->ID, $product_id );
+			}
 		}
 
 		$str = array(
@@ -203,18 +221,17 @@ class TrustScript_Simple_Review {
 			5 => esc_html__( '5 stars', 'trustscript' ),
 		);
 
-		wp_localize_script( 'trustscript-review-form', 'trustscriptStrings', self::get_js_strings() );
-
 		return TrustScript_Template_Loader::capture(
 			'modal-form',
 			array(
-				'is_logged_in'    => $is_logged_in,
-				'needs_name'      => $needs_name,
-				'str'             => $str,
-				'star_labels'     => $star_labels,
-				'min_text_length' => self::MIN_TEXT_LENGTH,
-				'max_text_length' => self::MAX_TEXT_LENGTH,
-				'max_photos'      => self::MAX_PHOTOS,
+				'is_logged_in'      => $is_logged_in,
+				'needs_name'        => $needs_name,
+				'is_verified_buyer' => $is_verified_buyer,
+				'str'               => $str,
+				'star_labels'       => $star_labels,
+				'min_text_length'   => self::MIN_TEXT_LENGTH,
+				'max_text_length'   => self::MAX_TEXT_LENGTH,
+				'max_photos'        => self::MAX_PHOTOS,
 			)
 		);
 	}

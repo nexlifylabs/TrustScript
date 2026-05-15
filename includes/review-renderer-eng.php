@@ -924,7 +924,7 @@ class TrustScript_Review_Renderer {
 			<?php echo self::render_lightbox_shell(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php echo self::render_verify_modal_shell(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php if ( class_exists( 'TrustScript_Simple_Review' ) ) : ?>
-				<?php echo TrustScript_Simple_Review::render_review_form_modal(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo TrustScript_Simple_Review::render_review_form_modal( $product_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php endif; ?>
 
 		</div>

@@ -677,7 +677,11 @@
 			e.preventDefault();
 			clearErrors();
 
-			var submitBtn = qs('#trustscript-submit-review') || qs('#trustscript-submit-btn');
+			if (!validateStep1()) {
+				return;
+			}
+
+			var submitBtn = qs('#trustscript-submit-review') || qs('#trustscript-submit-btn') || qs('#trustscript-submit-review-direct');
 			if (!submitBtn) {
 				return;
 			}

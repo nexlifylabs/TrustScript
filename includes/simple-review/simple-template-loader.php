@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class TrustScript_Template_Loader {
 
 	/**
-	 * Base directory for simple review templates, relative to the plugin root.
+	 * Base directory for simple review templates.
 	 */
 	const VIEWS_BASE = 'includes/simple-review/views/';
 

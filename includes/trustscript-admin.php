@@ -75,6 +75,7 @@ class TrustScript_Plugin_Admin
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
 		add_action('wp_ajax_trustscript_delete_api_key', array($this, 'handle_delete_api_key'));
 		add_action('wp_ajax_trustscript_save_review_settings', array($this, 'handle_save_review_settings'));
+		add_action('wp_ajax_trustscript_save_moderation_settings', array($this, 'handle_save_moderation_settings'));
 		add_action('wp_ajax_trustscript_sync_orders', array($this, 'handle_sync_orders'));
 		add_action('wp_ajax_trustscript_save_service_settings', array($this, 'handle_save_service_settings'));
 		add_action('wp_ajax_trustscript_save_optional_data_settings', array($this, 'handle_save_optional_data_settings'));
@@ -239,6 +240,15 @@ class TrustScript_Plugin_Admin
 			'manage_options',
 			'trustscript-review-settings',
 			array('TrustScript_Reviews_Page', 'render')
+		);
+
+		add_submenu_page(
+			'trustscript-reviews',
+			__('Keyword Blocklist', 'trustscript'),
+			__('Keyword Blocklist', 'trustscript'),
+			'manage_options',
+			'trustscript-keyword-blocklist',
+			array('TrustScript_Review_Guard', 'render_page')
 		);
 
 		add_submenu_page(
@@ -812,7 +822,7 @@ class TrustScript_Plugin_Admin
 		wp_enqueue_style('trustscript-admin-notices', $base_url . 'assets/css/trustscript-admin-notices.css', array(), $admin_notices_css_ver);
 		wp_enqueue_script('trustscript-admin-js', $base_url . 'assets/js/admin.js', array('jquery'), $admin_js_ver, true);
 
-		if (strpos($hook, 'trustscript-reviews-list') !== false || strpos($hook, 'trustscript-review-form-setup') !== false || strpos($hook, 'trustscript-review-settings') !== false) {
+		if (strpos($hook, 'trustscript-reviews-list') !== false || strpos($hook, 'trustscript-review-form-setup') !== false || strpos($hook, 'trustscript-review-settings') !== false || strpos($hook, 'trustscript-keyword-blocklist') !== false) {
 			$reviews_js_ver = file_exists($base_dir . 'assets/js/reviews.js') ? filemtime($base_dir . 'assets/js/reviews.js') : '0.2.0';
 			wp_enqueue_script('trustscript-reviews-js', $base_url . 'assets/js/reviews.js', array('jquery'), $reviews_js_ver, true);
 		}
@@ -992,6 +1002,49 @@ class TrustScript_Plugin_Admin
 		delete_transient('trustscript_user_plan');
 
 		wp_send_json_success(array('message' => esc_html__('API key deleted successfully', 'trustscript')));
+	}
+
+	/**
+	 * Handle AJAX request to save review settings.
+	 *
+	 * @since 1.0.0
+	 */
+	public function handle_save_moderation_settings()
+	{
+		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+
+		if (!$nonce || !wp_verify_nonce($nonce, 'trustscript_save_review') && !wp_verify_nonce($nonce, 'trustscript_admin')) {
+			wp_send_json_error(array(
+				'message' => esc_html__('Security check failed', 'trustscript'),
+			));
+		}
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array(
+				'message' => esc_html__('Unauthorized', 'trustscript'),
+			));
+		}
+
+		if (isset($_POST['trustscript_review_blocked_words'])) {
+			$raw_input = sanitize_textarea_field(wp_unslash($_POST['trustscript_review_blocked_words']));
+			$clean = array();
+			
+			if (!empty($raw_input)) {
+				$lines = explode("\n", $raw_input);
+				foreach ($lines as $line) {
+					$line = sanitize_text_field($line);
+					if ('' !== $line) {
+						$clean[] = $line;
+					}
+				}
+			}
+			
+			update_option('trustscript_review_blocked_words', implode("\n", $clean));
+		}
+
+		wp_send_json_success(array(
+			'message' => esc_html__('Keyword blocklist saved successfully', 'trustscript'),
+		));
 	}
 
 	/**

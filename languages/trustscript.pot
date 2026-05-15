@@ -9,18 +9,19 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-05T12:24:23+00:00\n"
+"POT-Creation-Date: 2026-05-12T13:02:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: trustscript\n"
 
 #. Plugin Name of the plugin
+#. Author of the plugin
 #: trustscript.php
 #: includes/admin/settings.php:30
 #: includes/immutability.php:127
 #: includes/integration/elementor/class-trustscript-elementor.php:59
-#: includes/trustscript-admin.php:217
-#: trustscript.php:179
+#: includes/trustscript-admin.php:219
+#: trustscript.php:187
 msgid "TrustScript"
 msgstr ""
 
@@ -32,11 +33,6 @@ msgstr ""
 #. Description of the plugin
 #: trustscript.php
 msgid "Automated review collection for WooCommerce - verified, visual, AI-assisted, and 100% privacy compliant. No PII. No manual work."
-msgstr ""
-
-#. Author of the plugin
-#: trustscript.php
-msgid "TrustScript"
 msgstr ""
 
 #: includes/abstracts/class-trustscript-service-provider.php:1055
@@ -52,10 +48,6 @@ msgstr ""
 
 #: includes/abstracts/class-trustscript-service-provider.php:1098
 msgid "Total:"
-msgstr ""
-
-#: includes/abstracts/class-trustscript-service-provider.php:1099
-msgid "TAJINDER IS BEST:"
 msgstr ""
 
 #: includes/admin/pending-queue.php:25
@@ -112,12 +104,12 @@ msgstr ""
 
 #: includes/admin/pending-queue.php:137
 #: includes/admin/settings.php:158
-#: includes/admin/settings.php:499
+#: includes/admin/settings.php:536
 msgid "Upgrade Plan"
 msgstr ""
 
 #: includes/admin/pending-queue.php:144
-#: includes/trustscript-admin.php:864
+#: includes/trustscript-admin.php:880
 msgid "Process Queue Now"
 msgstr ""
 
@@ -253,12 +245,12 @@ msgid "Completed"
 msgstr ""
 
 #: includes/admin/pending-queue.php:323
-#: includes/trustscript-admin.php:862
+#: includes/trustscript-admin.php:878
 msgid "Retry"
 msgstr ""
 
 #: includes/admin/pending-queue.php:330
-#: includes/trustscript-admin.php:863
+#: includes/trustscript-admin.php:879
 msgid "Clear"
 msgstr ""
 
@@ -282,11 +274,12 @@ msgstr ""
 #: includes/admin/pending-queue.php:381
 #: includes/admin/pending-queue.php:467
 #: includes/admin/pending-queue.php:499
-#: includes/trustscript-admin.php:888
-#: includes/trustscript-admin.php:914
-#: includes/trustscript-admin.php:936
-#: includes/trustscript-admin.php:1504
-#: includes/trustscript-admin.php:1585
+#: includes/trustscript-admin.php:904
+#: includes/trustscript-admin.php:930
+#: includes/trustscript-admin.php:951
+#: includes/trustscript-admin.php:978
+#: includes/trustscript-admin.php:1589
+#: includes/trustscript-admin.php:1670
 msgid "Permission denied"
 msgstr ""
 
@@ -356,8 +349,8 @@ msgid "An error occurred while processing the queue. Try again later."
 msgstr ""
 
 #: includes/admin/review-form.php:24
-#: includes/trustscript-admin.php:263
-#: includes/trustscript-admin.php:295
+#: includes/trustscript-admin.php:274
+#: includes/trustscript-admin.php:306
 msgid "Review Form Setup"
 msgstr ""
 
@@ -473,6 +466,57 @@ msgstr ""
 #: includes/admin/review-form.php:222
 #: includes/memberpress-reviews.php:161
 msgid "Save Settings"
+msgstr ""
+
+#: includes/admin/review-guard.php:148
+#: includes/admin/review-guard.php:158
+#: includes/trustscript-admin.php:247
+#: includes/trustscript-admin.php:248
+msgid "Keyword Blocklist"
+msgstr ""
+
+#: includes/admin/review-guard.php:149
+msgid "Control which reviews are held for manual approval or marked as spam based on their content."
+msgstr ""
+
+#: includes/admin/review-guard.php:152
+msgid "Review Moderation"
+msgstr ""
+
+#: includes/admin/review-guard.php:168
+msgid "one keyword or phrase per line"
+msgstr ""
+
+#: includes/admin/review-guard.php:172
+msgid "Reviews whose author name, email address, or text contain any of these keywords or phrases will be held for manual approval in Products → Reviews → Pending."
+msgstr ""
+
+#: includes/admin/review-guard.php:174
+msgid "One keyword or phrase per line. Case-insensitive. This list is separate from WordPress's own moderation lists in Settings → Discussion."
+msgstr ""
+
+#: includes/admin/review-guard.php:178
+msgid "How moderation is applied on every review"
+msgstr ""
+
+#. translators: 1: Settings link opening tag, 2: Settings link closing tag
+#: includes/admin/review-guard.php:183
+#, php-format
+msgid "1. %1$sDisallowed Comment Keys%2$s → review moved to Spam."
+msgstr ""
+
+#. translators: 1: Settings link opening tag, 2: Settings link closing tag
+#: includes/admin/review-guard.php:192
+#, php-format
+msgid "2. %1$sComment Moderation Keywords%2$s → review held for approval."
+msgstr ""
+
+#: includes/admin/review-guard.php:198
+msgid "3. TrustScript Keyword Blocklist → review held for approval."
+msgstr ""
+
+#: includes/admin/review-guard.php:206
+msgid "Save Blocklist"
 msgstr ""
 
 #: includes/admin/review-request.php:30
@@ -626,9 +670,10 @@ msgid "Guest"
 msgstr ""
 
 #: includes/admin/review-request.php:315
-#: includes/trustscript-admin.php:955
-#: includes/trustscript-admin.php:984
-#: includes/trustscript-admin.php:1215
+#: includes/trustscript-admin.php:997
+#: includes/trustscript-admin.php:1024
+#: includes/trustscript-admin.php:1069
+#: includes/trustscript-admin.php:1300
 msgid "Unauthorized"
 msgstr ""
 
@@ -666,8 +711,8 @@ msgstr ""
 
 #: includes/admin/review-setting.php:89
 #: includes/admin/review-setting.php:92
-#: includes/trustscript-admin.php:236
-#: includes/trustscript-admin.php:237
+#: includes/trustscript-admin.php:238
+#: includes/trustscript-admin.php:239
 msgid "Review Settings"
 msgstr ""
 
@@ -1082,7 +1127,7 @@ msgid "Last run:"
 msgstr ""
 
 #: includes/admin/review-setting.php:556
-#: includes/trustscript-admin.php:834
+#: includes/trustscript-admin.php:850
 msgid "Save Review Settings"
 msgstr ""
 
@@ -1150,7 +1195,7 @@ msgstr ""
 
 #. translators: %d: number of categories
 #: includes/admin/review-setting.php:751
-#: includes/trustscript-admin.php:858
+#: includes/trustscript-admin.php:874
 #, php-format
 msgid "%d categories"
 msgstr ""
@@ -1228,12 +1273,12 @@ msgid "TrustScript works with WooCommerce, MemberPress, and more."
 msgstr ""
 
 #: includes/admin/review-setting.php:874
-#: trustscript.php:183
+#: trustscript.php:191
 msgid "Install and activate a supported plugin to start collecting reviews."
 msgstr ""
 
 #: includes/admin/review-setting.php:877
-#: trustscript.php:185
+#: trustscript.php:193
 msgid "View Supported Platforms"
 msgstr ""
 
@@ -1363,7 +1408,7 @@ msgid "↓ Jump to API Key Field"
 msgstr ""
 
 #: includes/admin/settings.php:97
-#: trustscript.php:194
+#: trustscript.php:202
 msgid "Go Pro"
 msgstr ""
 
@@ -1485,7 +1530,7 @@ msgstr ""
 
 #: includes/admin/settings.php:381
 #: includes/consent/privacy-settings.php:259
-#: includes/trustscript-admin.php:871
+#: includes/trustscript-admin.php:887
 msgid "Save Changes"
 msgstr ""
 
@@ -1521,87 +1566,111 @@ msgstr ""
 msgid "Save Verification Settings"
 msgstr ""
 
-#: includes/admin/settings.php:437
-msgid "Plugin Uninstall & Data"
-msgstr ""
-
 #: includes/admin/settings.php:438
-msgid "Choose how TrustScript should handle your data if you decide to uninstall the plugin."
+msgid "Store Trust Strip"
 msgstr ""
 
-#: includes/admin/settings.php:443
-msgid "Delete Data on Uninstall"
+#: includes/admin/settings.php:439
+msgid "Display a store-wide trust strip showing average rating, total reviews, verified buyers, and recommendation percentage."
 msgstr ""
 
-#: includes/admin/settings.php:454
-msgid "Completely remove all TrustScript data when I uninstall the plugin"
+#: includes/admin/settings.php:444
+msgid "Enable Trust Strip"
 msgstr ""
 
-#: includes/admin/settings.php:458
-msgid "If unchecked (recommended), your TrustScript data will be preserved when you uninstall the plugin. This lets you reinstall later without losing your settings and review history."
+#: includes/admin/settings.php:455
+msgid "Show the trust strip on the storefront"
 msgstr ""
 
-#: includes/admin/settings.php:465
-msgid "Important:"
+#: includes/admin/settings.php:459
+msgid "When enabled, the trust strip appears on product pages or wherever the shortcode/widget is placed."
 msgstr ""
 
-#: includes/admin/settings.php:467
-msgid "If you enable this option, the following data will be permanently deleted when you uninstall the plugin:"
-msgstr ""
-
-#: includes/admin/settings.php:470
-msgid "All TrustScript settings and configuration"
-msgstr ""
-
-#: includes/admin/settings.php:471
-msgid "API key and connection information"
-msgstr ""
-
-#: includes/admin/settings.php:472
-msgid "Review collection history and pending queue items"
-msgstr ""
-
-#: includes/admin/settings.php:473
-msgid "Database tables (order registry, queue, and related data)"
+#: includes/admin/settings.php:466
+msgid "Save Trust Strip Settings"
 msgstr ""
 
 #: includes/admin/settings.php:474
-msgid "Scheduled automation tasks (auto-sync, quota checks)"
+msgid "Plugin Uninstall & Data"
 msgstr ""
 
-#: includes/admin/settings.php:479
-#: includes/trustscript-admin.php:865
-msgid "Save Preference"
+#: includes/admin/settings.php:475
+msgid "Choose how TrustScript should handle your data if you decide to uninstall the plugin."
 msgstr ""
 
-#: includes/admin/settings.php:487
-msgid "Documentation"
+#: includes/admin/settings.php:480
+msgid "Delete Data on Uninstall"
 msgstr ""
 
 #: includes/admin/settings.php:491
-#: trustscript.php:203
-msgid "Support"
+msgid "Completely remove all TrustScript data when I uninstall the plugin"
 msgstr ""
 
 #: includes/admin/settings.php:495
-msgid "Manage API Keys"
+msgid "If unchecked (recommended), your TrustScript data will be preserved when you uninstall the plugin. This lets you reinstall later without losing your settings and review history."
 msgstr ""
 
-#: includes/admin/settings.php:506
-msgid "Delete API Key?"
+#: includes/admin/settings.php:502
+msgid "Important:"
 msgstr ""
 
-#: includes/admin/settings.php:513
-msgid "Are you sure you want to delete your API key? You will need to enter a new API key to use TrustScript."
+#: includes/admin/settings.php:504
+msgid "If you enable this option, the following data will be permanently deleted when you uninstall the plugin:"
+msgstr ""
+
+#: includes/admin/settings.php:507
+msgid "All TrustScript settings and configuration"
+msgstr ""
+
+#: includes/admin/settings.php:508
+msgid "API key and connection information"
+msgstr ""
+
+#: includes/admin/settings.php:509
+msgid "Review collection history and pending queue items"
+msgstr ""
+
+#: includes/admin/settings.php:510
+msgid "Database tables (order registry, queue, and related data)"
+msgstr ""
+
+#: includes/admin/settings.php:511
+msgid "Scheduled automation tasks (auto-sync, quota checks)"
 msgstr ""
 
 #: includes/admin/settings.php:516
+#: includes/trustscript-admin.php:881
+msgid "Save Preference"
+msgstr ""
+
+#: includes/admin/settings.php:524
+msgid "Documentation"
+msgstr ""
+
+#: includes/admin/settings.php:528
+#: trustscript.php:211
+msgid "Support"
+msgstr ""
+
+#: includes/admin/settings.php:532
+msgid "Manage API Keys"
+msgstr ""
+
+#: includes/admin/settings.php:543
+msgid "Delete API Key?"
+msgstr ""
+
+#: includes/admin/settings.php:550
+msgid "Are you sure you want to delete your API key? You will need to enter a new API key to use TrustScript."
+msgstr ""
+
+#: includes/admin/settings.php:553
 #: includes/consent-form-template.php:69
-#: includes/trustscript-admin.php:859
+#: includes/trustscript-admin.php:875
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/settings.php:517
+#: includes/admin/settings.php:554
 msgid "Delete API Key"
 msgstr ""
 
@@ -1624,7 +1693,7 @@ msgid "Configure Compatibility Settings"
 msgstr ""
 
 #: includes/compatibility.php:380
-#: includes/review-renderer-eng.php:1347
+#: includes/review-renderer-eng.php:1344
 msgid "Critical"
 msgstr ""
 
@@ -1856,8 +1925,8 @@ msgstr ""
 
 #: includes/consent/privacy-settings.php:88
 #: includes/consent/privacy-settings.php:93
-#: includes/trustscript-admin.php:254
-#: includes/trustscript-admin.php:255
+#: includes/trustscript-admin.php:265
+#: includes/trustscript-admin.php:266
 msgid "Privacy & Compliance"
 msgstr ""
 
@@ -2071,25 +2140,25 @@ msgstr ""
 msgid "View verification hash"
 msgstr ""
 
-#: includes/frontend-reviews-base.php:143
+#: includes/frontend-reviews-base.php:140
 msgid "View verification details"
 msgstr ""
 
-#: includes/frontend-reviews-base.php:144
+#: includes/frontend-reviews-base.php:141
 msgid "Internal Membership Verification"
 msgstr ""
 
-#: includes/frontend-reviews-base.php:191
+#: includes/frontend-reviews-base.php:185
 msgid "Previous"
 msgstr ""
 
 #. translators: 1: Current page number, 2: Total pages
-#: includes/frontend-reviews-base.php:198
+#: includes/frontend-reviews-base.php:192
 #, php-format
 msgid "Page %1$d of %2$d"
 msgstr ""
 
-#: includes/frontend-reviews-base.php:204
+#: includes/frontend-reviews-base.php:198
 msgid "Next"
 msgstr ""
 
@@ -2126,7 +2195,7 @@ msgid "Recent Reviews"
 msgstr ""
 
 #: includes/integration/elementor/widgets/reviews-showcase.php:57
-#: includes/review-renderer-eng.php:836
+#: includes/review-renderer-eng.php:839
 msgid "Highest Rated"
 msgstr ""
 
@@ -2303,14 +2372,14 @@ msgstr ""
 #: includes/integration/elementor/widgets/reviews-showcase.php:266
 #: includes/integration/elementor/widgets/reviews-showcase.php:276
 #: includes/integration/elementor/widgets/reviews-showcase.php:306
-#: includes/review-renderer-eng.php:1208
+#: includes/review-renderer-eng.php:1205
 msgid "Yes"
 msgstr ""
 
 #: includes/integration/elementor/widgets/reviews-showcase.php:267
 #: includes/integration/elementor/widgets/reviews-showcase.php:277
 #: includes/integration/elementor/widgets/reviews-showcase.php:307
-#: includes/review-renderer-eng.php:1218
+#: includes/review-renderer-eng.php:1215
 msgid "No"
 msgstr ""
 
@@ -2533,19 +2602,19 @@ msgid "No reviews with images found matching your criteria."
 msgstr ""
 
 #: includes/integration/elementor/widgets/reviews-showcase.php:1023
-#: includes/review-renderer-eng.php:1170
-#: includes/webhook.php:993
+#: includes/review-renderer-eng.php:1167
+#: includes/webhook.php:989
 msgid "Review photo"
 msgstr ""
 
-#: includes/integration/elementor/widgets/reviews-showcase.php:1089
-#: includes/integration/elementor/widgets/reviews-showcase.php:1167
-#: includes/integration/elementor/widgets/reviews-showcase.php:1184
+#: includes/integration/elementor/widgets/reviews-showcase.php:1080
+#: includes/integration/elementor/widgets/reviews-showcase.php:1149
+#: includes/integration/elementor/widgets/reviews-showcase.php:1166
 msgid "Verified Buyer"
 msgstr ""
 
 #: includes/media-upload.php:36
-#: includes/webhook.php:148
+#: includes/webhook.php:144
 msgid "Missing authentication headers (X-API-Key and X-Site-URL required)"
 msgstr ""
 
@@ -2554,25 +2623,25 @@ msgid "Too many uploads. Rate limit: 50 per minute"
 msgstr ""
 
 #: includes/media-upload.php:67
-#: includes/webhook.php:178
-#: includes/webhook.php:1053
+#: includes/webhook.php:174
+#: includes/webhook.php:1049
 msgid "No API key configured"
 msgstr ""
 
 #: includes/media-upload.php:75
-#: includes/webhook.php:186
-#: includes/webhook.php:1057
+#: includes/webhook.php:182
+#: includes/webhook.php:1053
 msgid "Invalid API key"
 msgstr ""
 
 #: includes/media-upload.php:84
-#: includes/webhook.php:195
-#: includes/webhook.php:1066
+#: includes/webhook.php:191
+#: includes/webhook.php:1062
 msgid "API key has expired. Please generate a new API key in TrustScript dashboard."
 msgstr ""
 
 #: includes/media-upload.php:92
-#: includes/webhook.php:203
+#: includes/webhook.php:199
 msgid "Domain mismatch: API key is not valid for this domain"
 msgstr ""
 
@@ -2596,7 +2665,7 @@ msgstr ""
 #: includes/memberpress-reviews-metabox.php:43
 #: includes/memberpress-reviews.php:39
 #: includes/review-renderer-eng.php:1081
-#: includes/review-renderer-eng.php:1089
+#: includes/review-renderer-eng.php:1086
 #: includes/simple-review/views/inline-form.php:32
 msgid "Verified Purchase"
 msgstr ""
@@ -2703,7 +2772,7 @@ msgid "MemberPress Reviews"
 msgstr ""
 
 #: includes/memberpress-reviews.php:116
-#: includes/trustscript-admin.php:835
+#: includes/trustscript-admin.php:851
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -2982,215 +3051,211 @@ msgstr ""
 msgid "Refunded"
 msgstr ""
 
-#: includes/review-renderer-eng.php:311
+#: includes/review-renderer-eng.php:314
 msgid "Store rating"
 msgstr ""
 
-#: includes/review-renderer-eng.php:315
+#: includes/review-renderer-eng.php:318
 msgid "Total reviews"
 msgstr ""
 
-#: includes/review-renderer-eng.php:319
+#: includes/review-renderer-eng.php:322
 msgid "Verified buyers"
 msgstr ""
 
-#: includes/review-renderer-eng.php:323
+#: includes/review-renderer-eng.php:326
 msgid "Recommend this"
 msgstr ""
 
-#: includes/review-renderer-eng.php:584
+#: includes/review-renderer-eng.php:587
 msgid "Customer Reviews"
 msgstr ""
 
-#: includes/review-renderer-eng.php:585
+#: includes/review-renderer-eng.php:588
 msgid "Honest opinions from verified buyers"
 msgstr ""
 
-#: includes/review-renderer-eng.php:808
+#: includes/review-renderer-eng.php:811
 msgid "Filter by keyword"
 msgstr ""
 
-#: includes/review-renderer-eng.php:811
+#: includes/review-renderer-eng.php:814
 msgid "All Reviews"
 msgstr ""
 
-#: includes/review-renderer-eng.php:827
+#: includes/review-renderer-eng.php:830
 msgid "Sort by"
 msgstr ""
 
-#: includes/review-renderer-eng.php:830
+#: includes/review-renderer-eng.php:833
 msgid "Most Helpful"
 msgstr ""
 
-#: includes/review-renderer-eng.php:833
+#: includes/review-renderer-eng.php:836
 msgid "Newest"
 msgstr ""
 
-#: includes/review-renderer-eng.php:839
+#: includes/review-renderer-eng.php:842
 msgid "Lowest Rated"
 msgstr ""
 
 #. translators: %1$d = reviews shown, %2$d = total reviews
-#: includes/review-renderer-eng.php:848
+#: includes/review-renderer-eng.php:851
 #: includes/woocommerce-reviews.php:112
 #, php-format
 msgid "Showing %1$d of %2$d reviews"
 msgstr ""
 
-#: includes/review-renderer-eng.php:853
+#: includes/review-renderer-eng.php:856
 #: includes/woocommerce-reviews.php:108
 msgid "Showing 1 review"
 msgstr ""
 
 #. translators: %d = number of reviews
-#: includes/review-renderer-eng.php:857
+#: includes/review-renderer-eng.php:860
 #, php-format
 msgid "Showing %d review"
 msgid_plural "Showing %d reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/review-renderer-eng.php:879
-#: includes/simple-review/rest-simple-review.php:514
-#: includes/simple-review/rest-simple-review.php:607
+#: includes/review-renderer-eng.php:882
+#: includes/simple-review/rest-simple-review.php:524
+#: includes/simple-review/rest-simple-review.php:617
 msgid "You have already reviewed this product."
 msgstr ""
 
-#: includes/review-renderer-eng.php:885
+#: includes/review-renderer-eng.php:888
 msgid "Edit Review"
 msgstr ""
 
-#: includes/review-renderer-eng.php:895
+#: includes/review-renderer-eng.php:898
 msgid "No reviews yet. Be the first!"
 msgstr ""
 
-#: includes/review-renderer-eng.php:912
+#: includes/review-renderer-eng.php:915
 msgctxt "button label"
 msgid "Load more reviews"
 msgstr ""
 
-#: includes/review-renderer-eng.php:918
+#: includes/review-renderer-eng.php:921
 msgid "No reviews match your filter."
 msgstr ""
 
-#: includes/review-renderer-eng.php:1076
+#: includes/review-renderer-eng.php:1079
 msgid "Verify this review"
 msgstr ""
 
 #. translators: %d = star rating number from 1 to 5
-#: includes/review-renderer-eng.php:1102
+#: includes/review-renderer-eng.php:1099
 #, php-format
 msgid "%d out of 5 stars"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1123
+#: includes/review-renderer-eng.php:1120
 msgid "Read more"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1142
-#: includes/review-renderer-eng.php:1499
+#: includes/review-renderer-eng.php:1139
+#: includes/review-renderer-eng.php:1496
 msgid "Previous photo"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1181
-#: includes/review-renderer-eng.php:1504
+#: includes/review-renderer-eng.php:1178
+#: includes/review-renderer-eng.php:1501
 msgid "Next photo"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1199
+#: includes/review-renderer-eng.php:1196
 msgid "Was this helpful?"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1206
+#: includes/review-renderer-eng.php:1203
 msgid "Yes, helpful"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1216
+#: includes/review-renderer-eng.php:1213
 msgid "No, not helpful"
 msgstr ""
 
 #. translators: 1: total count
-#: includes/review-renderer-eng.php:1303
+#: includes/review-renderer-eng.php:1300
 #, php-format
 msgid "out of 5 · %d review"
 msgid_plural "out of 5 · %d reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/review-renderer-eng.php:1337
+#: includes/review-renderer-eng.php:1334
 msgid "Positive"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1342
+#: includes/review-renderer-eng.php:1339
 msgid "Neutral"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1354
+#: includes/review-renderer-eng.php:1351
 msgid "Sentiment"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1399
+#: includes/review-renderer-eng.php:1396
 msgid "All Product Photos"
 msgstr ""
 
 #. translators: %d is an integer count of photos
-#: includes/review-renderer-eng.php:1405
+#: includes/review-renderer-eng.php:1402
 #, php-format
 msgid "%d images"
 msgstr ""
 
 #. translators: %d = total count of images in the gallery
-#: includes/review-renderer-eng.php:1425
-#: includes/review-renderer-eng.php:1435
+#: includes/review-renderer-eng.php:1422
+#: includes/review-renderer-eng.php:1432
 #, php-format
 msgid "View all %d images"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1451
-#: includes/review-renderer-eng.php:1473
+#: includes/review-renderer-eng.php:1448
+#: includes/review-renderer-eng.php:1470
 msgid "Product photo"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1454
+#: includes/review-renderer-eng.php:1451
 msgid "+More"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1494
+#: includes/review-renderer-eng.php:1491
 msgid "Photo viewer"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1509
-#: includes/review-renderer-eng.php:1566
-#: includes/simple-review/class-trustscript-simple-review.php:177
+#: includes/review-renderer-eng.php:1506
+#: includes/review-renderer-eng.php:1561
+#: includes/simple-review/class-trustscript-simple-review.php:195
 msgid "Close"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1530
+#: includes/review-renderer-eng.php:1525
 msgid "✓ Verified Buyer"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1556
+#: includes/review-renderer-eng.php:1551
 msgid "Review Verified by TrustScript"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1577
-msgid "Star rating"
-msgstr ""
-
-#: includes/review-renderer-eng.php:1583
+#: includes/review-renderer-eng.php:1569
 msgid "This code ties the review to its original submission on TrustScript. You can use it to confirm the review is genuine and unedited."
 msgstr ""
 
-#: includes/review-renderer-eng.php:1590
+#: includes/review-renderer-eng.php:1576
 #: includes/woocommerce-reviews.php:114
 msgid "Copy Hash"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1598
+#: includes/review-renderer-eng.php:1584
 msgid "Verify this review ↗"
 msgstr ""
 
-#: includes/review-renderer-eng.php:1657
+#: includes/review-renderer-eng.php:1643
 msgid "Store Owner"
 msgstr ""
 
@@ -3223,166 +3288,166 @@ msgstr ""
 msgid "Vote recorded successfully"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:88
+#: includes/simple-review/class-trustscript-simple-review.php:96
 msgid "Please select a star rating."
 msgstr ""
 
 #. translators: %d: minimum number of characters required for a review.
-#: includes/simple-review/class-trustscript-simple-review.php:91
+#: includes/simple-review/class-trustscript-simple-review.php:99
 #: includes/simple-review/rest-simple-review.php:188
 #, php-format
 msgid "Review must be at least %d characters."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:94
+#: includes/simple-review/class-trustscript-simple-review.php:102
 msgid "Review is too long."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:95
+#: includes/simple-review/class-trustscript-simple-review.php:103
 #: includes/simple-review/rest-simple-review.php:243
 #: includes/simple-review/rest-simple-review.php:255
 #: includes/woocommerce-reviews.php:118
 msgid "Please enter your name."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:96
+#: includes/simple-review/class-trustscript-simple-review.php:104
 #: includes/simple-review/rest-simple-review.php:262
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:97
+#: includes/simple-review/class-trustscript-simple-review.php:105
 msgid "Photo exceeds 5MB limit and was not added."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:98
+#: includes/simple-review/class-trustscript-simple-review.php:106
 msgid "Only JPEG, PNG, and WebP photos are allowed."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:99
+#: includes/simple-review/class-trustscript-simple-review.php:107
 #: includes/woocommerce-reviews.php:106
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:100
+#: includes/simple-review/class-trustscript-simple-review.php:108
 msgid "Thank you! Your review has been submitted."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:101
-#: includes/simple-review/rest-simple-review.php:382
-#: includes/simple-review/rest-simple-review.php:385
+#: includes/simple-review/class-trustscript-simple-review.php:109
+#: includes/simple-review/rest-simple-review.php:390
+#: includes/simple-review/rest-simple-review.php:393
 msgid "Thank you! Your review is awaiting moderation."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:102
+#: includes/simple-review/class-trustscript-simple-review.php:110
 msgid "Not what I expected"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:103
+#: includes/simple-review/class-trustscript-simple-review.php:111
 msgid "Could be better"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:104
+#: includes/simple-review/class-trustscript-simple-review.php:112
 msgid "It's okay overall"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:105
+#: includes/simple-review/class-trustscript-simple-review.php:113
 msgid "I'm really happy with it"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:106
+#: includes/simple-review/class-trustscript-simple-review.php:114
 msgid "I absolutely love it"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:107
+#: includes/simple-review/class-trustscript-simple-review.php:115
 #: includes/simple-review/views/product-selector.php:34
 msgid "Write Review"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:150
-#: includes/simple-review/class-trustscript-simple-review.php:175
-#: includes/simple-review/class-trustscript-simple-review.php:176
+#: includes/simple-review/class-trustscript-simple-review.php:158
+#: includes/simple-review/class-trustscript-simple-review.php:193
+#: includes/simple-review/class-trustscript-simple-review.php:194
 msgid "Write a Review"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:178
+#: includes/simple-review/class-trustscript-simple-review.php:196
 #: includes/simple-review/views/inline-form.php:57
 msgid "Your Rating"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:179
+#: includes/simple-review/class-trustscript-simple-review.php:197
 #: includes/simple-review/views/inline-form.php:80
 msgid "Your Review"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:180
+#: includes/simple-review/class-trustscript-simple-review.php:198
 msgid "Your Name"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:181
+#: includes/simple-review/class-trustscript-simple-review.php:199
 msgid "Your Email"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:182
+#: includes/simple-review/class-trustscript-simple-review.php:200
 msgid "Add Photos"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:183
+#: includes/simple-review/class-trustscript-simple-review.php:201
 msgid "optional"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:184
+#: includes/simple-review/class-trustscript-simple-review.php:202
 msgid "Your email will not be published."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:185
+#: includes/simple-review/class-trustscript-simple-review.php:203
 msgid "Drag & drop photos here or click to browse"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:186
+#: includes/simple-review/class-trustscript-simple-review.php:204
 msgid "Next: Add Photos"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:187
+#: includes/simple-review/class-trustscript-simple-review.php:205
 #: includes/simple-review/views/inline-form.php:160
 msgid "Back"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:188
+#: includes/simple-review/class-trustscript-simple-review.php:206
 #: includes/simple-review/views/inline-form.php:165
 msgid "Submit Review"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:189
+#: includes/simple-review/class-trustscript-simple-review.php:207
 msgid "Submitting..."
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:190
+#: includes/simple-review/class-trustscript-simple-review.php:208
 msgid "Share your experience with this product..."
 msgstr ""
 
 #. translators: %d: maximum number of photos allowed
-#: includes/simple-review/class-trustscript-simple-review.php:193
+#: includes/simple-review/class-trustscript-simple-review.php:211
 #, php-format
 msgid "Up to %d photos (JPEG, PNG, WebP, max 5MB each)"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:199
+#: includes/simple-review/class-trustscript-simple-review.php:217
 msgid "1 star"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:200
+#: includes/simple-review/class-trustscript-simple-review.php:218
 msgid "2 stars"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:201
+#: includes/simple-review/class-trustscript-simple-review.php:219
 msgid "3 stars"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:202
+#: includes/simple-review/class-trustscript-simple-review.php:220
 msgid "4 stars"
 msgstr ""
 
-#: includes/simple-review/class-trustscript-simple-review.php:203
+#: includes/simple-review/class-trustscript-simple-review.php:221
 msgid "5 stars"
 msgstr ""
 
@@ -3421,45 +3486,45 @@ msgstr ""
 msgid "You do not have permission to edit this review."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:303
+#: includes/simple-review/rest-simple-review.php:305
 msgid "Your review is already being processed."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:330
+#: includes/simple-review/rest-simple-review.php:332
 msgid "Could not save your review. Please try again."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:384
+#: includes/simple-review/rest-simple-review.php:392
 msgid "Thank you! Your review has been published."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:470
+#: includes/simple-review/rest-simple-review.php:480
 msgid "Invalid review token."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:479
+#: includes/simple-review/rest-simple-review.php:489
 msgid "Invalid or expired review token."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:487
+#: includes/simple-review/rest-simple-review.php:497
 msgid "This product order has been refunded or cancelled. Review submission is no longer available."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:496
+#: includes/simple-review/rest-simple-review.php:506
 msgid "This review link has expired."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:522
+#: includes/simple-review/rest-simple-review.php:532
 msgid "You must be logged in to submit a review."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:534
-#: includes/simple-review/rest-simple-review.php:541
+#: includes/simple-review/rest-simple-review.php:544
+#: includes/simple-review/rest-simple-review.php:551
 #: includes/ts-simple-email-review.php:222
 msgid "This review link is not valid for your account."
 msgstr ""
 
-#: includes/simple-review/rest-simple-review.php:558
+#: includes/simple-review/rest-simple-review.php:568
 msgid "This product is not in your order."
 msgstr ""
 
@@ -3647,450 +3712,463 @@ msgstr ""
 msgid "Which product would you like to review?"
 msgstr ""
 
-#: includes/trustscript-admin.php:162
+#: includes/trustscript-admin.php:164
 msgid "Attached Photos:"
 msgstr ""
 
-#: includes/trustscript-admin.php:179
+#: includes/trustscript-admin.php:181
 msgid "✏️ This is an EDIT of an existing review."
 msgstr ""
 
-#: includes/trustscript-admin.php:180
+#: includes/trustscript-admin.php:182
 msgid "Original Rating:"
 msgstr ""
 
-#: includes/trustscript-admin.php:181
+#: includes/trustscript-admin.php:183
 msgid "New Rating:"
 msgstr ""
 
-#: includes/trustscript-admin.php:182
+#: includes/trustscript-admin.php:184
 msgid "Original Text:"
 msgstr ""
 
-#: includes/trustscript-admin.php:188
+#: includes/trustscript-admin.php:190
 msgid "Original Photos:"
 msgstr ""
 
-#: includes/trustscript-admin.php:216
-#: includes/trustscript-admin.php:227
-#: includes/trustscript-admin.php:228
+#: includes/trustscript-admin.php:218
+#: includes/trustscript-admin.php:229
+#: includes/trustscript-admin.php:230
 msgid "Analytics"
 msgstr ""
 
-#: includes/trustscript-admin.php:245
-#: includes/trustscript-admin.php:246
+#: includes/trustscript-admin.php:256
+#: includes/trustscript-admin.php:257
 msgid "API Settings"
 msgstr ""
 
-#: includes/trustscript-admin.php:264
+#: includes/trustscript-admin.php:275
 msgid "Review Form"
 msgstr ""
 
-#: includes/trustscript-admin.php:271
-#: includes/trustscript-admin.php:277
+#: includes/trustscript-admin.php:282
+#: includes/trustscript-admin.php:288
 msgid "Pending Queue"
 msgstr ""
 
-#: includes/trustscript-admin.php:291
+#: includes/trustscript-admin.php:302
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: includes/trustscript-admin.php:322
+#: includes/trustscript-admin.php:333
 msgid "API Key Invalid or Expired"
 msgstr ""
 
-#: includes/trustscript-admin.php:323
+#: includes/trustscript-admin.php:334
 msgid "Your TrustScript API key is no longer valid. This might be because:"
 msgstr ""
 
-#: includes/trustscript-admin.php:325
+#: includes/trustscript-admin.php:336
 msgid "The key has expired (development keys expire after 24 hours)"
 msgstr ""
 
-#: includes/trustscript-admin.php:326
+#: includes/trustscript-admin.php:337
 msgid "The key was deleted from your TrustScript dashboard"
 msgstr ""
 
-#: includes/trustscript-admin.php:327
+#: includes/trustscript-admin.php:338
 msgid "Your account or key was revoked"
 msgstr ""
 
-#: includes/trustscript-admin.php:332
+#: includes/trustscript-admin.php:343
 msgid "Go to Settings & Update Key"
 msgstr ""
 
-#: includes/trustscript-admin.php:335
+#: includes/trustscript-admin.php:346
 msgid "Generate New Key"
 msgstr ""
 
 #. translators: %s: plan name
-#: includes/trustscript-admin.php:370
-#: includes/trustscript-admin.php:667
+#: includes/trustscript-admin.php:381
+#: includes/trustscript-admin.php:683
 #, php-format
 msgid "Monthly review limit reached for your %s plan."
 msgstr ""
 
 #. translators: %1$s: next plan name, %2$d: review limit
-#: includes/trustscript-admin.php:378
-#: includes/trustscript-admin.php:675
+#: includes/trustscript-admin.php:389
+#: includes/trustscript-admin.php:691
 #, php-format
 msgid " Upgrade to %1$s for %2$d reviews per month."
 msgstr ""
 
 #. translators: %s: reset date
-#: includes/trustscript-admin.php:390
-#: includes/trustscript-admin.php:396
-#: includes/trustscript-admin.php:687
-#: includes/trustscript-admin.php:693
+#: includes/trustscript-admin.php:401
+#: includes/trustscript-admin.php:407
+#: includes/trustscript-admin.php:703
+#: includes/trustscript-admin.php:709
 #, php-format
 msgid " Or wait until %s for your limit to reset."
 msgstr ""
 
-#: includes/trustscript-admin.php:404
+#: includes/trustscript-admin.php:415
 msgid "Review Quota Limit Reached"
 msgstr ""
 
-#: includes/trustscript-admin.php:408
+#: includes/trustscript-admin.php:419
 msgid "Upgrade Your Plan"
 msgstr ""
 
-#: includes/trustscript-admin.php:485
-#: includes/trustscript-admin.php:575
+#: includes/trustscript-admin.php:501
+#: includes/trustscript-admin.php:591
 msgid "Invalid webhook secret format. Webhook secrets should look like: TSS-XXXX-XXXX-XXXX"
 msgstr ""
 
-#: includes/trustscript-admin.php:496
+#: includes/trustscript-admin.php:512
 msgid "Failed to encrypt webhook secret. Please try again."
 msgstr ""
 
-#: includes/trustscript-admin.php:538
+#: includes/trustscript-admin.php:554
 msgid "Invalid API key format. API keys should look like: TSK-XXXX-XXXX-XXXX"
 msgstr ""
 
-#: includes/trustscript-admin.php:553
+#: includes/trustscript-admin.php:569
 msgid "You must agree to data sharing before verifying your API key."
 msgstr ""
 
-#: includes/trustscript-admin.php:566
+#: includes/trustscript-admin.php:582
 msgid "Webhook secret is required. Please generate both an API key and webhook secret from the TrustScript dashboard."
 msgstr ""
 
 #. translators: %s: error message
-#: includes/trustscript-admin.php:604
+#: includes/trustscript-admin.php:620
 #, php-format
 msgid "Could not verify your API key with TrustScript: %s. Please check your internet connection and try again."
 msgstr ""
 
-#: includes/trustscript-admin.php:645
+#: includes/trustscript-admin.php:661
 msgid "API key verified successfully! Your site is now connected to TrustScript."
 msgstr ""
 
 #. translators: 1: remaining reviews, 2: total limit, 3: reset date
-#: includes/trustscript-admin.php:711
+#: includes/trustscript-admin.php:727
 #, php-format
 msgid " You have %1$d/%2$d reviews remaining this month (resets on %3$s)."
 msgstr ""
 
-#: includes/trustscript-admin.php:752
+#: includes/trustscript-admin.php:768
 msgid "Failed to encrypt API key. Please try again."
 msgstr ""
 
-#: includes/trustscript-admin.php:827
+#: includes/trustscript-admin.php:843
 msgid "No recent activity"
 msgstr ""
 
-#: includes/trustscript-admin.php:828
+#: includes/trustscript-admin.php:844
 msgid "Start by configuring review settings"
 msgstr ""
 
-#: includes/trustscript-admin.php:829
+#: includes/trustscript-admin.php:845
 msgid "Reviews Generated"
 msgstr ""
 
-#: includes/trustscript-admin.php:830
+#: includes/trustscript-admin.php:846
 msgid "Failed to load analytics data. Please check your API connection in Settings."
 msgstr ""
 
-#: includes/trustscript-admin.php:831
+#: includes/trustscript-admin.php:847
 msgid "Refreshing..."
 msgstr ""
 
-#: includes/trustscript-admin.php:832
+#: includes/trustscript-admin.php:848
 msgid "Refresh Analytics"
 msgstr ""
 
-#: includes/trustscript-admin.php:833
+#: includes/trustscript-admin.php:849
 msgid "Saving..."
 msgstr ""
 
-#: includes/trustscript-admin.php:836
+#: includes/trustscript-admin.php:852
 msgid "Failed to save"
 msgstr ""
 
-#: includes/trustscript-admin.php:837
+#: includes/trustscript-admin.php:853
 msgid "Network error"
 msgstr ""
 
-#: includes/trustscript-admin.php:838
+#: includes/trustscript-admin.php:854
 msgid "Syncing..."
 msgstr ""
 
-#: includes/trustscript-admin.php:839
+#: includes/trustscript-admin.php:855
 msgid "Sync Completed Orders"
 msgstr ""
 
-#: includes/trustscript-admin.php:840
+#: includes/trustscript-admin.php:856
 msgid "This will create review requests for all completed orders in the selected time range. Continue?"
 msgstr ""
 
-#: includes/trustscript-admin.php:841
+#: includes/trustscript-admin.php:857
 msgid "Failed to sync"
 msgstr ""
 
-#: includes/trustscript-admin.php:842
+#: includes/trustscript-admin.php:858
 msgid "Short delay recommended (1-2 days) - customers already have the product."
 msgstr ""
 
-#: includes/trustscript-admin.php:843
+#: includes/trustscript-admin.php:859
 msgid "Longer delay recommended to ensure product delivery before review request. International orders use this same delay by default. To use a different delay for international orders, enable \"Handle international orders differently\" below."
 msgstr ""
 
-#: includes/trustscript-admin.php:844
+#: includes/trustscript-admin.php:860
 msgid "Are you sure? This will remove the item from the queue."
 msgstr ""
 
-#: includes/trustscript-admin.php:845
+#: includes/trustscript-admin.php:861
 msgid "Remove this order from the queue? This will not cancel the order, but the review request will NOT be retried."
 msgstr ""
 
-#: includes/trustscript-admin.php:846
+#: includes/trustscript-admin.php:862
 msgid "Please paste your TrustScript API key (TSK-XXXX-XXXX-XXXX)."
 msgstr ""
 
-#: includes/trustscript-admin.php:847
+#: includes/trustscript-admin.php:863
 msgid "API Key Required"
 msgstr ""
 
-#: includes/trustscript-admin.php:848
+#: includes/trustscript-admin.php:864
 msgid "Invalid format. Your key should look like: TSK-XXXX-XXXX-XXXX. Copy it from your TrustScript dashboard."
 msgstr ""
 
-#: includes/trustscript-admin.php:849
+#: includes/trustscript-admin.php:865
 msgid "Invalid API Key Format"
 msgstr ""
 
-#: includes/trustscript-admin.php:850
+#: includes/trustscript-admin.php:866
 msgid "Deleting..."
 msgstr ""
 
-#: includes/trustscript-admin.php:851
+#: includes/trustscript-admin.php:867
 msgid "Failed to delete API key"
 msgstr ""
 
-#: includes/trustscript-admin.php:852
+#: includes/trustscript-admin.php:868
 msgid "Unknown error"
 msgstr ""
 
-#: includes/trustscript-admin.php:853
+#: includes/trustscript-admin.php:869
 msgid "Queued for processing..."
 msgstr ""
 
-#: includes/trustscript-admin.php:854
+#: includes/trustscript-admin.php:870
 msgid "Processing your orders in the background — please check back in a few minutes."
 msgstr ""
 
-#: includes/trustscript-admin.php:855
+#: includes/trustscript-admin.php:871
 msgid "All categories"
 msgstr ""
 
-#: includes/trustscript-admin.php:856
+#: includes/trustscript-admin.php:872
 msgid "1 category"
 msgstr ""
 
-#: includes/trustscript-admin.php:860
+#: includes/trustscript-admin.php:876
 msgid "Retrying..."
 msgstr ""
 
-#: includes/trustscript-admin.php:861
+#: includes/trustscript-admin.php:877
 msgid "Clearing..."
 msgstr ""
 
-#: includes/trustscript-admin.php:866
+#: includes/trustscript-admin.php:882
 msgid "Failed to retry"
 msgstr ""
 
-#: includes/trustscript-admin.php:867
+#: includes/trustscript-admin.php:883
 msgid "Failed to clear"
 msgstr ""
 
-#: includes/trustscript-admin.php:868
+#: includes/trustscript-admin.php:884
 msgid "Failed to process queue"
 msgstr ""
 
-#: includes/trustscript-admin.php:869
+#: includes/trustscript-admin.php:885
 msgid "Failed to save preference"
 msgstr ""
 
-#: includes/trustscript-admin.php:870
+#: includes/trustscript-admin.php:886
 msgid "Paste new API key to replace current key…"
 msgstr ""
 
-#: includes/trustscript-admin.php:872
+#: includes/trustscript-admin.php:888
 msgid "Breakdown:"
 msgstr ""
 
-#: includes/trustscript-admin.php:873
+#: includes/trustscript-admin.php:889
 msgid "review(s) published"
 msgstr ""
 
-#: includes/trustscript-admin.php:874
+#: includes/trustscript-admin.php:890
 msgid "new order(s) sent to TrustScript"
 msgstr ""
 
-#: includes/trustscript-admin.php:875
+#: includes/trustscript-admin.php:891
 msgid "order(s) already published (skipped)"
 msgstr ""
 
-#: includes/trustscript-admin.php:899
+#: includes/trustscript-admin.php:915
 msgid "Unknown notice"
 msgstr ""
 
-#: includes/trustscript-admin.php:923
+#: includes/trustscript-admin.php:939
 msgid "Verification modal settings saved successfully!"
 msgstr ""
 
-#: includes/trustscript-admin.php:942
+#: includes/trustscript-admin.php:960
+msgid "Trust strip settings saved successfully!"
+msgstr ""
+
+#: includes/trustscript-admin.php:965
+msgid "Failed to save setting – option may not have changed or database error occurred."
+msgstr ""
+
+#: includes/trustscript-admin.php:984
 msgid "enabled"
 msgstr ""
 
-#: includes/trustscript-admin.php:942
+#: includes/trustscript-admin.php:984
 msgid "disabled"
 msgstr ""
 
 #. translators: %s is the status of data deletion (enabled or disabled)
-#: includes/trustscript-admin.php:945
+#: includes/trustscript-admin.php:987
 #, php-format
 msgid "Data deletion on uninstall %s"
 msgstr ""
 
-#: includes/trustscript-admin.php:962
+#: includes/trustscript-admin.php:1004
 msgid "API key deleted successfully"
 msgstr ""
 
-#: includes/trustscript-admin.php:978
+#: includes/trustscript-admin.php:1018
+#: includes/trustscript-admin.php:1063
 msgid "Security check failed"
 msgstr ""
 
-#: includes/trustscript-admin.php:1187
+#: includes/trustscript-admin.php:1046
+msgid "Keyword blocklist saved successfully"
+msgstr ""
+
+#: includes/trustscript-admin.php:1272
 msgid "Review settings saved successfully"
 msgstr ""
 
-#: includes/trustscript-admin.php:1223
+#: includes/trustscript-admin.php:1308
 msgid "No active service providers detected. Please enable at least one service (WooCommerce or MemberPress)."
 msgstr ""
 
-#: includes/trustscript-admin.php:1237
+#: includes/trustscript-admin.php:1322
 msgid "Sync service not available"
 msgstr ""
 
-#: includes/trustscript-admin.php:1270
+#: includes/trustscript-admin.php:1355
 msgid "No new data to sync"
 msgstr ""
 
 #. translators: %d: number of orders that were already published
-#: includes/trustscript-admin.php:1274
+#: includes/trustscript-admin.php:1359
 #, php-format
 msgid " (but %d order(s) were already published and skipped)"
 msgstr ""
 
 #. translators: %1$d: reviews published, %2$d: orders synced
-#: includes/trustscript-admin.php:1291
+#: includes/trustscript-admin.php:1376
 #, php-format
 msgid "Sync complete! Reviews published: %1$d, New orders sent: %2$d"
 msgstr ""
 
 #. translators: %d: orders that were already published and skipped
-#: includes/trustscript-admin.php:1299
+#: includes/trustscript-admin.php:1384
 #, php-format
 msgid ", %d order(s) already published (skipped re-sync)"
 msgstr ""
 
-#: includes/trustscript-admin.php:1511
+#: includes/trustscript-admin.php:1596
 #: includes/trustscript-service-manager.php:146
 msgid "No services detected"
 msgstr ""
 
-#: includes/trustscript-admin.php:1530
+#: includes/trustscript-admin.php:1615
 msgid "Service settings saved successfully!"
 msgstr ""
 
-#: includes/trustscript-admin.php:1598
+#: includes/trustscript-admin.php:1683
 msgid "Privacy settings saved successfully!"
 msgstr ""
 
-#: includes/trustscript-helpers.php:58
+#: includes/trustscript-helpers.php:103
 msgid "Please set your API key in settings."
 msgstr ""
 
-#: includes/trustscript-helpers.php:90
+#: includes/trustscript-helpers.php:135
 msgid "API request failed"
 msgstr ""
 
-#: includes/trustscript-helpers.php:93
+#: includes/trustscript-helpers.php:138
 msgid "API key authentication failed"
 msgstr ""
 
-#: includes/trustscript-helpers.php:95
+#: includes/trustscript-helpers.php:140
 msgid "Access denied"
 msgstr ""
 
-#: includes/trustscript-helpers.php:97
+#: includes/trustscript-helpers.php:142
 msgid "Resource not found"
 msgstr ""
 
-#: includes/trustscript-helpers.php:99
+#: includes/trustscript-helpers.php:144
 msgid "Rate limit exceeded"
 msgstr ""
 
-#: includes/trustscript-helpers.php:115
+#: includes/trustscript-helpers.php:160
 msgid "Invalid JSON response from API"
 msgstr ""
 
-#: includes/trustscript-helpers.php:143
+#: includes/trustscript-helpers.php:188
 msgid "Webhook secret not configured. Please save your Webhook Secret in TrustScript settings."
 msgstr ""
 
-#: includes/trustscript-helpers.php:152
+#: includes/trustscript-helpers.php:197
 msgid "X-Webhook-Timestamp header is missing."
 msgstr ""
 
-#: includes/trustscript-helpers.php:160
+#: includes/trustscript-helpers.php:205
 msgid "X-Webhook-Timestamp header must be numeric (Unix seconds)."
 msgstr ""
 
 #. translators: %d: number of seconds for allowed timestamp skew
-#: includes/trustscript-helpers.php:176
+#: includes/trustscript-helpers.php:221
 #, php-format
 msgid "Webhook timestamp is outside acceptable window (max ±%d seconds)."
 msgstr ""
 
-#: includes/trustscript-helpers.php:185
+#: includes/trustscript-helpers.php:230
 msgid "X-Webhook-Signature header is missing."
 msgstr ""
 
-#: includes/trustscript-helpers.php:194
+#: includes/trustscript-helpers.php:239
 msgid "Could not read request body."
 msgstr ""
 
-#: includes/trustscript-helpers.php:205
+#: includes/trustscript-helpers.php:250
 msgid "Webhook signature verification failed. Possible causes: wrong webhook secret, modified payload, or request tampering."
 msgstr ""
 
-#: includes/trustscript-queue.php:439
+#: includes/trustscript-queue.php:482
 msgid "Every 10 minutes"
 msgstr ""
 
-#: includes/trustscript-queue.php:445
+#: includes/trustscript-queue.php:488
 msgid "Every 6 hours"
 msgstr ""
 
@@ -4131,112 +4209,112 @@ msgstr ""
 msgid "This review link is not valid for your account. Please log in with the email address used for your order."
 msgstr ""
 
-#: includes/webhook.php:166
-#: includes/webhook.php:1045
+#: includes/webhook.php:162
+#: includes/webhook.php:1041
 msgid "Too many requests. Rate limit: 100 requests per minute"
 msgstr ""
 
-#: includes/webhook.php:223
-#: includes/webhook.php:346
+#: includes/webhook.php:219
+#: includes/webhook.php:342
 msgid "Missing uniqueToken or productToken"
 msgstr ""
 
-#: includes/webhook.php:256
-#: includes/webhook.php:380
+#: includes/webhook.php:252
+#: includes/webhook.php:376
 msgid "Invalid productToken format"
 msgstr ""
 
-#: includes/webhook.php:262
-#: includes/webhook.php:384
+#: includes/webhook.php:258
+#: includes/webhook.php:380
 msgid "This product token has already been used to publish a review"
 msgstr ""
 
-#: includes/webhook.php:295
+#: includes/webhook.php:291
 msgid "Invalid uniqueToken format"
 msgstr ""
 
-#: includes/webhook.php:315
-#: includes/webhook.php:560
+#: includes/webhook.php:311
+#: includes/webhook.php:556
 msgid "Order not found for this token, or API key mismatch"
 msgstr ""
 
-#: includes/webhook.php:325
+#: includes/webhook.php:321
 msgid "Failed to send email"
 msgstr ""
 
-#: includes/webhook.php:334
+#: includes/webhook.php:330
 msgid "Reminder email sent successfully"
 msgstr ""
 
-#: includes/webhook.php:350
+#: includes/webhook.php:346
 msgid "Missing reviewText"
 msgstr ""
 
-#: includes/webhook.php:390
+#: includes/webhook.php:386
 msgid "No order found for this product token"
 msgstr ""
 
-#: includes/webhook.php:417
+#: includes/webhook.php:413
 msgid "WooCommerce provider not active"
 msgstr ""
 
-#: includes/webhook.php:436
+#: includes/webhook.php:432
 msgid "Failed to insert review comment for product #"
 msgstr ""
 
-#: includes/webhook.php:487
-#: includes/webhook.php:740
+#: includes/webhook.php:483
+#: includes/webhook.php:736
 msgid "published"
 msgstr ""
 
-#: includes/webhook.php:487
-#: includes/webhook.php:740
+#: includes/webhook.php:483
+#: includes/webhook.php:736
 msgid "submitted for moderation"
 msgstr ""
 
 #. translators: %1$d: number of reviews published, %2$s: status text (published or submitted for moderation)
-#: includes/webhook.php:491
-#: includes/webhook.php:744
+#: includes/webhook.php:487
+#: includes/webhook.php:740
 #, php-format
 msgid "%1$d review(s) %2$s successfully"
 msgstr ""
 
-#: includes/webhook.php:503
+#: includes/webhook.php:499
 msgid "Invalid token format"
 msgstr ""
 
-#: includes/webhook.php:513
-#: includes/webhook.php:536
+#: includes/webhook.php:509
+#: includes/webhook.php:532
 msgid "This token has already been used to publish a review"
 msgstr ""
 
-#: includes/webhook.php:571
+#: includes/webhook.php:567
 msgid "No eligible items found in order"
 msgstr ""
 
-#: includes/webhook.php:580
+#: includes/webhook.php:576
 msgid "No items found in order"
 msgstr ""
 
-#: includes/webhook.php:764
+#: includes/webhook.php:760
 msgid "All reviews for this token have already been published"
 msgstr ""
 
 #. translators: %s: list of error messages
-#: includes/webhook.php:772
+#: includes/webhook.php:768
 #, php-format
 msgid "No reviews were created. Errors: %s"
 msgstr ""
 
-#: includes/webhook.php:999
+#: includes/webhook.php:995
 msgid "Your browser does not support the video tag."
 msgstr ""
 
-#: includes/webhook.php:1034
+#: includes/webhook.php:1030
 msgid "Missing X-TrustScript-Api-Key or X-Site-URL header"
 msgstr ""
 
-#: includes/webhook.php:1071
+#: includes/webhook.php:1067
 msgid "X-Site-URL does not match this site"
 msgstr ""
 
@@ -4278,14 +4356,14 @@ msgstr ""
 msgid "Please enter a valid email."
 msgstr ""
 
-#: trustscript.php:180
+#: trustscript.php:188
 msgid "No supported services detected. TrustScript works with WooCommerce, MemberPress, and more."
 msgstr ""
 
-#: trustscript.php:197
+#: trustscript.php:205
 msgid "Settings"
 msgstr ""
 
-#: trustscript.php:200
+#: trustscript.php:208
 msgid "Docs"
 msgstr ""

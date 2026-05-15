@@ -289,8 +289,10 @@ class TrustScript_Rest_Simple_Review {
 			}
 		}
 
+		$is_verified = $is_token_flow ? true : self::check_verified_purchase( $reviewer_email, $product_id );
+
 		$auto_publish   = get_option( 'trustscript_auto_publish', false );
-		$comment_status = $auto_publish ? 1 : 0;
+		$comment_status = ( $auto_publish && $is_verified ) ? 1 : 0;
 		if ( $is_edit ) {
 			$comment_status = 0;
 		}
@@ -332,11 +334,17 @@ class TrustScript_Rest_Simple_Review {
 			);
 		}
 
+		if ( ! $is_edit && class_exists( 'TrustScript_Review_Guard' ) ) {
+			$_inserted_comment = get_comment( $comment_id );
+			if ( $_inserted_comment ) {
+				$comment_status = (int) $_inserted_comment->comment_approved;
+			}
+		}
+
 		update_comment_meta( $comment_id, 'rating', $rating );
 		update_comment_meta( $comment_id, '_trustscript_rating', $rating );
 		update_comment_meta( $comment_id, '_trustscript_simple_review', '1' );
 
-		$is_verified = $is_token_flow ? true : self::check_verified_purchase( $reviewer_email, $product_id );
 		if ( $is_verified ) {
 			update_comment_meta( $comment_id, '_trustscript_verified_purchase', '1' );
 			update_comment_meta( $comment_id, 'verified', 1 );
@@ -428,7 +436,9 @@ class TrustScript_Rest_Simple_Review {
 	 * @return bool
 	 */
 	private static function is_enabled() {
-		return (bool) get_option( 'trustscript_simple_review_enabled', true );
+		$simple = (bool) get_option( 'trustscript_simple_review_enabled', true );
+		$api    = (bool) get_option( 'trustscript_api_review_collection_enabled', false );
+		return $simple || $api;
 	}
 
 	/**
@@ -656,11 +666,17 @@ class TrustScript_Rest_Simple_Review {
 	/**
 	 * Create a new review comment in WordPress.
 	 *
+	 * Passes the comment data through TrustScript_Review_Guard before inserting,
+	 * which may override comment_approved to 0 (hold) or 'spam' depending on
+	 * WordPress moderation_keys / disallowed_keys and the TrustScript keyword
+	 * blocklist. If no word-list match is found, the caller-supplied
+	 * $comment_status (driven by trustscript_auto_publish) is preserved.
+	 *
 	 * @param int    $product_id      Product ID.
 	 * @param string $reviewer_name   Reviewer name.
 	 * @param string $reviewer_email  Reviewer email.
 	 * @param string $review_text     Review text.
-	 * @param int    $comment_status  Approval status (0/1).
+	 * @param int    $comment_status  Initial approval status (0 or 1) from auto-publish setting.
 	 * @param int    $user_id         WordPress user ID (0 for guests).
 	 * @return int|false Comment ID or false on failure.
 	 */
@@ -672,18 +688,21 @@ class TrustScript_Rest_Simple_Review {
 		$comment_status,
 		$user_id
 	) {
-		$comment_id = wp_insert_comment(
-			array(
-				'comment_post_ID'      => $product_id,
-				'comment_author'       => $reviewer_name,
-				'comment_author_email' => $reviewer_email,
-				'comment_content'      => $review_text,
-				'comment_type'         => 'review',
-				'comment_approved'     => $comment_status,
-				'user_id'              => $user_id,
-			)
+		$comment_data = array(
+			'comment_post_ID'      => $product_id,
+			'comment_author'       => $reviewer_name,
+			'comment_author_email' => $reviewer_email,
+			'comment_content'      => $review_text,
+			'comment_type'         => 'review',
+			'comment_approved'     => $comment_status,
+			'user_id'              => $user_id,
 		);
 
+		if ( class_exists( 'TrustScript_Review_Guard' ) ) {
+			$comment_data = TrustScript_Review_Guard::apply_to_comment_data( $comment_data );
+		}
+
+		$comment_id = wp_insert_comment( $comment_data );
 		return $comment_id ?: false;
 	}
 
@@ -714,32 +733,52 @@ class TrustScript_Rest_Simple_Review {
 
 		if ( ! empty( $pending_edits ) ) {
 			$edit_comment_id = $pending_edits[0]->comment_ID;
+
+			// Run moderation check on updated text — may escalate from hold (0) to spam.
+			$edit_approved = 0;
+			if ( class_exists( 'TrustScript_Review_Guard' ) ) {
+				$guard_result  = TrustScript_Review_Guard::apply_to_comment_data(
+					array(
+						'comment_author'       => $pending_edits[0]->comment_author,
+						'comment_author_email' => $pending_edits[0]->comment_author_email,
+						'comment_content'      => $review_text,
+						'comment_approved'     => 0,
+					)
+				);
+				$edit_approved = $guard_result['comment_approved'];
+			}
+
 			wp_update_comment(
 				array(
 					'comment_ID'       => $edit_comment_id,
 					'comment_content'  => $review_text,
-					'comment_approved' => 0,
+					'comment_approved' => $edit_approved,
 				)
 			);
-			
+
 			if ( get_option( 'moderation_notify' ) ) {
 				wp_notify_moderator( $edit_comment_id );
 			}
-			
+
 			return $edit_comment_id;
 		} else {
-			$original        = get_comment( $comment_id );
-			$edit_comment_id = wp_insert_comment(
-				array(
-					'comment_post_ID'      => $product_id,
-					'comment_author'       => $original ? $original->comment_author : '',
-					'comment_author_email' => $original ? $original->comment_author_email : '',
-					'comment_content'      => $review_text,
-					'comment_type'         => 'review',
-					'comment_approved'     => 0,
-					'user_id'              => $original ? (int) $original->user_id : 0,
-				)
+			$original  = get_comment( $comment_id );
+			$edit_data = array(
+				'comment_post_ID'      => $product_id,
+				'comment_author'       => $original ? $original->comment_author : '',
+				'comment_author_email' => $original ? $original->comment_author_email : '',
+				'comment_content'      => $review_text,
+				'comment_type'         => 'review',
+				'comment_approved'     => 0,
+				'user_id'              => $original ? (int) $original->user_id : 0,
 			);
+
+			// Run moderation check on the new shadow comment — may escalate to spam.
+			if ( class_exists( 'TrustScript_Review_Guard' ) ) {
+				$edit_data = TrustScript_Review_Guard::apply_to_comment_data( $edit_data );
+			}
+
+			$edit_comment_id = wp_insert_comment( $edit_data );
 
 			if ( $edit_comment_id ) {
 				update_comment_meta( $edit_comment_id, '_trustscript_edit_of', $comment_id );
