@@ -461,11 +461,21 @@ class TrustScript_Plugin_Admin
 	}
 
 	/**
-	 * Sanitize checkbox value
+	 * Sanitize checkbox value.
 	 */
-	public function sanitize_checkbox($value)
-	{
-		return !empty($value) ? true : false;
+	public function sanitize_checkbox( $value ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified by settings_fields() / options.php handler.
+		$is_api_key_form = ! empty( $_POST['trustscript_api_key_form_intent'] );
+
+		if ( $is_api_key_form && empty( $value ) ) {
+			$current_filter = current_filter();
+			$option_name = str_replace( 'sanitize_option_', '', $current_filter );
+			if ( ! empty( $option_name ) ) {
+				return get_option( $option_name );
+			}
+		}
+
+		return ! empty( $value ) ? true : false;
 	}
 
 	/**
@@ -889,6 +899,63 @@ class TrustScript_Plugin_Admin
 				'syncReviewsPublished' => __('review(s) published', 'trustscript'),
 				'syncOrdersSent' => __('new order(s) sent to TrustScript', 'trustscript'),
 				'syncOrdersSkipped' => __('order(s) already published (skipped)', 'trustscript'),
+				
+				// review-requests.js translations
+				'rrStatusPending' => __('Pending', 'trustscript'),
+				'rrStatusScheduled' => __('Scheduled', 'trustscript'),
+				'rrStatusSent' => __('Sent', 'trustscript'),
+				'rrStatusPublished' => __('Published', 'trustscript'),
+				'rrStatusOptOut' => __('Opt-Out', 'trustscript'),
+				'rrStatusAlreadyReviewed' => __('Already Reviewed', 'trustscript'),
+				'rrStatusIneligible' => __('Ineligible', 'trustscript'),
+				'rrStatusCancelled' => __('Cancelled', 'trustscript'),
+
+				'rrConsentNA' => __('N/A', 'trustscript'),
+				'rrConsentNotGiven' => __('Not Given', 'trustscript'),
+				'rrConsentConfirmed' => __('Confirmed', 'trustscript'),
+				'rrConsentWaiting' => __('Waiting', 'trustscript'),
+				'rrConsentExpired' => __('Expired', 'trustscript'),
+				'rrConsentPending' => __('Pending', 'trustscript'),
+
+				'rrTooltipConsentNA' => __('Consent not required for this country', 'trustscript'),
+				'rrTooltipConsentNotGiven' => __('Customer did not check the consent checkbox', 'trustscript'),
+				'rrTooltipConsentConfirmed' => __('Customer confirmed consent (double opt-in link clicked)', 'trustscript'),
+				'rrTooltipConsentWaiting' => __('Awaiting customer confirmation of double opt-in', 'trustscript'),
+				'rrTooltipConsentExpired' => __('Double opt-in confirmation link expired (7 days)', 'trustscript'),
+				'rrTooltipConsentPending' => __('Consent pending', 'trustscript'),
+
+				'rrReasonCategory' => __('Excluded by category filter', 'trustscript'),
+				'rrReasonFree' => __('Free product — excluded by settings', 'trustscript'),
+				'rrReasonMinVal' => __('Item value below minimum threshold', 'trustscript'),
+				'rrReasonRefunded' => __('Fully refunded', 'trustscript'),
+
+				'rrErrLoadOrders' => __('Failed to load orders', 'trustscript'),
+				'rrErrNetwork' => __('Network error. Please check your connection and try again.', 'trustscript'),
+				'rrErrNetworkTryAgain' => __('Network error. Please try again.', 'trustscript'),
+				'rrErrSendEmail' => __('Failed to send email.', 'trustscript'),
+				'rrErrSendApi' => __('Failed to send via API.', 'trustscript'),
+
+				'rrBtnSendEmail' => __('Send Email', 'trustscript'),
+				'rrBtnSendApi' => __('Send via API', 'trustscript'),
+				'rrBtnView' => __('View', 'trustscript'),
+				'rrBtnAlreadyReviewed' => __('Already Reviewed', 'trustscript'),
+				'rrBtnPrevious' => __('← Previous', 'trustscript'),
+				'rrBtnNext' => __('Next →', 'trustscript'),
+
+				'rrTxtSending' => __('Sending...', 'trustscript'),
+				'rrTxtSent' => __('Sent!', 'trustscript'),
+				'rrTxtPage' => __('Page', 'trustscript'),
+				'rrTxtOf' => __('of', 'trustscript'),
+				'rrTxtShowing' => __('Showing', 'trustscript'),
+				'rrTxtEntries' => __('entries', 'trustscript'),
+
+				'rrTooltipAlreadyReviewed' => __('Customer has already reviewed this product', 'trustscript'),
+				'rrTooltipOptOut' => __('Customer opted out of review requests', 'trustscript'),
+				'rrTooltipCancelled' => __('This item was refunded or the order was cancelled', 'trustscript'),
+				'rrTooltipViewReview' => __('View review on product page', 'trustscript'),
+				'rrTooltipEmailScheduled' => __('Email scheduled for sending', 'trustscript'),
+				'rrTooltipCustomerDeclined' => __('Customer declined consent', 'trustscript'),
+				'rrTooltipSendApi' => __('Order will be sent to TrustScript Server for generating review request.', 'trustscript'),
 			),
 		));
 	}

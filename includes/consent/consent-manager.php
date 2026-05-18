@@ -697,6 +697,44 @@ class TrustScript_Consent_Manager {
 			$ip_hash
 		);
 
+		// After consent is confirmed, trigger the review request dispatch.
+		// Check actual settings to determine the correct path:
+		// - API mode: dispatch to backend via the service provider immediately.
+		// - Simple mode: mark as 'pending' so admin can send manually via Send Email.
+		$api_collection_on = ! empty( get_option( 'trustscript_api_review_collection_enabled' ) );
+		$simple_review_on  = ! empty( get_option( 'trustscript_simple_review_enabled' ) );
+
+		if ( $api_collection_on ) {
+			// API Review Collection is enabled — dispatch via the service provider.
+			$service_type = $order->get_meta( '_trustscript_service_type' );
+
+			if ( empty( $service_type ) ) {
+				// Determine service type from what originally processed the order.
+				foreach ( array( 'woocommerce', 'memberpress' ) as $sid ) {
+					if ( $order->get_meta( "_trustscript_processed_{$sid}" ) ) {
+						$service_type = $sid;
+						break;
+					}
+				}
+			}
+
+			if ( ! empty( $service_type ) && 'simple' !== $service_type ) {
+				if ( class_exists( 'TrustScript_Service_Manager' ) ) {
+					$service_manager = TrustScript_Service_Manager::get_instance();
+					$providers       = $service_manager->get_active_providers();
+					if ( isset( $providers[ $service_type ] ) ) {
+						$providers[ $service_type ]->retry_review_request( $order_id );
+					}
+				}
+			}
+		} else {
+			// Simple On-Site Reviews mode — update review-request status to
+			// 'pending' so the admin can send the email via the Send Email button.
+			if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+				TrustScript_Review_Requests::mark_by_order( $order_id, 'pending' );
+			}
+		}
+
 		return true;
 	}
 }

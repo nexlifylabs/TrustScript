@@ -19,11 +19,8 @@ class TrustScript_Auto_Sync {
 	
 	/** Number of orders per batch. */
 	private $batch_size = 50;
-	/** Seconds to pause between batches to avoid rate-limit and timeout issues. */
 	private $batch_delay = 2;
-	/** Maximum allowed PHP execution time in seconds for a sync run. */
 	private $max_execution_time = 300;
-	/** Maximum API calls allowed per sync run before backing off. */
 	private $api_rate_limit = 100;
 
 	/**

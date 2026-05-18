@@ -430,7 +430,11 @@ abstract class TrustScript_Service_Provider {
 			}
 
 			if ( 'pending' === $consent_status ) {
-				return false;
+				if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+					TrustScript_Review_Requests::process_order_products( $order_id, 'scheduled' );
+				}
+				TrustScript_Queue::mark_completed_by_order( $order_id, $this->service_id );
+				return true;
 			}
 		}
 

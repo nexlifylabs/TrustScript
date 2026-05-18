@@ -19,6 +19,7 @@ class TrustScript_Review_Request_Page {
 	public function __construct() {
 		add_action( 'wp_ajax_trustscript_fetch_review_requests',    array( $this, 'handle_fetch_requests' ) );
 		add_action( 'wp_ajax_trustscript_send_simple_review_email', array( $this, 'handle_send_simple_email' ) );
+		add_action( 'wp_ajax_trustscript_send_via_api',             array( $this, 'handle_send_via_api' ) );
 	}
 
 	public static function render() {
@@ -251,12 +252,18 @@ class TrustScript_Review_Request_Page {
 			$consent_given_at = null;
 			$consent_confirmed_at = null;
 
+			// These values are internal JSON keys for the frontend application.
+			// They must remain unchanged and must not be localized here
+			// because the JavaScript uses them as stable identifiers for logic
+			// and for resolving translated labels from CONSENT_CFG.
+			// Translatable, user-facing strings are localized separately via
+			// wp_localize_script() in includes/trustscript-admin.php.
 			if ( 'not_required' === $consent_status ) {
-				$display_consent_status = esc_html__( 'Not Required', 'trustscript' );
+				$display_consent_status = 'Not Required';
 			} elseif ( 'declined' === $consent_status ) {
-				$display_consent_status = esc_html__( 'Not Given', 'trustscript' );
+				$display_consent_status = 'Not Given';
 			} elseif ( 'confirmed' === $consent_status ) {
-				$display_consent_status = esc_html__( 'Confirmed', 'trustscript' );
+				$display_consent_status = 'Confirmed';
 				$consent_confirmed_at = $order->get_meta( '_trustscript_consent_confirmed_at' );
 			} elseif ( 'pending' === $consent_status ) {
 				if ( 'double_optin' === $consent_type ) {
@@ -264,15 +271,15 @@ class TrustScript_Review_Request_Page {
 					if ( ! empty( $consent_given_at ) ) {
 						$given_timestamp = strtotime( $consent_given_at );
 						if ( false !== $given_timestamp && ( time() - $given_timestamp ) > ( 7 * DAY_IN_SECONDS ) ) {
-							$display_consent_status = esc_html__( 'Expired', 'trustscript' );
+							$display_consent_status = 'Expired';
 						} else {
-							$display_consent_status = esc_html__( 'Waiting', 'trustscript' );
+							$display_consent_status = 'Waiting';
 						}
 					} else {
-						$display_consent_status = esc_html__( 'Waiting', 'trustscript' );
+						$display_consent_status = 'Waiting';
 					}
 				} else {
-					$display_consent_status = esc_html__( 'Pending', 'trustscript' );
+					$display_consent_status = 'Pending';
 				}
 			}
 
@@ -288,14 +295,16 @@ class TrustScript_Review_Request_Page {
 				'status'              => $row['status'],
 				'ineligibleReason'    => $row['ineligible_reason'] ?? null,
 				'emailSent'           => 'sent' === $row['status'] || $processed_by_any_service,
+				'serviceType'         => $order->get_meta( '_trustscript_service_type' ) ?: '',
 				'consentStatus'       => $consent_status,
 				'consentType'         => $consent_type,
 				'displayConsentStatus' => $display_consent_status,
 			);
 		}
 
-		$stats         = TrustScript_Review_Requests::compute_stats();
-		$can_send_simple = empty( get_option( 'trustscript_api_review_collection_enabled' ) ) && ! empty( get_option( 'trustscript_simple_review_enabled' ) );
+		$stats           = TrustScript_Review_Requests::compute_stats();
+		$api_enabled     = ! empty( get_option( 'trustscript_api_review_collection_enabled' ) );
+		$can_send_simple = ! $api_enabled && ! empty( get_option( 'trustscript_simple_review_enabled' ) );
 
 		wp_send_json_success( array(
 			'stats'         => $stats,
@@ -305,6 +314,7 @@ class TrustScript_Review_Request_Page {
 			'page'          => $page,
 			'perPage'       => $per_page,
 			'canSendSimple' => $can_send_simple,
+			'canSendViaApi' => $api_enabled,
 		) );
 	}
 
@@ -361,17 +371,6 @@ class TrustScript_Review_Request_Page {
 			}
 		}
 
-		if ( class_exists( 'TrustScript_Review_Queue_Gating' ) ) {
-			if ( ! TrustScript_Review_Queue_Gating::can_send_review_request( $order_id ) ) {
-				$blocking_reason = TrustScript_Review_Queue_Gating::get_blocking_reason( $order_id );
-				if ( class_exists( 'TrustScript_Review_Requests' ) ) {
-					TrustScript_Review_Requests::process_order_products( $order_id, 'opt-out' );
-				}
-				wp_send_json_error( array( 'message' => __( 'Cannot send review request due to customer consent restrictions.', 'trustscript' ) ) );
-				return;
-			}
-		}
-
 		if ( class_exists( 'TrustScript_Simple_Email_Review' ) ) {
 			$sent = TrustScript_Simple_Email_Review::send_review_request( $order_id );
 			if ( $sent ) {
@@ -395,6 +394,84 @@ class TrustScript_Review_Request_Page {
 			}
 		} else {
 			wp_send_json_error( array( 'message' => __( 'Simple review component not active.', 'trustscript' ) ) );
+		}
+	}
+
+	/**
+	 * Handle AJAX request to send a pending Simple-mode order to the TrustScript
+	 * server via the API service provider.
+	 *
+	 * @since 1.0.0
+	 */
+	public function handle_send_via_api() {
+		check_ajax_referer( 'trustscript_admin', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Unauthorized', 'trustscript' ) ), 401 );
+			return;
+		}
+
+		if ( empty( get_option( 'trustscript_api_review_collection_enabled' ) ) ) {
+			wp_send_json_error( array( 'message' => __( 'API review collection is not enabled.', 'trustscript' ) ) );
+			return;
+		}
+
+		$order_id = isset( $_POST['order_id'] ) ? intval( wp_unslash( $_POST['order_id'] ) ) : 0;
+		if ( ! $order_id ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid order ID.', 'trustscript' ) ) );
+			return;
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			wp_send_json_error( array( 'message' => __( 'Order not found.', 'trustscript' ) ) );
+			return;
+		}
+
+		// Opt-out check.
+		if ( class_exists( 'TrustScript_Opt_Out' ) ) {
+			$customer_email = $order->get_billing_email();
+			if ( ! empty( $customer_email ) ) {
+				$email_hash = hash( 'sha256', strtolower( trim( $customer_email ) ) );
+				if ( TrustScript_Opt_Out::is_opted_out( $email_hash ) ) {
+					if ( class_exists( 'TrustScript_Review_Requests' ) ) {
+						TrustScript_Review_Requests::mark_by_order( $order_id, 'opt-out' );
+					}
+					wp_send_json_error( array( 'message' => __( 'Customer has opted out of review requests.', 'trustscript' ) ) );
+					return;
+				}
+			}
+		}
+
+		// Resolve the WooCommerce provider from the service manager.
+		$service_manager = TrustScript_Service_Manager::get_instance();
+		$providers       = $service_manager->get_active_providers();
+		$provider        = isset( $providers['woocommerce'] ) ? $providers['woocommerce'] : null;
+
+		if ( ! $provider ) {
+			wp_send_json_error( array( 'message' => __( 'WooCommerce service provider is not active.', 'trustscript' ) ) );
+			return;
+		}
+
+		// Send via the API provider.
+		$success = $provider->retry_review_request( $order_id );
+
+		if ( $success ) {
+			// Clean up the Simple-mode queue entry if one exists.
+			TrustScript_Queue::remove_by_order( $order_id, 'simple' );
+
+			$order->add_order_note( __( 'TrustScript review request sent to server via API (Manual).', 'trustscript' ) );
+
+			wp_send_json_success( array( 'message' => __( 'Order sent to TrustScript successfully.', 'trustscript' ) ) );
+		} else {
+			$api_error = $provider->get_last_api_error();
+			$error_messages = array(
+				'quota'           => __( 'API quota exceeded. The order has been queued for retry.', 'trustscript' ),
+				'api_key_invalid' => __( 'API key is invalid. Please check your settings.', 'trustscript' ),
+				'network'         => __( 'Network error. The order has been queued for retry.', 'trustscript' ),
+			);
+			$message = isset( $error_messages[ $api_error ] ) ? $error_messages[ $api_error ] : __( 'Failed to send order. It has been queued for automatic retry.', 'trustscript' );
+			wp_send_json_error( array( 'message' => $message ) );
 		}
 	}
 }

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trustscript 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/trustscript\n"
-"POT-Creation-Date: 2026-05-12T13:02:55+00:00\n"
+"POT-Creation-Date: 2026-05-18T16:53:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,17 +38,17 @@ msgstr ""
 "WooCommerce के लिए स्वचालित समीक्षा संग्रह - सत्यापित, दृश्य, एआई-सहायित, और"
 " 100% गोपनीयता अनुरूप। कोई PII नहीं। कोई मैन्युअल कार्य नहीं।"
 
-#: includes/abstracts/class-trustscript-service-provider.php:1055
-#: includes/abstracts/class-trustscript-service-provider.php:1077
+#: includes/abstracts/class-trustscript-service-provider.php:1059
+#: includes/abstracts/class-trustscript-service-provider.php:1081
 msgid "Your Purchase"
 msgstr "आपकी खरीद"
 
-#: includes/abstracts/class-trustscript-service-provider.php:1095
-#: includes/admin/pending-queue.php:208 includes/admin/review-request.php:81
+#: includes/abstracts/class-trustscript-service-provider.php:1099
+#: includes/admin/pending-queue.php:208 includes/admin/review-request.php:82
 msgid "Order #"
 msgstr "आदेश संख्या"
 
-#: includes/abstracts/class-trustscript-service-provider.php:1098
+#: includes/abstracts/class-trustscript-service-provider.php:1102
 msgid "Total:"
 msgstr "कुल:"
 
@@ -115,7 +115,7 @@ msgstr "%1$s के लिए %2$s समीक्षाएँ/माह अप�
 msgid "Upgrade Plan"
 msgstr "अपग्रेड योजना"
 
-#: includes/admin/pending-queue.php:144 includes/trustscript-admin.php:880
+#: includes/admin/pending-queue.php:144 includes/trustscript-admin.php:890
 msgid "Process Queue Now"
 msgstr "प्रक्रिया कतार अब"
 
@@ -182,8 +182,8 @@ msgstr "अंतिम प्रयास"
 msgid "Retries"
 msgstr "पुनः प्रयास"
 
-#: includes/admin/pending-queue.php:215 includes/admin/review-request.php:84
-#: includes/admin/review-request.php:126
+#: includes/admin/pending-queue.php:215 includes/admin/review-request.php:85
+#: includes/admin/review-request.php:127
 msgid "Status"
 msgstr "स्थिति"
 
@@ -226,8 +226,8 @@ msgstr "नेटवर्क"
 msgid "API error"
 msgstr "एपीआई त्रुटि"
 
-#: includes/admin/pending-queue.php:261 includes/admin/review-request.php:49
-#: includes/admin/review-request.php:88
+#: includes/admin/pending-queue.php:261 includes/admin/review-request.php:50
+#: includes/admin/review-request.php:89 includes/trustscript-admin.php:905
 msgid "Scheduled"
 msgstr "निर्धारित"
 
@@ -239,9 +239,10 @@ msgstr "सरल ईमेल"
 msgid "Never"
 msgstr "कभी नहीं"
 
-#: includes/admin/pending-queue.php:299 includes/admin/review-request.php:45
-#: includes/admin/review-request.php:87 includes/admin/review-request.php:275
+#: includes/admin/pending-queue.php:299 includes/admin/review-request.php:46
+#: includes/admin/review-request.php:88 includes/admin/review-request.php:276
 #: includes/providers/memberpress-provider.php:79
+#: includes/trustscript-admin.php:904 includes/trustscript-admin.php:918
 msgid "Pending"
 msgstr "लंबित"
 
@@ -254,11 +255,11 @@ msgstr "असफल"
 msgid "Completed"
 msgstr "पूर्ण"
 
-#: includes/admin/pending-queue.php:323 includes/trustscript-admin.php:878
+#: includes/admin/pending-queue.php:323 includes/trustscript-admin.php:888
 msgid "Retry"
 msgstr "दोबारा प्रयास करें"
 
-#: includes/admin/pending-queue.php:330 includes/trustscript-admin.php:879
+#: includes/admin/pending-queue.php:330 includes/trustscript-admin.php:889
 msgid "Clear"
 msgstr "स्पष्ट"
 
@@ -279,10 +280,10 @@ msgid "Security verification failed. Please refresh the page."
 msgstr "सुरक्षा सत्यापन विफल हो गया। कृपया पेज को रिफ्रेश करें।"
 
 #: includes/admin/pending-queue.php:381 includes/admin/pending-queue.php:467
-#: includes/admin/pending-queue.php:499 includes/trustscript-admin.php:904
-#: includes/trustscript-admin.php:930 includes/trustscript-admin.php:951
-#: includes/trustscript-admin.php:978 includes/trustscript-admin.php:1589
-#: includes/trustscript-admin.php:1670
+#: includes/admin/pending-queue.php:499 includes/trustscript-admin.php:971
+#: includes/trustscript-admin.php:997 includes/trustscript-admin.php:1018
+#: includes/trustscript-admin.php:1045 includes/trustscript-admin.php:1656
+#: includes/trustscript-admin.php:1737
 msgid "Permission denied"
 msgstr "अनुमति अस्वीकार कर दी गई"
 
@@ -570,15 +571,15 @@ msgstr "3. ट्रस्टस्क्रिप्ट कीवर्ड ब�
 msgid "Save Blocklist"
 msgstr "ब्लॉकलिस्ट सहेजें"
 
-#: includes/admin/review-request.php:30
+#: includes/admin/review-request.php:31
 msgid "Review Requests"
 msgstr "समीक्षा अनुरोध"
 
-#: includes/admin/review-request.php:33
+#: includes/admin/review-request.php:34
 msgid "Track Review Requests"
 msgstr "ट्रैक समीक्षा अनुरोध"
 
-#: includes/admin/review-request.php:35
+#: includes/admin/review-request.php:36
 msgid ""
 "View per-product review tracking for every processed order. Products the "
 "customer has already reviewed appear as \"Already Reviewed\" — no action "
@@ -588,153 +589,160 @@ msgstr ""
 "द्वारा पहले ही समीक्षा किए गए उत्पाद &quot;पहले से समीक्षित&quot; के रूप में"
 " दिखाई देते हैं — कोई कार्रवाई आवश्यक नहीं।"
 
-#: includes/admin/review-request.php:41
+#: includes/admin/review-request.php:42
 msgid "Total"
 msgstr "कुल"
 
-#: includes/admin/review-request.php:53 includes/admin/review-request.php:89
+#: includes/admin/review-request.php:54 includes/admin/review-request.php:90
+#: includes/trustscript-admin.php:906
 msgid "Sent"
 msgstr "भेजा गया"
 
-#: includes/admin/review-request.php:57 includes/admin/review-request.php:90
+#: includes/admin/review-request.php:58 includes/admin/review-request.php:91
+#: includes/trustscript-admin.php:907
 msgid "Published"
 msgstr "प्रकाशित"
 
-#: includes/admin/review-request.php:61 includes/admin/review-request.php:91
+#: includes/admin/review-request.php:62 includes/admin/review-request.php:92
+#: includes/trustscript-admin.php:908
 msgid "Opt-Out"
 msgstr "बाहर निकलें"
 
-#: includes/admin/review-request.php:65 includes/admin/review-request.php:92
+#: includes/admin/review-request.php:66 includes/admin/review-request.php:93
+#: includes/trustscript-admin.php:909 includes/trustscript-admin.php:941
 msgid "Already Reviewed"
 msgstr "पहले ही समीक्षा की जा चुकी है"
 
-#: includes/admin/review-request.php:69 includes/admin/review-request.php:94
+#: includes/admin/review-request.php:70 includes/admin/review-request.php:95
+#: includes/trustscript-admin.php:911
 msgid "Cancelled"
 msgstr "रद्द"
 
-#: includes/admin/review-request.php:76
+#: includes/admin/review-request.php:77
 msgid "All Review Requests"
 msgstr "सभी समीक्षा अनुरोध"
 
-#: includes/admin/review-request.php:79
+#: includes/admin/review-request.php:80
 msgid "Search"
 msgstr "खोजें"
 
-#: includes/admin/review-request.php:86
+#: includes/admin/review-request.php:87
 msgid "All Statuses"
 msgstr "सभी स्थितियाँ"
 
-#: includes/admin/review-request.php:93
+#: includes/admin/review-request.php:94 includes/trustscript-admin.php:910
 msgid "Ineligible"
 msgstr "अयोग्य"
 
-#: includes/admin/review-request.php:98
+#: includes/admin/review-request.php:99
 msgid "Date Range"
 msgstr "दिनांक सीमा"
 
-#: includes/admin/review-request.php:100
+#: includes/admin/review-request.php:101
 msgid "All Time"
 msgstr "सभी समय"
 
-#: includes/admin/review-request.php:101
+#: includes/admin/review-request.php:102
 msgid "Last 7 Days"
 msgstr "पिछले 7 दिन"
 
-#: includes/admin/review-request.php:102
+#: includes/admin/review-request.php:103
 msgid "Last 30 Days"
 msgstr "पिछले 30 दिन"
 
-#: includes/admin/review-request.php:103
+#: includes/admin/review-request.php:104
 msgid "Last 90 Days"
 msgstr "पिछले 90 दिन"
 
-#: includes/admin/review-request.php:108
+#: includes/admin/review-request.php:109
 msgid "Apply Filters"
 msgstr "फ़िल्टर लागू करें"
 
-#: includes/admin/review-request.php:113
+#: includes/admin/review-request.php:114
 msgid "Loading..."
 msgstr "लोड हो रहा है..."
 
-#: includes/admin/review-request.php:121
+#: includes/admin/review-request.php:122
 msgid "Order"
 msgstr "आदेश"
 
-#: includes/admin/review-request.php:122
+#: includes/admin/review-request.php:123
 msgid "Customer"
 msgstr "ग्राहक"
 
-#: includes/admin/review-request.php:123
+#: includes/admin/review-request.php:124
 #: includes/simple-review/simple-email-sender.php:60
 msgid "Product"
 msgstr "उत्पाद"
 
-#: includes/admin/review-request.php:124
+#: includes/admin/review-request.php:125
 #: includes/simple-review/simple-email-sender.php:26
 #: includes/simple-review/simple-email-sender.php:62
 msgid "Order Date"
 msgstr "ऑर्डर की तारीख"
 
-#: includes/admin/review-request.php:125
+#: includes/admin/review-request.php:126
 msgid "Consent"
 msgstr "सहमति"
 
-#: includes/admin/review-request.php:127
+#: includes/admin/review-request.php:128
 msgid "Action"
 msgstr "कार्रवाई"
 
-#: includes/admin/review-request.php:140
+#: includes/admin/review-request.php:141
 msgid "No tracked orders found."
 msgstr "कोई ट्रैक किए गए ऑर्डर नहीं मिले।"
 
-#: includes/admin/review-request.php:146
+#: includes/admin/review-request.php:147
 msgid "Refresh"
 msgstr "ताज़ा करें"
 
-#: includes/admin/review-request.php:234
+#: includes/admin/review-request.php:235
 msgid "Unknown product"
 msgstr "अज्ञात उत्पाद"
 
-#: includes/admin/review-request.php:255
+#: includes/admin/review-request.php:256
 msgid "Not Required"
 msgstr "आवश्यक नहीं"
 
-#: includes/admin/review-request.php:257
+#: includes/admin/review-request.php:258 includes/trustscript-admin.php:914
 msgid "Not Given"
 msgstr "न दिया गया"
 
-#: includes/admin/review-request.php:259
+#: includes/admin/review-request.php:260
 #: includes/providers/memberpress-provider.php:78
+#: includes/trustscript-admin.php:915
 msgid "Confirmed"
 msgstr "पुष्टि"
 
-#: includes/admin/review-request.php:267
+#: includes/admin/review-request.php:268 includes/trustscript-admin.php:917
 msgid "Expired"
 msgstr "समाप्त"
 
-#: includes/admin/review-request.php:269 includes/admin/review-request.php:272
+#: includes/admin/review-request.php:270 includes/admin/review-request.php:273
+#: includes/trustscript-admin.php:916
 msgid "Waiting"
 msgstr "इंतज़ार"
 
-#: includes/admin/review-request.php:283
+#: includes/admin/review-request.php:284
 msgid "Guest"
 msgstr "मेहमान"
 
-#: includes/admin/review-request.php:315 includes/trustscript-admin.php:997
-#: includes/trustscript-admin.php:1024 includes/trustscript-admin.php:1069
-#: includes/trustscript-admin.php:1300
+#: includes/admin/review-request.php:319 includes/admin/review-request.php:404
+#: includes/trustscript-admin.php:1064 includes/trustscript-admin.php:1091
+#: includes/trustscript-admin.php:1136 includes/trustscript-admin.php:1367
 msgid "Unauthorized"
 msgstr "अनधिकृत"
 
-#: includes/admin/review-request.php:321
+#: includes/admin/review-request.php:325
 msgid "Invalid order ID"
 msgstr "अमान्य ऑर्डर आईडी"
 
-#: includes/admin/review-request.php:334
+#: includes/admin/review-request.php:338 includes/admin/review-request.php:434
 msgid "Customer has opted out of review requests."
 msgstr "ग्राहक ने समीक्षा अनुरोधों से बाहर निकलने का विकल्प चुना है।"
 
-#: includes/admin/review-request.php:358
+#: includes/admin/review-request.php:362
 msgid ""
 "All products in this order have been cancelled or refunded. No review "
 "request was sent."
@@ -742,28 +750,70 @@ msgstr ""
 "इस ऑर्डर के सभी उत्पाद रद्द या रिफंड कर दिए गए हैं। कोई समीक्षा अनुरोध नहीं "
 "भेजा गया था।"
 
-#: includes/admin/review-request.php:370
-msgid "Cannot send review request due to customer consent restrictions."
-msgstr "ग्राहक सहमति प्रतिबंधों के कारण समीक्षा अनुरोध नहीं भेजा जा सकता।"
-
-#: includes/admin/review-request.php:390
+#: includes/admin/review-request.php:383
 msgid "TrustScript Simple Review request emailed to customer (Manual)."
 msgstr "TrustScript सरल समीक्षा अनुरोध ग्राहक को ईमेल किया गया (मैनुअल)।"
 
-#: includes/admin/review-request.php:392
+#: includes/admin/review-request.php:385
 msgid "Email sent successfully."
 msgstr "ईमेल सफलतापूर्वक भेजा गया।"
 
-#: includes/admin/review-request.php:394
+#: includes/admin/review-request.php:387
 msgid ""
 "Failed to send email. Check plugin settings or all products may be refunded."
 msgstr ""
 "ईमेल भेजने में असफल रहा। प्लगइन सेटिंग्स की जाँच करें, अन्यथा सभी उत्पादों "
 "की धनवापसी हो सकती है।"
 
-#: includes/admin/review-request.php:397
+#: includes/admin/review-request.php:390
 msgid "Simple review component not active."
 msgstr "सरल समीक्षा घटक सक्रिय नहीं है।"
+
+#: includes/admin/review-request.php:409
+msgid "API review collection is not enabled."
+msgstr "एपीआई समीक्षा संग्रह सक्षम नहीं है।"
+
+#: includes/admin/review-request.php:415
+msgid "Invalid order ID."
+msgstr "अमान्य ऑर्डर आईडी।"
+
+#: includes/admin/review-request.php:421
+#: includes/consent/consent-manager.php:660
+msgid "Order not found."
+msgstr "आदेश नहीं मिला।"
+
+#: includes/admin/review-request.php:446
+msgid "WooCommerce service provider is not active."
+msgstr "WooCommerce सेवा प्रदाता सक्रिय नहीं है।"
+
+#: includes/admin/review-request.php:457
+msgid "TrustScript review request sent to server via API (Manual)."
+msgstr ""
+"TrustScript समीक्षा अनुरोध API के माध्यम से सर्वर को भेजा गया (मैनुअल)।"
+
+#: includes/admin/review-request.php:459
+msgid "Order sent to TrustScript successfully."
+msgstr "ट्रस्टस्क्रिप्ट को ऑर्डर सफलतापूर्वक भेजा गया।"
+
+#: includes/admin/review-request.php:463
+msgid "API quota exceeded. The order has been queued for retry."
+msgstr ""
+"एपीआई कोटा पार हो गया है। आदेश को पुनः प्रयास के लिए कतारबद्ध कर दिया गया "
+"है।"
+
+#: includes/admin/review-request.php:464
+msgid "API key is invalid. Please check your settings."
+msgstr "एपीआई कुंजी अमान्य है। कृपया अपनी सेटिंग्स की जाँच करें।"
+
+#: includes/admin/review-request.php:465
+msgid "Network error. The order has been queued for retry."
+msgstr "नेटवर्क त्रुटि। आदेश को पुनः प्रयास के लिए कतारबद्ध कर दिया गया है।"
+
+#: includes/admin/review-request.php:467
+msgid "Failed to send order. It has been queued for automatic retry."
+msgstr ""
+"ऑर्डर भेजने में असफल रहा। इसे स्वचालित पुनः प्रयास के लिए कतारबद्ध कर दिया "
+"गया है।"
 
 #: includes/admin/review-setting.php:89 includes/admin/review-setting.php:92
 #: includes/trustscript-admin.php:238 includes/trustscript-admin.php:239
@@ -1311,7 +1361,7 @@ msgstr "अंतिम रन: त्रुटियाँ"
 msgid "Last run:"
 msgstr "अंतिम दौड़:"
 
-#: includes/admin/review-setting.php:556 includes/trustscript-admin.php:850
+#: includes/admin/review-setting.php:556 includes/trustscript-admin.php:860
 msgid "Save Review Settings"
 msgstr "समीक्षा सेटिंग्स सहेजें"
 
@@ -1403,7 +1453,7 @@ msgid "Deselect All"
 msgstr "सभी को असूचीबद्ध करें"
 
 #. translators: %d: number of categories
-#: includes/admin/review-setting.php:751 includes/trustscript-admin.php:874
+#: includes/admin/review-setting.php:751 includes/trustscript-admin.php:884
 #, php-format
 msgid "%d categories"
 msgstr "%d श्रेणियाँ"
@@ -1792,7 +1842,7 @@ msgid "Webhooks from TrustScript will be delivered to this URL."
 msgstr "TrustScript से वेबहुक्स इस URL पर भेजे जाएंगे।"
 
 #: includes/admin/settings.php:381 includes/consent/privacy-settings.php:259
-#: includes/trustscript-admin.php:887
+#: includes/trustscript-admin.php:897
 msgid "Save Changes"
 msgstr "बदलाव सहेजें"
 
@@ -1938,7 +1988,7 @@ msgstr "डेटाबेस तालिकाएँ (ऑर्डर रज�
 msgid "Scheduled automation tasks (auto-sync, quota checks)"
 msgstr "निर्धारित स्वचालन कार्य (स्वचालित-सिंक, कोटा जाँच)"
 
-#: includes/admin/settings.php:516 includes/trustscript-admin.php:881
+#: includes/admin/settings.php:516 includes/trustscript-admin.php:891
 msgid "Save Preference"
 msgstr "पसंद बचाएँ"
 
@@ -1967,7 +2017,7 @@ msgstr ""
 "उपयोग करने के लिए आपको एक नई API कुंजी दर्ज करनी होगी।"
 
 #: includes/admin/settings.php:553 includes/consent-form-template.php:69
-#: includes/trustscript-admin.php:875
+#: includes/trustscript-admin.php:885
 msgid "Cancel"
 msgstr "रद्द करें"
 
@@ -2248,10 +2298,6 @@ msgstr ""
 #, php-format
 msgid "%1$s – Confirm your review preference for order #%2$s"
 msgstr "%1$s – ऑर्डर #%2$s के लिए अपनी समीक्षा प्राथमिकता की पुष्टि करें"
-
-#: includes/consent/consent-manager.php:660
-msgid "Order not found."
-msgstr "आदेश नहीं मिला।"
 
 #: includes/consent/consent-manager.php:665
 msgid "No confirmation pending for this order."
@@ -3208,7 +3254,7 @@ msgstr "मेम्बरप्रेस समीक्षा प्रदर�
 msgid "MemberPress Reviews"
 msgstr "मेम्बरप्रेस समीक्षाएँ"
 
-#: includes/memberpress-reviews.php:116 includes/trustscript-admin.php:851
+#: includes/memberpress-reviews.php:116 includes/trustscript-admin.php:861
 msgid "Settings saved successfully!"
 msgstr "सेटिंग्स सफलतापूर्वक सहेजी गईं!"
 
@@ -4243,20 +4289,20 @@ msgid "Generate New Key"
 msgstr "नई कुंजी उत्पन्न करें"
 
 #. translators: %s: plan name
-#: includes/trustscript-admin.php:381 includes/trustscript-admin.php:683
+#: includes/trustscript-admin.php:381 includes/trustscript-admin.php:693
 #, php-format
 msgid "Monthly review limit reached for your %s plan."
 msgstr "आपके %s प्लान के लिए मासिक समीक्षा सीमा समाप्त हो गई है।"
 
 #. translators: %1$s: next plan name, %2$d: review limit
-#: includes/trustscript-admin.php:389 includes/trustscript-admin.php:691
+#: includes/trustscript-admin.php:389 includes/trustscript-admin.php:701
 #, php-format
 msgid " Upgrade to %1$s for %2$d reviews per month."
 msgstr " प्रति माह %2$d समीक्षाओं के लिए %1$s में अपग्रेड करें।"
 
 #. translators: %s: reset date
 #: includes/trustscript-admin.php:401 includes/trustscript-admin.php:407
-#: includes/trustscript-admin.php:703 includes/trustscript-admin.php:709
+#: includes/trustscript-admin.php:713 includes/trustscript-admin.php:719
 #, php-format
 msgid " Or wait until %s for your limit to reset."
 msgstr " या %s तक प्रतीक्षा करें जब तक आपकी सीमा रीसेट न हो जाए।"
@@ -4269,7 +4315,7 @@ msgstr "समीक्षा कोटा सीमा पहुँच गई"
 msgid "Upgrade Your Plan"
 msgstr "अपनी योजना अपग्रेड करें"
 
-#: includes/trustscript-admin.php:501 includes/trustscript-admin.php:591
+#: includes/trustscript-admin.php:511 includes/trustscript-admin.php:601
 msgid ""
 "Invalid webhook secret format. Webhook secrets should look like: TSS-XXXX-"
 "XXXX-XXXX"
@@ -4277,24 +4323,24 @@ msgstr ""
 "वेबहुक सीक्रेट का प्रारूप अमान्य है। वेबहुक सीक्रेट्स इस प्रकार दिखनी चाहिए:"
 " TSS-XXXX-XXXX-XXXX"
 
-#: includes/trustscript-admin.php:512
+#: includes/trustscript-admin.php:522
 msgid "Failed to encrypt webhook secret. Please try again."
 msgstr ""
 "वेबहुक सीक्रेट एन्क्रिप्ट करने में असफल रहा। कृपया फिर से प्रयास करें।"
 
-#: includes/trustscript-admin.php:554
+#: includes/trustscript-admin.php:564
 msgid "Invalid API key format. API keys should look like: TSK-XXXX-XXXX-XXXX"
 msgstr ""
 "अमान्य API कुंजी प्रारूप।   API कुंजियाँ इस प्रकार दिखनी चाहिए: TSK-XXXX-"
 "XXXX-XXXX"
 
-#: includes/trustscript-admin.php:569
+#: includes/trustscript-admin.php:579
 msgid "You must agree to data sharing before verifying your API key."
 msgstr ""
 "आपको अपनी API कुंजी सत्यापित करने से पहले डेटा साझाकरण के लिए सहमत होना "
 "होगा।"
 
-#: includes/trustscript-admin.php:582
+#: includes/trustscript-admin.php:592
 msgid ""
 "Webhook secret is required. Please generate both an API key and webhook "
 "secret from the TrustScript dashboard."
@@ -4303,7 +4349,7 @@ msgstr ""
 "वेबहुक सीक्रेट दोनों उत्पन्न करें।"
 
 #. translators: %s: error message
-#: includes/trustscript-admin.php:620
+#: includes/trustscript-admin.php:630
 #, php-format
 msgid ""
 "Could not verify your API key with TrustScript: %s. Please check your "
@@ -4312,7 +4358,7 @@ msgstr ""
 "TrustScript के साथ आपकी API कुंजी सत्यापित नहीं हो सकी: %s। कृपया अपना "
 "इंटरनेट कनेक्शन जांचें और फिर से प्रयास करें।"
 
-#: includes/trustscript-admin.php:661
+#: includes/trustscript-admin.php:671
 msgid ""
 "API key verified successfully! Your site is now connected to TrustScript."
 msgstr ""
@@ -4320,64 +4366,64 @@ msgstr ""
 "है।"
 
 #. translators: 1: remaining reviews, 2: total limit, 3: reset date
-#: includes/trustscript-admin.php:727
+#: includes/trustscript-admin.php:737
 #, php-format
 msgid " You have %1$d/%2$d reviews remaining this month (resets on %3$s)."
 msgstr ""
 " इस महीने आपके पास %1$d/%2$d समीक्षाएं बची हैं (%3$s पर रीसेट होती हैं)।"
 
-#: includes/trustscript-admin.php:768
+#: includes/trustscript-admin.php:778
 msgid "Failed to encrypt API key. Please try again."
 msgstr "एपीआई कुंजी एन्क्रिप्ट करने में असफल रहा। कृपया फिर से प्रयास करें।"
 
-#: includes/trustscript-admin.php:843
+#: includes/trustscript-admin.php:853
 msgid "No recent activity"
 msgstr "हाल की कोई गतिविधि नहीं"
 
-#: includes/trustscript-admin.php:844
+#: includes/trustscript-admin.php:854
 msgid "Start by configuring review settings"
 msgstr "समीक्षा सेटिंग्स को कॉन्फ़िगर करके शुरू करें।"
 
-#: includes/trustscript-admin.php:845
+#: includes/trustscript-admin.php:855
 msgid "Reviews Generated"
 msgstr "समीक्षाएँ उत्पन्न"
 
-#: includes/trustscript-admin.php:846
+#: includes/trustscript-admin.php:856
 msgid ""
 "Failed to load analytics data. Please check your API connection in Settings."
 msgstr ""
 "एनालिटिक्स डेटा लोड करने में असफल रहा। कृपया सेटिंग्स में अपना API कनेक्शन "
 "जांचें।"
 
-#: includes/trustscript-admin.php:847
+#: includes/trustscript-admin.php:857
 msgid "Refreshing..."
 msgstr "ताज़गी..."
 
-#: includes/trustscript-admin.php:848
+#: includes/trustscript-admin.php:858
 msgid "Refresh Analytics"
 msgstr "एनालिटिक्स ताज़ा करें"
 
-#: includes/trustscript-admin.php:849
+#: includes/trustscript-admin.php:859
 msgid "Saving..."
 msgstr "बचा रहा है..."
 
-#: includes/trustscript-admin.php:852
+#: includes/trustscript-admin.php:862
 msgid "Failed to save"
 msgstr "सहेजने में असफल"
 
-#: includes/trustscript-admin.php:853
+#: includes/trustscript-admin.php:863
 msgid "Network error"
 msgstr "नेटवर्क त्रुटि"
 
-#: includes/trustscript-admin.php:854
+#: includes/trustscript-admin.php:864
 msgid "Syncing..."
 msgstr "सिंक हो रहा है..."
 
-#: includes/trustscript-admin.php:855
+#: includes/trustscript-admin.php:865
 msgid "Sync Completed Orders"
 msgstr "सिंक पूर्ण आदेश"
 
-#: includes/trustscript-admin.php:856
+#: includes/trustscript-admin.php:866
 msgid ""
 "This will create review requests for all completed orders in the selected "
 "time range. Continue?"
@@ -4385,18 +4431,18 @@ msgstr ""
 "यह चयनित समय सीमा में सभी पूर्ण ऑर्डरों के लिए समीक्षा अनुरोध बनाएगा। जारी "
 "रखें?"
 
-#: includes/trustscript-admin.php:857
+#: includes/trustscript-admin.php:867
 msgid "Failed to sync"
 msgstr "सिंक करने में असफल"
 
-#: includes/trustscript-admin.php:858
+#: includes/trustscript-admin.php:868
 msgid ""
 "Short delay recommended (1-2 days) - customers already have the product."
 msgstr ""
 "छोटी देरी की सलाह दी जाती है (1-2 दिन) - ग्राहकों के पास उत्पाद पहले से ही "
 "है।"
 
-#: includes/trustscript-admin.php:859
+#: includes/trustscript-admin.php:869
 msgid ""
 "Longer delay recommended to ensure product delivery before review request. "
 "International orders use this same delay by default. To use a different "
@@ -4408,11 +4454,11 @@ msgstr ""
 "करते हैं। अंतरराष्ट्रीय ऑर्डर के लिए अलग देरी का उपयोग करने के लिए, नीचे "
 "&quot;अंतरराष्ट्रीय ऑर्डर को अलग तरह से संभालें&quot; सक्षम करें।"
 
-#: includes/trustscript-admin.php:860
+#: includes/trustscript-admin.php:870
 msgid "Are you sure? This will remove the item from the queue."
 msgstr "क्या आप सुनिश्चित हैं? इससे कतार से आइटम हटा दिया जाएगा।"
 
-#: includes/trustscript-admin.php:861
+#: includes/trustscript-admin.php:871
 msgid ""
 "Remove this order from the queue? This will not cancel the order, but the "
 "review request will NOT be retried."
@@ -4420,15 +4466,15 @@ msgstr ""
 "इस ऑर्डर को कतार से हटाएं? इससे ऑर्डर रद्द नहीं होगा, लेकिन समीक्षा अनुरोध "
 "फिर से नहीं किया जाएगा।"
 
-#: includes/trustscript-admin.php:862
+#: includes/trustscript-admin.php:872
 msgid "Please paste your TrustScript API key (TSK-XXXX-XXXX-XXXX)."
 msgstr "कृपया अपनी TrustScript API कुंजी (TSK-XXXX-XXXX-XXXX) पेस्ट करें।"
 
-#: includes/trustscript-admin.php:863
+#: includes/trustscript-admin.php:873
 msgid "API Key Required"
 msgstr "एपीआई कुंजी आवश्यक है"
 
-#: includes/trustscript-admin.php:864
+#: includes/trustscript-admin.php:874
 msgid ""
 "Invalid format. Your key should look like: TSK-XXXX-XXXX-XXXX. Copy it from "
 "your TrustScript dashboard."
@@ -4436,27 +4482,27 @@ msgstr ""
 "अमान्य प्रारूप। आपकी कुंजी इस प्रकार दिखनी चाहिए: TSK-XXXX-XXXX-XXXX। इसे "
 "अपने TrustScript डैशबोर्ड से कॉपी करें।"
 
-#: includes/trustscript-admin.php:865
+#: includes/trustscript-admin.php:875
 msgid "Invalid API Key Format"
 msgstr "अमान्य एपीआई कुंजी प्रारूप"
 
-#: includes/trustscript-admin.php:866
+#: includes/trustscript-admin.php:876
 msgid "Deleting..."
 msgstr "मिटान..."
 
-#: includes/trustscript-admin.php:867
+#: includes/trustscript-admin.php:877
 msgid "Failed to delete API key"
 msgstr "एपीआई कुंजी हटाने में असफल"
 
-#: includes/trustscript-admin.php:868
+#: includes/trustscript-admin.php:878
 msgid "Unknown error"
 msgstr "अज्ञात त्रुटि"
 
-#: includes/trustscript-admin.php:869
+#: includes/trustscript-admin.php:879
 msgid "Queued for processing..."
 msgstr "प्रसंस्करण के लिए कतारबद्ध..."
 
-#: includes/trustscript-admin.php:870
+#: includes/trustscript-admin.php:880
 msgid ""
 "Processing your orders in the background — please check back in a few "
 "minutes."
@@ -4464,107 +4510,246 @@ msgstr ""
 "आपके ऑर्डर पृष्ठभूमि में संसाधित हो रहे हैं — कृपया कुछ मिनटों में फिर से "
 "प्रयास करें।"
 
-#: includes/trustscript-admin.php:871
+#: includes/trustscript-admin.php:881
 msgid "All categories"
 msgstr "सभी श्रेणियाँ"
 
-#: includes/trustscript-admin.php:872
+#: includes/trustscript-admin.php:882
 msgid "1 category"
 msgstr "1 श्रेणी"
 
-#: includes/trustscript-admin.php:876
+#: includes/trustscript-admin.php:886
 msgid "Retrying..."
 msgstr "पुनः प्रयास..."
 
-#: includes/trustscript-admin.php:877
+#: includes/trustscript-admin.php:887
 msgid "Clearing..."
 msgstr "साफ़ कर रहा हूँ..."
 
-#: includes/trustscript-admin.php:882
+#: includes/trustscript-admin.php:892
 msgid "Failed to retry"
 msgstr "पुनः प्रयास करने में असफल"
 
-#: includes/trustscript-admin.php:883
+#: includes/trustscript-admin.php:893
 msgid "Failed to clear"
 msgstr "साफ़ करने में असफल"
 
-#: includes/trustscript-admin.php:884
+#: includes/trustscript-admin.php:894
 msgid "Failed to process queue"
 msgstr "कतार संसाधित करने में विफल"
 
-#: includes/trustscript-admin.php:885
+#: includes/trustscript-admin.php:895
 msgid "Failed to save preference"
 msgstr "पसंदगी सहेजने में असफल रहा"
 
-#: includes/trustscript-admin.php:886
+#: includes/trustscript-admin.php:896
 msgid "Paste new API key to replace current key…"
 msgstr "वर्तमान कुंजी को बदलने के लिए नई API कुंजी पेस्ट करें…"
 
-#: includes/trustscript-admin.php:888
+#: includes/trustscript-admin.php:898
 msgid "Breakdown:"
 msgstr "विश्लेषण:"
 
-#: includes/trustscript-admin.php:889
+#: includes/trustscript-admin.php:899
 msgid "review(s) published"
 msgstr "प्रकाशित समीक्षा(एँ)"
 
-#: includes/trustscript-admin.php:890
+#: includes/trustscript-admin.php:900
 msgid "new order(s) sent to TrustScript"
 msgstr "TrustScript को नए ऑर्डर(र) भेजे गए"
 
-#: includes/trustscript-admin.php:891
+#: includes/trustscript-admin.php:901
 msgid "order(s) already published (skipped)"
 msgstr "पहले से ही प्रकाशित आदेश (छोड़ दिया गया)"
 
-#: includes/trustscript-admin.php:915
+#: includes/trustscript-admin.php:913
+msgid "N/A"
+msgstr "लागू नहीं"
+
+#: includes/trustscript-admin.php:920
+msgid "Consent not required for this country"
+msgstr "इस देश के लिए सहमति आवश्यक नहीं है।"
+
+#: includes/trustscript-admin.php:921
+msgid "Customer did not check the consent checkbox"
+msgstr "ग्राहक ने सहमति चेकबॉक्स नहीं चेक किया।"
+
+#: includes/trustscript-admin.php:922
+msgid "Customer confirmed consent (double opt-in link clicked)"
+msgstr ""
+"ग्राहक ने सहमति की पुष्टि कर दी है (डबल ऑप्ट-इन लिंक पर क्लिक किया गया)"
+
+#: includes/trustscript-admin.php:923
+msgid "Awaiting customer confirmation of double opt-in"
+msgstr "डबल ऑप्ट-इन की ग्राहक पुष्टि का इंतजार"
+
+#: includes/trustscript-admin.php:924
+msgid "Double opt-in confirmation link expired (7 days)"
+msgstr "डबल ऑप्ट-इन पुष्टि लिंक की समाप्ति हो गई (7 दिन)"
+
+#: includes/trustscript-admin.php:925
+msgid "Consent pending"
+msgstr "सहमति लंबित"
+
+#: includes/trustscript-admin.php:927
+msgid "Excluded by category filter"
+msgstr "श्रेणी फ़िल्टर द्वारा बहिष्कृत"
+
+#: includes/trustscript-admin.php:928
+msgid "Free product — excluded by settings"
+msgstr "नि:शुल्क उत्पाद — सेटिंग्स द्वारा बहिष्कृत"
+
+#: includes/trustscript-admin.php:929
+msgid "Item value below minimum threshold"
+msgstr "आइटम का मान न्यूनतम सीमा से नीचे है"
+
+#: includes/trustscript-admin.php:930
+msgid "Fully refunded"
+msgstr "पूरी तरह से वापस कर दिया गया"
+
+#: includes/trustscript-admin.php:932
+msgid "Failed to load orders"
+msgstr "ऑर्डर लोड करने में असफल"
+
+#: includes/trustscript-admin.php:933
+msgid "Network error. Please check your connection and try again."
+msgstr "नेटवर्क त्रुटि। कृपया अपना कनेक्शन जांचें और फिर से प्रयास करें।"
+
+#: includes/trustscript-admin.php:934
+msgid "Network error. Please try again."
+msgstr "नेटवर्क त्रुटि। कृपया फिर से प्रयास करें।"
+
+#: includes/trustscript-admin.php:935
+msgid "Failed to send email."
+msgstr "ईमेल भेजने में असफल।"
+
+#: includes/trustscript-admin.php:936
+msgid "Failed to send via API."
+msgstr "API के माध्यम से भेजने में असफल।"
+
+#: includes/trustscript-admin.php:938
+msgid "Send Email"
+msgstr "ईमेल भेजें"
+
+#: includes/trustscript-admin.php:939
+msgid "Send via API"
+msgstr "एपीआई के माध्यम से भेजें"
+
+#: includes/trustscript-admin.php:940
+msgid "View"
+msgstr "देखें"
+
+#: includes/trustscript-admin.php:942
+msgid "← Previous"
+msgstr "← पिछला"
+
+#: includes/trustscript-admin.php:943
+msgid "Next →"
+msgstr "अगला →"
+
+#: includes/trustscript-admin.php:945
+msgid "Sending..."
+msgstr "भेज रहा है..."
+
+#: includes/trustscript-admin.php:946
+msgid "Sent!"
+msgstr "भेजा गया!"
+
+#: includes/trustscript-admin.php:947
+msgid "Page"
+msgstr "पृष्ठ"
+
+#: includes/trustscript-admin.php:948
+msgid "of"
+msgstr "के"
+
+#: includes/trustscript-admin.php:949
+msgid "Showing"
+msgstr "दिखा रहा है"
+
+#: includes/trustscript-admin.php:950
+msgid "entries"
+msgstr "प्रविष्टियाँ"
+
+#: includes/trustscript-admin.php:952
+msgid "Customer has already reviewed this product"
+msgstr "ग्राहक ने पहले ही इस उत्पाद की समीक्षा कर ली है।"
+
+#: includes/trustscript-admin.php:953
+msgid "Customer opted out of review requests"
+msgstr "ग्राहक ने समीक्षा अनुरोधों से बाहर निकलने का विकल्प चुना।"
+
+#: includes/trustscript-admin.php:954
+msgid "This item was refunded or the order was cancelled"
+msgstr "इस आइटम का रिफंड कर दिया गया या ऑर्डर रद्द कर दिया गया।"
+
+#: includes/trustscript-admin.php:955
+msgid "View review on product page"
+msgstr "उत्पाद पृष्ठ पर समीक्षा देखें"
+
+#: includes/trustscript-admin.php:956
+msgid "Email scheduled for sending"
+msgstr "भेजे जाने के लिए ईमेल निर्धारित"
+
+#: includes/trustscript-admin.php:957
+msgid "Customer declined consent"
+msgstr "ग्राहक ने सहमति देने से इनकार कर दिया"
+
+#: includes/trustscript-admin.php:958
+msgid ""
+"Order will be sent to TrustScript Server for generating review request."
+msgstr ""
+"समीक्षा अनुरोध उत्पन्न करने के लिए आदेश TrustScript सर्वर को भेजा जाएगा।"
+
+#: includes/trustscript-admin.php:982
 msgid "Unknown notice"
 msgstr "अज्ञात सूचना"
 
-#: includes/trustscript-admin.php:939
+#: includes/trustscript-admin.php:1006
 msgid "Verification modal settings saved successfully!"
 msgstr "सत्यापन मोड सेटिंग्स सफलतापूर्वक सहेजी गईं!"
 
-#: includes/trustscript-admin.php:960
+#: includes/trustscript-admin.php:1027
 msgid "Trust strip settings saved successfully!"
 msgstr "ट्रस्ट स्ट्रिप सेटिंग्स सफलतापूर्वक सहेजी गईं!"
 
-#: includes/trustscript-admin.php:965
+#: includes/trustscript-admin.php:1032
 msgid ""
 "Failed to save setting – option may not have changed or database error "
 "occurred."
 msgstr "सेटिंग सहेजने में विफल – विकल्प शायद नहीं बदला या डेटाबेस त्रुटि हुई।"
 
-#: includes/trustscript-admin.php:984
+#: includes/trustscript-admin.php:1051
 msgid "enabled"
 msgstr "सक्षम"
 
-#: includes/trustscript-admin.php:984
+#: includes/trustscript-admin.php:1051
 msgid "disabled"
 msgstr "अक्षम"
 
 #. translators: %s is the status of data deletion (enabled or disabled)
-#: includes/trustscript-admin.php:987
+#: includes/trustscript-admin.php:1054
 #, php-format
 msgid "Data deletion on uninstall %s"
 msgstr "अनइंस्टॉल पर डेटा हटाना %s"
 
-#: includes/trustscript-admin.php:1004
+#: includes/trustscript-admin.php:1071
 msgid "API key deleted successfully"
 msgstr "एपीआई कुंजी सफलतापूर्वक हटा दी गई"
 
-#: includes/trustscript-admin.php:1018 includes/trustscript-admin.php:1063
+#: includes/trustscript-admin.php:1085 includes/trustscript-admin.php:1130
 msgid "Security check failed"
 msgstr "सुरक्षा जाँच विफल"
 
-#: includes/trustscript-admin.php:1046
+#: includes/trustscript-admin.php:1113
 msgid "Keyword blocklist saved successfully"
 msgstr "कीवर्ड ब्लॉकलिस्ट सफलतापूर्वक सहेजी गई।"
 
-#: includes/trustscript-admin.php:1272
+#: includes/trustscript-admin.php:1339
 msgid "Review settings saved successfully"
 msgstr "सेटिंग्स की समीक्षा सफलतापूर्वक सहेजी गई।"
 
-#: includes/trustscript-admin.php:1308
+#: includes/trustscript-admin.php:1375
 msgid ""
 "No active service providers detected. Please enable at least one service "
 "(WooCommerce or MemberPress)."
@@ -4572,42 +4757,42 @@ msgstr ""
 "कोई सक्रिय सेवा प्रदाता नहीं मिला। कृपया कम से कम एक सेवा (WooCommerce या "
 "MemberPress) सक्षम करें।"
 
-#: includes/trustscript-admin.php:1322
+#: includes/trustscript-admin.php:1389
 msgid "Sync service not available"
 msgstr "सिंक सेवा उपलब्ध नहीं है"
 
-#: includes/trustscript-admin.php:1355
+#: includes/trustscript-admin.php:1422
 msgid "No new data to sync"
 msgstr "सिंक करने के लिए कोई नया डेटा नहीं"
 
 #. translators: %d: number of orders that were already published
-#: includes/trustscript-admin.php:1359
+#: includes/trustscript-admin.php:1426
 #, php-format
 msgid " (but %d order(s) were already published and skipped)"
 msgstr " (लेकिन %d आदेश पहले ही प्रकाशित और छोड़े जा चुके थे)"
 
 #. translators: %1$d: reviews published, %2$d: orders synced
-#: includes/trustscript-admin.php:1376
+#: includes/trustscript-admin.php:1443
 #, php-format
 msgid "Sync complete! Reviews published: %1$d, New orders sent: %2$d"
 msgstr "सिंक पूरा हो गया! समीक्षाएँ प्रकाशित: %1$d, नए ऑर्डर भेजे गए: %2$d"
 
 #. translators: %d: orders that were already published and skipped
-#: includes/trustscript-admin.php:1384
+#: includes/trustscript-admin.php:1451
 #, php-format
 msgid ", %d order(s) already published (skipped re-sync)"
 msgstr ", %d ऑर्डर(स) पहले ही प्रकाशित हो चुके हैं (री-सिंक छोड़ा गया)"
 
-#: includes/trustscript-admin.php:1596
+#: includes/trustscript-admin.php:1663
 #: includes/trustscript-service-manager.php:146
 msgid "No services detected"
 msgstr "कोई सेवाएँ नहीं मिलीं"
 
-#: includes/trustscript-admin.php:1615
+#: includes/trustscript-admin.php:1682
 msgid "Service settings saved successfully!"
 msgstr "सेवा सेटिंग्स सफलतापूर्वक सहेजी गईं!"
 
-#: includes/trustscript-admin.php:1683
+#: includes/trustscript-admin.php:1750
 msgid "Privacy settings saved successfully!"
 msgstr "गोपनीयता सेटिंग्स सफलतापूर्वक सहेजी गईं!"
 
@@ -4677,11 +4862,11 @@ msgstr ""
 "वेबहुक सिग्नेचर सत्यापन विफल हो गया। संभावित कारण: गलत वेबहुक सीक्रेट, "
 "संशोधित पेलोड, या अनुरोध में छेड़छाड़।"
 
-#: includes/trustscript-queue.php:482
+#: includes/trustscript-queue.php:481
 msgid "Every 10 minutes"
 msgstr "हर 10 मिनट में"
 
-#: includes/trustscript-queue.php:488
+#: includes/trustscript-queue.php:487
 msgid "Every 6 hours"
 msgstr "हर 6 घंटे"
 

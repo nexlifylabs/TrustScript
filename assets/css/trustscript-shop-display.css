@@ -5,10 +5,12 @@
  */
 
 .trustscript-shop-rating {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  font-size: 100%;
+  font-size: 85%;
+  width: 100%;
 }
 
 .trustscript-shop-rating-empty {

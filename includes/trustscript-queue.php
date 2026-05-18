@@ -161,40 +161,39 @@ class TrustScript_Queue {
 				if ( class_exists( 'TrustScript_Review_Requests' ) ) {
 					TrustScript_Review_Requests::process_order_products( absint( $order_id ), 'pending' );
 				}
+				if ( function_exists( 'wc_get_order' ) ) {
+					$order = wc_get_order( absint( $order_id ) );
+					if ( $order ) {
+						$order->update_meta_data( '_trustscript_service_type', 'simple' );
+						$order->save_meta_data();
+					}
+				}
 				return true;
 			} else {
-				$can_send = true;
-				if ( class_exists( 'TrustScript_Review_Queue_Gating' ) ) {
-					$can_send = TrustScript_Review_Queue_Gating::can_send_review_request( $order_id );
-				}
+				// Queue is a pure scheduler — no consent checks here.
+				// Consent logic is handled by send_review_request() in the provider.
+				$service_manager = TrustScript_Service_Manager::get_instance();
+				$providers       = $service_manager->get_active_providers();
 
-				if ( $can_send ) {
-					$service_manager = TrustScript_Service_Manager::get_instance();
-					$providers       = $service_manager->get_active_providers();
+				if ( isset( $providers[ $service_id ] ) ) {
+					$provider = $providers[ $service_id ];
+					$success  = $provider->retry_review_request( $order_id );
 
-					if ( isset( $providers[ $service_id ] ) ) {
-						$provider = $providers[ $service_id ];
-						$success  = $provider->retry_review_request( $order_id );
+					if ( $success ) {
+						return true;
+					}
 
-						if ( $success ) {
-							return true;
-						}
+					$last_error = $provider->get_last_api_error();
 
-						$last_error = $provider->get_last_api_error();
-
-						if ( 'quota' === $last_error || 'api_key_invalid' === $last_error ) {
-							$delay_seconds  = 86400;
-							$failure_reason = $last_error;
-						} else {
-							$delay_seconds  = 300;
-							$failure_reason = $last_error ?: 'api_error';
-						}
+					if ( 'quota' === $last_error || 'api_key_invalid' === $last_error ) {
+						$delay_seconds  = 86400;
+						$failure_reason = $last_error;
 					} else {
-						return false;
+						$delay_seconds  = 300;
+						$failure_reason = $last_error ?: 'api_error';
 					}
 				} else {
-					$delay_seconds  = 0;
-					$failure_reason = 'delay';
+					return false;
 				}
 			}
 		}
@@ -847,9 +846,16 @@ class TrustScript_Queue {
 			if ( 'simple' === $service_id ) {
 				// Move the order into Review Requests as 'pending' so the admin
 				// can review it and send the email manually from the Review
-				// Requests page. Do NOT auto-send the email here.
+				// Requests page.
 				if ( class_exists( 'TrustScript_Review_Requests' ) ) {
 					TrustScript_Review_Requests::process_order_products( $order_id, 'pending' );
+				}
+				if ( function_exists( 'wc_get_order' ) ) {
+					$wc_order = wc_get_order( $order_id );
+					if ( $wc_order ) {
+						$wc_order->update_meta_data( '_trustscript_service_type', 'simple' );
+						$wc_order->save_meta_data();
+					}
 				}
 				self::remove( $id );
 				++$results['processed'];
@@ -861,53 +867,8 @@ class TrustScript_Queue {
 				continue;
 			}
 
-			if ( class_exists( 'TrustScript_Review_Queue_Gating' ) ) {
-				if ( ! TrustScript_Review_Queue_Gating::can_send_review_request( $order_id ) ) {
-					$blocking_reason = TrustScript_Review_Queue_Gating::get_blocking_reason( $order_id );
-
-					if ( 'pending' === $blocking_reason ) {
-						$given_at   = class_exists( 'TrustScript_Consent_Manager' ) ? TrustScript_Consent_Manager::get_order_consent_given_at( $order_id ) : '';
-						$is_expired = false;
-
-						if ( ! empty( $given_at ) ) {
-							$given_timestamp = strtotime( $given_at );
-							if ( false !== $given_timestamp && ( time() - $given_timestamp ) > ( 7 * DAY_IN_SECONDS ) ) {
-								$is_expired = true;
-							}
-						} else {
-							$order = wc_get_order( $order_id );
-							if ( $order ) {
-								$order_date = $order->get_date_created();
-								if ( $order_date && ( time() - $order_date->getTimestamp() ) > ( 7 * DAY_IN_SECONDS ) ) {
-									$is_expired = true;
-								}
-							}
-						}
-
-						if ( ! $is_expired ) {
-							$hold_until = wp_date( 'Y-m-d H:i:s', time() + 6 * HOUR_IN_SECONDS );
-							
-							// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
-							$wpdb->update(
-								$table,
-								array( 'scheduled_for' => $hold_until ),
-								array( 'id' => $id ),
-								array( '%s' ),
-								array( '%d' )
-							);
-							++$results['skipped'];
-							continue;
-						}
-					}
-
-					self::mark_completed( $id );
-					if ( class_exists( 'TrustScript_Review_Requests' ) ) {
-						TrustScript_Review_Requests::process_order_products( $order_id, 'opt-out' );
-					}
-					++$results['processed'];
-					continue;
-				}
-			}
+			// Queue is a pure scheduler — consent logic is handled entirely
+			// by send_review_request() in the service provider.
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->update(

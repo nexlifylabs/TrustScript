@@ -77,6 +77,12 @@ class TrustScript_Sync_Service {
 					}
 
 					$order          = wc_get_order( $order_id );
+
+					if ( $order && 'simple' === $order->get_meta( '_trustscript_service_type' ) ) {
+						++$skipped;
+						continue;
+					}
+
 					$existing_token = $order ? $order->get_meta( '_trustscript_review_token' ) : '';
 
 					if ( empty( $existing_token ) && $order ) {
